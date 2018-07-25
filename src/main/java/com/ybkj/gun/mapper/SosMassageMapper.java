@@ -2,9 +2,8 @@ package com.ybkj.gun.mapper;
 
 import com.ybkj.gun.model.SosMassage;
 import com.ybkj.gun.model.SosMassageExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SosMassageMapper {
     long countByExample(SosMassageExample example);

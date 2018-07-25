@@ -1,10 +1,10 @@
 package com.ybkj.gun.mapper;
 
+import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.DeviceLocationExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface DeviceLocationMapper {
     long countByExample(DeviceLocationExample example);

@@ -2,9 +2,8 @@ package com.ybkj.gun.mapper;
 
 import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceGunExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface DeviceGunMapper {
     long countByExample(DeviceGunExample example);
@@ -19,9 +18,9 @@ public interface DeviceGunMapper {
 
     List<DeviceGun> selectByExample(DeviceGunExample example);
 
-    DeviceGun selectByPrimaryKey(Integer id);
-
     List<DeviceGun> selectDeviceGun(DeviceGun deviceGun);
+
+    DeviceGun selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") DeviceGun record, @Param("example") DeviceGunExample example);
 

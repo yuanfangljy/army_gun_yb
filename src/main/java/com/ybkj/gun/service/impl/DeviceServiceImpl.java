@@ -1,7 +1,9 @@
 package com.ybkj.gun.service.impl;
 
+import com.ybkj.gun.mapper.DeviceMapper;
 import com.ybkj.gun.model.Device;
 import com.ybkj.gun.service.DeviceSerivce;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +23,13 @@ import java.util.List;
 @Transactional(propagation= Propagation.REQUIRED)
 public class DeviceServiceImpl implements DeviceSerivce{
 
+    @Autowired
+    DeviceMapper deviceMapper;
     @Override
     public int insertDevice(Device device) throws Exception {
-        return 0;
+
+        System.out.println(device.toString());
+        return deviceMapper.insert(device);
     }
 
     @Override

@@ -2,9 +2,8 @@ package com.ybkj.gun.mapper;
 
 import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.model.GunExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface GunMapper {
     long countByExample(GunExample example);

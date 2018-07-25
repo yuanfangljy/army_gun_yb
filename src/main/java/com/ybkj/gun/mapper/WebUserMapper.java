@@ -2,9 +2,8 @@ package com.ybkj.gun.mapper;
 
 import com.ybkj.gun.model.WebUser;
 import com.ybkj.gun.model.WebUserExample;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface WebUserMapper {
     long countByExample(WebUserExample example);

@@ -30,7 +30,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
 
     @Override
     public int insertDeivceGun(DeviceGun deviceGun) throws Exception {
-        return deviceGunMapper.insert(deviceGun);
+        return deviceGunMapper.insertSelective(deviceGun);
     }
 
     @Override
