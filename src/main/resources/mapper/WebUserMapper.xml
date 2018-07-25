@@ -130,6 +130,9 @@
       </if>
     </where>
   </select>
+  <select id="selectWebUserByUsername" parameterType="java.lang.String">
+    select * from web_user where user_name = #{user_name,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

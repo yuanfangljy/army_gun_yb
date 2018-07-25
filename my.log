@@ -19508,3 +19508,220 @@ Caused by: java.lang.NullPointerException: null
 2018-07-25 17:12:23.525  INFO 22812 --- [http-nio-8889-exec-8] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
 2018-07-25 17:12:23.535  INFO 22812 --- [http-nio-8889-exec-8] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
 2018-07-25 17:12:23.536  INFO 22812 --- [http-nio-8889-exec-8] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:20:55.083  INFO 22812 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:20:55.085  INFO 22812 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:20:55.086  INFO 22812 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:20:55.107  INFO 22812 --- [http-nio-8889-exec-7] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:20:55.109  INFO 22812 --- [http-nio-8889-exec-7] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:20:55.110  INFO 22812 --- [http-nio-8889-exec-7] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:20:55.297  INFO 22812 --- [http-nio-8889-exec-10] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:20:55.298  INFO 22812 --- [http-nio-8889-exec-10] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:20:55.299  INFO 22812 --- [http-nio-8889-exec-10] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:21:12.616  INFO 21344 --- [main] com.ybkj.App                             : Starting App on SC-201609241517 with PID 21344 (F:\GitProject\army_gun_yb\target\classes started by Administrator in F:\GitProject\army_gun_yb)
+2018-07-25 17:21:12.621  INFO 21344 --- [main] com.ybkj.App                             : No active profile set, falling back to default profiles: default
+2018-07-25 17:21:12.710  INFO 21344 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:21:12 CST 2018]; root of context hierarchy
+2018-07-25 17:21:14.582  INFO 21344 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$f98e37f0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 17:21:15.117  INFO 21344 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8889 (http)
+2018-07-25 17:21:15.132  INFO 21344 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-07-25 17:21:15.133  INFO 21344 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2018-07-25 17:21:15.411  INFO 21344 --- [localhost-startStop-1] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2018-07-25 17:21:15.415  INFO 21344 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring embedded WebApplicationContext
+2018-07-25 17:21:15.415  INFO 21344 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2710 ms
+2018-07-25 17:21:15.594  INFO 21344 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-07-25 17:21:15.599  INFO 21344 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-07-25 17:21:15.600  INFO 21344 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-07-25 17:21:15.600  INFO 21344 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-07-25 17:21:15.600  INFO 21344 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-07-25 17:21:16.745  INFO 21344 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/device/errorIndex],methods=[GET]}" onto public int com.ybkj.gun.controller.DeviceController.errorIndex() throws java.lang.Exception
+2018-07-25 17:21:16.751  INFO 21344 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2018-07-25 17:21:16.752  INFO 21344 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2018-07-25 17:21:16.752  INFO 21344 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2018-07-25 17:21:16.757  INFO 21344 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-07-25 17:21:16.758  INFO 21344 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-07-25 17:21:17.000  INFO 21344 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2018-07-25 17:21:17.326  INFO 21344 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:21:12 CST 2018]; root of context hierarchy
+2018-07-25 17:21:17.388  INFO 21344 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/static/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:21:17.389  INFO 21344 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/templates/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:21:17.389  INFO 21344 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/swagger-ui.html] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:21:17.389  INFO 21344 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:21:17.439  INFO 21344 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:21:17.930  INFO 21344 --- [main] o.s.ui.freemarker.SpringTemplateLoader   : SpringTemplateLoader for FreeMarker: using resource loader [org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:21:12 CST 2018]; root of context hierarchy] and template loader path [classpath:/templates/]
+2018-07-25 17:21:17.931  INFO 21344 --- [main] o.s.w.s.v.f.FreeMarkerConfigurer         : ClassTemplateLoader for Spring macros added to FreeMarker configuration
+2018-07-25 17:21:17.976  WARN 21344 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+2018-07-25 17:21:18.322  INFO 21344 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-07-25 17:21:18.333  INFO 21344 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-07-25 17:21:18.333  INFO 21344 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2018-07-25 17:21:18.349  INFO 21344 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2018-07-25 17:21:18.390  INFO 21344 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2018-07-25 17:21:18.697  INFO 21344 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8889 (http)
+2018-07-25 17:21:18.702  INFO 21344 --- [main] com.ybkj.App                             : Started App in 6.703 seconds (JVM running for 8.746)
+2018-07-25 17:21:22.956  INFO 21344 --- [http-nio-8889-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [1532426173,1532508621; Hm_lpvt_407473d433e871de861cf818aa1405a1=1532510461] that contained an invalid cookie. That cookie will be ignored.Note: further occurrences of this error will be logged at DEBUG level.
+2018-07-25 17:21:22.964  INFO 21344 --- [http-nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2018-07-25 17:21:22.965  INFO 21344 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2018-07-25 17:21:22.988  INFO 21344 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 23 ms
+2018-07-25 17:21:23.122  INFO 21344 --- [http-nio-8889-exec-4] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:21:23.223  INFO 21344 --- [http-nio-8889-exec-4] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:21:23.224  INFO 21344 --- [http-nio-8889-exec-4] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:21:23.253  INFO 21344 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:21:23.265  INFO 21344 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:21:23.265  INFO 21344 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:21:23.453  INFO 21344 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:21:23.458  INFO 21344 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:21:23.459  INFO 21344 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:21:57.902  INFO 19928 --- [main] com.ybkj.App                             : Starting App on SC-201609241517 with PID 19928 (F:\GitProject\army_gun_yb\target\classes started by Administrator in F:\GitProject\army_gun_yb)
+2018-07-25 17:21:57.906  INFO 19928 --- [main] com.ybkj.App                             : No active profile set, falling back to default profiles: default
+2018-07-25 17:21:58.047  INFO 19928 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:21:58 CST 2018]; root of context hierarchy
+2018-07-25 17:21:59.841  INFO 19928 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$f98e37f0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 17:22:00.401  INFO 19928 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8889 (http)
+2018-07-25 17:22:00.414  INFO 19928 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-07-25 17:22:00.415  INFO 19928 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2018-07-25 17:22:00.680  INFO 19928 --- [localhost-startStop-1] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2018-07-25 17:22:00.682  INFO 19928 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring embedded WebApplicationContext
+2018-07-25 17:22:00.683  INFO 19928 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2640 ms
+2018-07-25 17:22:00.862  INFO 19928 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-07-25 17:22:00.868  INFO 19928 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-07-25 17:22:00.868  INFO 19928 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-07-25 17:22:00.869  INFO 19928 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-07-25 17:22:00.869  INFO 19928 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-07-25 17:22:01.998  INFO 19928 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/device/errorIndex],methods=[GET]}" onto public int com.ybkj.gun.controller.DeviceController.errorIndex() throws java.lang.Exception
+2018-07-25 17:22:02.004  INFO 19928 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2018-07-25 17:22:02.005  INFO 19928 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2018-07-25 17:22:02.006  INFO 19928 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2018-07-25 17:22:02.010  INFO 19928 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-07-25 17:22:02.011  INFO 19928 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-07-25 17:22:02.267  INFO 19928 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2018-07-25 17:22:02.539  INFO 19928 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:21:58 CST 2018]; root of context hierarchy
+2018-07-25 17:22:02.600  INFO 19928 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/static/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:22:02.601  INFO 19928 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/templates/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:22:02.601  INFO 19928 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/swagger-ui.html] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:22:02.601  INFO 19928 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:22:02.646  INFO 19928 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:22:03.049  INFO 19928 --- [main] o.s.ui.freemarker.SpringTemplateLoader   : SpringTemplateLoader for FreeMarker: using resource loader [org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:21:58 CST 2018]; root of context hierarchy] and template loader path [classpath:/templates/]
+2018-07-25 17:22:03.050  INFO 19928 --- [main] o.s.w.s.v.f.FreeMarkerConfigurer         : ClassTemplateLoader for Spring macros added to FreeMarker configuration
+2018-07-25 17:22:03.089  WARN 19928 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+2018-07-25 17:22:03.486  INFO 19928 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-07-25 17:22:03.496  INFO 19928 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-07-25 17:22:03.497  INFO 19928 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2018-07-25 17:22:03.513  INFO 19928 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2018-07-25 17:22:03.548  INFO 19928 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2018-07-25 17:22:03.876  INFO 19928 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8889 (http)
+2018-07-25 17:22:03.881  INFO 19928 --- [main] com.ybkj.App                             : Started App in 6.572 seconds (JVM running for 8.405)
+2018-07-25 17:22:16.332  INFO 19928 --- [http-nio-8889-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [1532426173,1532508621; Hm_lpvt_407473d433e871de861cf818aa1405a1=1532510489] that contained an invalid cookie. That cookie will be ignored.Note: further occurrences of this error will be logged at DEBUG level.
+2018-07-25 17:22:16.342  INFO 19928 --- [http-nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2018-07-25 17:22:16.342  INFO 19928 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2018-07-25 17:22:16.363  INFO 19928 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 21 ms
+2018-07-25 17:22:16.495  INFO 19928 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:22:16.608  INFO 19928 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:22:16.609  INFO 19928 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:22:16.639  INFO 19928 --- [http-nio-8889-exec-3] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:22:16.656  INFO 19928 --- [http-nio-8889-exec-3] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:22:16.656  INFO 19928 --- [http-nio-8889-exec-3] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:22:16.845  INFO 19928 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:22:16.851  INFO 19928 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:22:16.851  INFO 19928 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:23:04.885  INFO 7472 --- [main] com.ybkj.App                             : Starting App on SC-201609241517 with PID 7472 (F:\GitProject\army_gun_yb\target\classes started by Administrator in F:\GitProject\army_gun_yb)
+2018-07-25 17:23:04.889  INFO 7472 --- [main] com.ybkj.App                             : No active profile set, falling back to default profiles: default
+2018-07-25 17:23:04.971  INFO 7472 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:23:04 CST 2018]; root of context hierarchy
+2018-07-25 17:23:07.026  INFO 7472 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$4f9bc07e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 17:23:07.552  INFO 7472 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8889 (http)
+2018-07-25 17:23:07.563  INFO 7472 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-07-25 17:23:07.564  INFO 7472 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2018-07-25 17:23:07.811  INFO 7472 --- [localhost-startStop-1] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2018-07-25 17:23:07.814  INFO 7472 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring embedded WebApplicationContext
+2018-07-25 17:23:07.814  INFO 7472 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2848 ms
+2018-07-25 17:23:07.981  INFO 7472 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-07-25 17:23:07.987  INFO 7472 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-07-25 17:23:07.987  INFO 7472 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-07-25 17:23:07.987  INFO 7472 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-07-25 17:23:07.987  INFO 7472 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-07-25 17:23:09.081  INFO 7472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/device/errorIndex],methods=[GET]}" onto public int com.ybkj.gun.controller.DeviceController.errorIndex() throws java.lang.Exception
+2018-07-25 17:23:09.087  INFO 7472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2018-07-25 17:23:09.090  INFO 7472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2018-07-25 17:23:09.092  INFO 7472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2018-07-25 17:23:09.097  INFO 7472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-07-25 17:23:09.098  INFO 7472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-07-25 17:23:09.312  INFO 7472 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2018-07-25 17:23:09.573  INFO 7472 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:23:04 CST 2018]; root of context hierarchy
+2018-07-25 17:23:09.634  INFO 7472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/static/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:23:09.635  INFO 7472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/templates/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:23:09.635  INFO 7472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/swagger-ui.html] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:23:09.635  INFO 7472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:23:09.678  INFO 7472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 17:23:10.055  INFO 7472 --- [main] o.s.ui.freemarker.SpringTemplateLoader   : SpringTemplateLoader for FreeMarker: using resource loader [org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 17:23:04 CST 2018]; root of context hierarchy] and template loader path [classpath:/templates/]
+2018-07-25 17:23:10.056  INFO 7472 --- [main] o.s.w.s.v.f.FreeMarkerConfigurer         : ClassTemplateLoader for Spring macros added to FreeMarker configuration
+2018-07-25 17:23:10.096  WARN 7472 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+2018-07-25 17:23:10.454  INFO 7472 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-07-25 17:23:10.473  INFO 7472 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-07-25 17:23:10.476  INFO 7472 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2018-07-25 17:23:10.494  INFO 7472 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2018-07-25 17:23:10.531  INFO 7472 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2018-07-25 17:23:10.866  INFO 7472 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8889 (http)
+2018-07-25 17:23:10.872  INFO 7472 --- [main] com.ybkj.App                             : Started App in 6.568 seconds (JVM running for 8.417)
+2018-07-25 17:34:38.781  INFO 7472 --- [http-nio-8889-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [1532426173,1532508621; Hm_lpvt_407473d433e871de861cf818aa1405a1=1532510543] that contained an invalid cookie. That cookie will be ignored.Note: further occurrences of this error will be logged at DEBUG level.
+2018-07-25 17:34:38.793  INFO 7472 --- [http-nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2018-07-25 17:34:38.793  INFO 7472 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2018-07-25 17:34:38.818  INFO 7472 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 25 ms
+2018-07-25 17:34:39.147  INFO 7472 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:34:39.241  INFO 7472 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:34:39.241  INFO 7472 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:34:39.303  INFO 7472 --- [http-nio-8889-exec-1] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:34:39.319  INFO 7472 --- [http-nio-8889-exec-1] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:34:39.319  INFO 7472 --- [http-nio-8889-exec-1] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 17:34:39.475  INFO 7472 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 17:34:39.489  INFO 7472 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 17:34:39.490  INFO 7472 --- [http-nio-8889-exec-2] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 18:40:07.243  INFO 7472 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 18:40:07.245  INFO 7472 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 18:40:07.245  INFO 7472 --- [http-nio-8889-exec-6] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 18:40:07.262  INFO 7472 --- [http-nio-8889-exec-4] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 18:40:07.264  INFO 7472 --- [http-nio-8889-exec-4] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 18:40:07.264  INFO 7472 --- [http-nio-8889-exec-4] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 18:40:07.428  INFO 7472 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 18:40:07.429  INFO 7472 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！200
+2018-07-25 18:40:07.429  INFO 7472 --- [http-nio-8889-exec-9] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！
+2018-07-25 19:09:17.753  INFO 23948 --- [main] com.ybkj.App                             : Starting App on SC-201609241517 with PID 23948 (F:\GitProject\army_gun_yb\target\classes started by Administrator in F:\GitProject\army_gun_yb)
+2018-07-25 19:09:17.757  INFO 23948 --- [main] com.ybkj.App                             : No active profile set, falling back to default profiles: default
+2018-07-25 19:09:17.917  INFO 23948 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 19:09:17 CST 2018]; root of context hierarchy
+2018-07-25 19:09:19.933  INFO 23948 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$8d2d15cf] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2018-07-25 19:09:20.496  INFO 23948 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8889 (http)
+2018-07-25 19:09:20.508  INFO 23948 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2018-07-25 19:09:20.509  INFO 23948 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2018-07-25 19:09:20.807  INFO 23948 --- [localhost-startStop-1] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2018-07-25 19:09:20.810  INFO 23948 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring embedded WebApplicationContext
+2018-07-25 19:09:20.810  INFO 23948 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2897 ms
+2018-07-25 19:09:21.036  INFO 23948 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2018-07-25 19:09:21.042  INFO 23948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2018-07-25 19:09:21.043  INFO 23948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2018-07-25 19:09:21.043  INFO 23948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2018-07-25 19:09:21.043  INFO 23948 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2018-07-25 19:09:22.226  INFO 23948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/device/errorIndex],methods=[GET]}" onto public int com.ybkj.gun.controller.DeviceController.errorIndex() throws java.lang.Exception
+2018-07-25 19:09:22.231  INFO 23948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources]}" onto public org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2018-07-25 19:09:22.232  INFO 23948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/ui]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2018-07-25 19:09:22.233  INFO 23948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/swagger-resources/configuration/security]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2018-07-25 19:09:22.238  INFO 23948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2018-07-25 19:09:22.239  INFO 23948 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2018-07-25 19:09:22.475  INFO 23948 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)]
+2018-07-25 19:09:22.735  INFO 23948 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 19:09:17 CST 2018]; root of context hierarchy
+2018-07-25 19:09:22.804  INFO 23948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/static/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 19:09:22.805  INFO 23948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/templates/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 19:09:22.805  INFO 23948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/swagger-ui.html] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 19:09:22.805  INFO 23948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 19:09:22.861  INFO 23948 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2018-07-25 19:09:23.241  INFO 23948 --- [main] o.s.ui.freemarker.SpringTemplateLoader   : SpringTemplateLoader for FreeMarker: using resource loader [org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4b168fa9: startup date [Wed Jul 25 19:09:17 CST 2018]; root of context hierarchy] and template loader path [classpath:/templates/]
+2018-07-25 19:09:23.242  INFO 23948 --- [main] o.s.w.s.v.f.FreeMarkerConfigurer         : ClassTemplateLoader for Spring macros added to FreeMarker configuration
+2018-07-25 19:09:23.288  WARN 23948 --- [main] o.s.b.a.f.FreeMarkerAutoConfiguration    : Cannot find template location(s): [classpath:/templates/] (please add some templates, check your FreeMarker configuration, or set spring.freemarker.checkTemplateLocation=false)
+2018-07-25 19:09:23.655  INFO 23948 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2018-07-25 19:09:23.667  INFO 23948 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 2147483647
+2018-07-25 19:09:23.667  INFO 23948 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2018-07-25 19:09:23.683  INFO 23948 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2018-07-25 19:09:23.718  INFO 23948 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2018-07-25 19:09:24.073  INFO 23948 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8889 (http)
+2018-07-25 19:09:24.079  INFO 23948 --- [main] com.ybkj.App                             : Started App in 7.161 seconds (JVM running for 9.063)
+2018-07-25 19:09:38.809  INFO 23948 --- [http-nio-8889-exec-1] o.apache.tomcat.util.http.parser.Cookie  : A cookie header was received [1532426173,1532508621; Hm_lpvt_407473d433e871de861cf818aa1405a1=1532515213] that contained an invalid cookie. That cookie will be ignored.Note: further occurrences of this error will be logged at DEBUG level.
+2018-07-25 19:09:38.818  INFO 23948 --- [http-nio-8889-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/gun]    : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2018-07-25 19:09:38.818  INFO 23948 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2018-07-25 19:09:38.841  INFO 23948 --- [http-nio-8889-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 23 ms
+2018-07-25 19:09:38.858  WARN 23948 --- [http-nio-8889-exec-1] o.s.web.servlet.PageNotFound             : No mapping found for HTTP request with URI [/gun/errorIndex] in DispatcherServlet with name 'dispatcherServlet'
+2018-07-25 19:09:38.873  INFO 23948 --- [http-nio-8889-exec-1] c.y.common.interceptor.ErrorInterceptor  : 在Controller之前执行！
+2018-07-25 19:09:38.903  INFO 23948 --- [http-nio-8889-exec-1] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果返回正确执行！404
+2018-07-25 19:09:38.931  INFO 23948 --- [http-nio-8889-exec-1] c.y.common.interceptor.ErrorInterceptor  : preHandle执行结果和postHandle之后返回正确执行！

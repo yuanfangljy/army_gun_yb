@@ -13,6 +13,7 @@
     <inspection_tool class="SpringBeanDepedencyCheckInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringBeanInstantiationInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringBeanLookupMethodInspection" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="SpringBootAdditionalConfig" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringCacheableComponentsInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringComponentScan" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringContextConfigurationInspection" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -29,6 +30,8 @@
     <inspection_tool class="SpringRequiredAnnotationInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringRequiredPropertyInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringScopesInspection" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="SpringSecurityAnnotationBeanPointersResolveInspection" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="SpringSecurityModelInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="SpringTransactionalComponentInspection" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="UtilSchemaInspection" enabled="true" level="WARNING" enabled_by_default="true" />
   </profile>

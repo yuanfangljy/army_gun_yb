@@ -20,6 +20,8 @@ public interface WebUserMapper {
 
     List<WebUser> selectWebUser(WebUser webUser);
 
+    WebUser selectWebUserByUsername(String userName);
+
     WebUser selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") WebUser record, @Param("example") WebUserExample example);
@@ -29,4 +31,6 @@ public interface WebUserMapper {
     int updateByPrimaryKeySelective(WebUser record);
 
     int updateByPrimaryKey(WebUser record);
+
+
 }

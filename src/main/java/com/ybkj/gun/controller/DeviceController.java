@@ -28,7 +28,6 @@ public class DeviceController {
         device.setPassword("123123");
         device.setDeviceNo("123123");
         device.setDeviceName("1231231");
-        int l=1/0;
         int i = deviceSerivce.insertDevice(device);
         log.info("设备信息："+i);
         return i;

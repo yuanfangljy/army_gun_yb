@@ -1,5 +1,7 @@
 package com.ybkj.common.constant;
 
+import org.aspectj.weaver.ast.Not;
+
 /**
  *@Description:  功能描述（记录操作状态码）
  *@Author:       刘家义
@@ -40,8 +42,20 @@ public enum  StatusCodeEnum {
     //余额不足
     NotSUFFICIENTFUNDS(13),
     //不成功
-    Fail(200);
+    Fail(200),
+    //运行时异常
+    InternalServerErrorFail(500),
+    //找不到页面
+    NotFoundFail(404),
+    //方法不被允许
+    MethodNotAllowedFail(405),
+    //服务器未能理解请求
+    BadRequestFail(400),
+    //由于媒介类型不被支持，服务器不会接受请求
+    UnsupportedMediaTypeFail(415),
+    ;
     private final Integer statusCode;
+
     private StatusCodeEnum(Integer statusCode){
         this.statusCode=statusCode;
     }
