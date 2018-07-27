@@ -1,22 +1,11 @@
 package com.ybkj.common.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.messaging.handler.HandlerMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 
@@ -69,12 +58,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter  {
     }
 */
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //addPathPatterns 用于添加拦截规则
         //excludePathPatterns 用于排除拦截
-        registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**").excludePathPatterns("/errorIndex");
+        registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**").excludePathPatterns("/webUser/*");
         super.addInterceptors(registry);
     }
 
@@ -89,6 +77,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter  {
 
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
         super.addResourceHandlers(registry);
     }
 } 

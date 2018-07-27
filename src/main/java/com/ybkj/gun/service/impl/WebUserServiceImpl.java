@@ -1,6 +1,6 @@
 package com.ybkj.gun.service.impl;
 
-import com.ybkj.common.constant.StatusCodeEnum;
+import com.ybkj.common.encryption.MD5;
 import com.ybkj.common.error.ResultEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.LoginUtil;
@@ -45,22 +45,86 @@ public class WebUserServiceImpl implements WebUserSerivce{
      * @return
      */
     @Override
-    public BaseModel loginWebUser(String userName, String passWord, HttpSession httpSession, HttpServletRequest httpServletRequest) throws Exception {
+    public BaseModel loginWebUser(String userMobile, String passWord, HttpSession httpSession, HttpServletRequest httpServletRequest) throws Exception {
         BaseModel baseModel=new BaseModel();
-        WebUser user= webUserMapper.selectWebUserByUsername(userName);
-        String entrtyedPass = DigestUtils.md5DigestAsHex(passWord.getBytes());
+        WebUser user= webUserMapper.selectMobile(userMobile);
+        System.out.println(user.toString());
+        String password =(MD5.Md5(userMobile, passWord)).toString();
         //用户存在
-        if(entrtyedPass.endsWith(user.getPassword())){
+        if(password.endsWith(user.getPassword())){
             //处理登录限制处理，无论处理结果如何，对本次操作没有影响
-            LoginUtil.LoginUserSessionIds(userName,httpServletRequest);
+            LoginUtil.LoginUserSessionIds(userMobile,httpServletRequest);
             //记录在日志中
-            log.info("用户登录处理："+userName+","+httpSession.getId());
+            log.info("用户登录处理："+userMobile+","+httpSession.getId());
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());
             baseModel.setErrorMessage("用户登录成功！");
             return baseModel;
         }
         baseModel.setStatus(ResultEnum.ERROR.getCode());
         baseModel.setErrorMessage("用户账号密码不正确！");
+        return baseModel;
+    }
+
+    /**
+     * 判断手机号码是否存在
+     * @param mobile
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public BaseModel selectMobile(String mobile) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        WebUser user = webUserMapper.selectMobile(mobile);
+        if(user!=null){
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+        }else{
+            baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+        }
+        return baseModel;
+    }
+
+    /**
+     * 添加web用户
+     * @param webUser
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public BaseModel insertWebUsers(WebUser webUser) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        Object passWord= MD5.Md5(webUser.getPhone(), webUser.getPassword());
+        webUser.setPassword(passWord.toString());
+        final int i = webUserMapper.insertSelective(webUser);
+        if(i!=0){
+            baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+        }else{
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+        }
+        return baseModel;
+    }
+
+    /**
+     * 修改用户密码
+     * @param mobile
+     * @param oldPassword
+     * @param newPassword
+     * @return
+     */
+    @Override
+    public BaseModel updateWebUserBy(WebUser webUser,String newPassword) {
+        BaseModel baseModel=new BaseModel();
+        WebUser user = webUserMapper.selectMobile(webUser.getPhone());
+        if(MD5.Md5(webUser.getPhone(), webUser.getPassword()).toString().equals(user.getPassword())){
+            user.setPassword(MD5.Md5(webUser.getPhone(), newPassword).toString());
+            int i = webUserMapper.updateByPrimaryKeySelective(user);
+            if(i!=0){
+                baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+            }else{
+                baseModel.setStatus(ResultEnum.ERROR.getCode());
+            }
+        }else{
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+        }
         return baseModel;
     }
 

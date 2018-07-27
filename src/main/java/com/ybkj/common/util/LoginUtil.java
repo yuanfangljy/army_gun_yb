@@ -2,12 +2,7 @@ package com.ybkj.common.util;
 
 
 
-import com.sun.javaws.security.AppContextUtil;
-import org.apache.catalina.core.ApplicationContext;
-import org.apache.coyote.Request;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 

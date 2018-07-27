@@ -11,6 +11,8 @@ public class Gun {
 
     private String warehouseName;
 
+    private Integer bulletNumber;
+
     private Integer warehouseId;
 
     private Integer state;
@@ -89,7 +91,16 @@ public class Gun {
         return version;
     }
 
+
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public Integer getBulletNumber() {
+        return bulletNumber;
+    }
+
+    public void setBulletNumber(Integer bulletNumber) {
+        this.bulletNumber = bulletNumber;
     }
 }

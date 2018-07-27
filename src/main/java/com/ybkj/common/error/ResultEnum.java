@@ -4,8 +4,8 @@ package com.ybkj.common.error;
 @SuppressWarnings("all")
 public enum ResultEnum {
     UNKONW_ERROR(-1,"未知错误"),
-    SUCCESS(0,"成功"),
-    ERROR(1,"失败"),
+    SUCCESS(1,"成功"),
+    ERROR(200,"失败"),
     ;
 
     private Integer code;

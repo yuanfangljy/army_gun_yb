@@ -2,10 +2,12 @@ F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\Mission.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\impl\DeviceLocationServiceImpl.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\Device.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\interceptor\ErrorInterceptor.java
+F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\shiro\MyShiroRealm.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\impl\SosMassageServiceImpl.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\mapper\DeviceGunMapper.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\swagger\Swagger2.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\DeviceLocationExample.java
+F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\util\LoginUtil.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\controller\GunController.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\mapper\MissionMapper.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\controller\DeviceGunController.java
@@ -27,8 +29,10 @@ F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\controller\SosMassageContro
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\DeviceSerivce.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\Gun.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\GunSerivce.java
+F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\constant\ValidateEnum.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\impl\DeviceGunServiceImpl.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\SosMassageExample.java
+F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\encryption\MD5.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\MissionExample.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\WebUserExample.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\controller\DeviceController.java
@@ -45,6 +49,7 @@ F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\model\WebUser.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\constant\StatusCodeEnum.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\mapper\DeviceMapper.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\impl\GunServiceImpl.java
+F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\shiro\ShiroConfiguration.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\impl\WebUserServiceImpl.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\common\interceptor\WebAppConfig.java
 F:\GitProject\army_gun_yb\src\main\java\com\ybkj\gun\service\SosMassageSerivce.java

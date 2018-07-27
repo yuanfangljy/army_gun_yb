@@ -11,6 +11,21 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
+
+    <!--关联枪支信息表-->
+    <association property="guns" javaType="com.ybkj.gun.model.Gun">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="gun_tag" jdbcType="VARCHAR" property="gunTag" />
+    <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac" />
+    <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+    <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber" />
+    <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </association>
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

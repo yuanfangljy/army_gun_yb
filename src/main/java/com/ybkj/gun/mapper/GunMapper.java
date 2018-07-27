@@ -29,4 +29,7 @@ public interface GunMapper {
     int updateByPrimaryKeySelective(Gun record);
 
     int updateByPrimaryKey(Gun record);
+
+    //根据警员编号
+    List<Gun> selectGunBydevice(String gunTag);
 }

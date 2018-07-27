@@ -21,6 +21,17 @@ public class DeviceGun {
 
     private Integer version;
 
+    //关联属性
+    private Gun guns;
+
+    public Gun getGun() {
+        return guns;
+    }
+
+    public void setGun(Gun guns) {
+        this.guns = guns;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -92,4 +103,7 @@ public class DeviceGun {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+
+
 }

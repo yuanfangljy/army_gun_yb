@@ -15,5 +15,12 @@ public interface WebUserSerivce {
     public void updateWebUser(WebUser webUser) throws Exception;
     public List<WebUser> findWebUsers(DeviceLocation webUsers) throws Exception;
     public WebUser findWebUser(Integer webUserId) throws Exception;
+    //web用户登录
     public BaseModel loginWebUser(String userName, String passWord, HttpSession httpSession,HttpServletRequest httpServletRequest) throws Exception;
+    //手机号是否存在
+    public BaseModel selectMobile(String mobile) throws Exception;
+    //用户注册
+    public BaseModel insertWebUsers(WebUser webUser) throws Exception;
+    //修改用户密码
+    public BaseModel updateWebUserBy(WebUser webUser,String newPassword);
 }
