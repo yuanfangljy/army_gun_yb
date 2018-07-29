@@ -3,11 +3,11 @@
 <mapper namespace="com.ybkj.gun.mapper.DeviceGunMapper">
   <resultMap id="BaseResultMap" type="com.ybkj.gun.model.DeviceGun">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="device_no" jdbcType="INTEGER" property="deviceNo" />
-    <result column="gun_mac" jdbcType="INTEGER" property="gunMac" />
+    <result column="device_no" jdbcType="VARCHAR" property="deviceNo" />
+    <result column="gun_mac" jdbcType="VARCHAR" property="gunMac" />
     <result column="out_warehouse_time" jdbcType="TIMESTAMP" property="outWarehouseTime" />
     <result column="in_warehouse_time" jdbcType="TIMESTAMP" property="inWarehouseTime" />
-    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="state" jdbcType="INTEGER" property="state" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
@@ -157,9 +157,9 @@
       out_warehouse_time, in_warehouse_time, 
       state, create_time, update_time, 
       version)
-    values (#{id,jdbcType=INTEGER}, #{deviceNo,jdbcType=INTEGER}, #{gunMac,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{deviceNo,jdbcType=VARCHAR}, #{gunMac,jdbcType=VARCHAR},
       #{outWarehouseTime,jdbcType=TIMESTAMP}, #{inWarehouseTime,jdbcType=TIMESTAMP}, 
-      #{state,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
       #{version,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ybkj.gun.model.DeviceGun">
@@ -198,10 +198,10 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="deviceNo != null">
-        #{deviceNo,jdbcType=INTEGER},
+        #{deviceNo,jdbcType=VARCHAR},
       </if>
       <if test="gunMac != null">
-        #{gunMac,jdbcType=INTEGER},
+        #{gunMac,jdbcType=VARCHAR},
       </if>
       <if test="outWarehouseTime != null">
         #{outWarehouseTime,jdbcType=TIMESTAMP},
@@ -210,7 +210,7 @@
         #{inWarehouseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="state != null">
-        #{state,jdbcType=VARCHAR},
+        #{state,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -236,10 +236,10 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.deviceNo != null">
-        device_no = #{record.deviceNo,jdbcType=INTEGER},
+        device_no = #{record.deviceNo,jdbcType=VARCHAR},
       </if>
       <if test="record.gunMac != null">
-        gun_mac = #{record.gunMac,jdbcType=INTEGER},
+        gun_mac = #{record.gunMac,jdbcType=VARCHAR},
       </if>
       <if test="record.outWarehouseTime != null">
         out_warehouse_time = #{record.outWarehouseTime,jdbcType=TIMESTAMP},
@@ -248,7 +248,7 @@
         in_warehouse_time = #{record.inWarehouseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.state != null">
-        state = #{record.state,jdbcType=VARCHAR},
+        state = #{record.state,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -267,11 +267,11 @@
   <update id="updateByExample" parameterType="map">
     update device_gun
     set id = #{record.id,jdbcType=INTEGER},
-      device_no = #{record.deviceNo,jdbcType=INTEGER},
-      gun_mac = #{record.gunMac,jdbcType=INTEGER},
+      device_no = #{record.deviceNo,jdbcType=VARCHAR},
+      gun_mac = #{record.gunMac,jdbcType=VARCHAR},
       out_warehouse_time = #{record.outWarehouseTime,jdbcType=TIMESTAMP},
       in_warehouse_time = #{record.inWarehouseTime,jdbcType=TIMESTAMP},
-      state = #{record.state,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       version = #{record.version,jdbcType=INTEGER}
@@ -283,10 +283,10 @@
     update device_gun
     <set>
       <if test="deviceNo != null">
-        device_no = #{deviceNo,jdbcType=INTEGER},
+        device_no = #{deviceNo,jdbcType=VARCHAR},
       </if>
       <if test="gunMac != null">
-        gun_mac = #{gunMac,jdbcType=INTEGER},
+        gun_mac = #{gunMac,jdbcType=VARCHAR},
       </if>
       <if test="outWarehouseTime != null">
         out_warehouse_time = #{outWarehouseTime,jdbcType=TIMESTAMP},
@@ -295,7 +295,7 @@
         in_warehouse_time = #{inWarehouseTime,jdbcType=TIMESTAMP},
       </if>
       <if test="state != null">
-        state = #{state,jdbcType=VARCHAR},
+        state = #{state,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -311,14 +311,18 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ybkj.gun.model.DeviceGun">
     update device_gun
-    set device_no = #{deviceNo,jdbcType=INTEGER},
-      gun_mac = #{gunMac,jdbcType=INTEGER},
+    set device_no = #{deviceNo,jdbcType=VARCHAR},
+      gun_mac = #{gunMac,jdbcType=VARCHAR},
       out_warehouse_time = #{outWarehouseTime,jdbcType=TIMESTAMP},
       in_warehouse_time = #{inWarehouseTime,jdbcType=TIMESTAMP},
-      state = #{state,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       version = #{version,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectDeviceGunByStatus"  resultMap="BaseResultMap">
+     select * from device_gun where device_no = #{deviceNo,jdbcType=VARCHAR} and gun_mac=#{gunMac,jdbcType=INTEGER} and state = #{state,jdbcType=INTEGER}
+  </select>
 </mapper>

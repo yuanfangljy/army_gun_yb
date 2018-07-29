@@ -62,7 +62,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter  {
     public void addInterceptors(InterceptorRegistry registry) {
         //addPathPatterns 用于添加拦截规则
         //excludePathPatterns 用于排除拦截
-        registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**").excludePathPatterns("/webUser/*");
+        registry.addInterceptor(new ErrorInterceptor()).addPathPatterns("/**").excludePathPatterns("/");
         super.addInterceptors(registry);
     }
 
@@ -70,6 +70,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter  {
      * 配置静态资源
      */
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/templates/**").addResourceLocations("classpath:/templates/");
         registry.addResourceHandler("swagger-ui.html")

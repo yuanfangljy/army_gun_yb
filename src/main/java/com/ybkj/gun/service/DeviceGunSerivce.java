@@ -1,6 +1,7 @@
 package com.ybkj.gun.service;
 
 
+import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.DeviceGun;
 
 import java.util.List;
@@ -62,4 +63,17 @@ public interface DeviceGunSerivce {
      * @throws Exception
      */
     public DeviceGun findDeviceGun(Integer deivceGunId) throws Exception;
+
+    /**
+     * 枪支出入库
+     * @param deviceGun
+     * @return
+     */
+    BaseModel updateDeviceGunByStatus(DeviceGun deviceGun,Integer status) throws Exception;
+
+    //枪支入库
+    BaseModel updategunStorage(DeviceGun deviceGun, Integer status) throws Exception;
+
+    //枪支出库
+    BaseModel addGunDelivery(DeviceGun deviceGun, Integer status) throws Exception;
 }

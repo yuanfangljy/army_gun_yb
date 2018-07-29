@@ -1,5 +1,6 @@
 package com.ybkj.gun.service;
 
+import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.Device;
 
 import java.util.List;
@@ -11,4 +12,14 @@ public interface DeviceSerivce {
     public void updateDevice(Device device) throws Exception;
     public List<Device> findDevices(Device devices) throws Exception;
     public Device findDevice(Integer deviceId) throws Exception;
+    //添加设备信息
+    BaseModel insertDevices(Device device);
+    //查询手机号
+    BaseModel selectMobile(String mobile);
+    //查询邮箱
+    BaseModel selectEmail(String email);
+    //查询设备名
+    BaseModel selectDeviceName(String deviceName);
+    //查询设备编码
+    BaseModel selectDeviceNo(String deviceNo);
 }

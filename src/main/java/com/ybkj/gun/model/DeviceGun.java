@@ -5,15 +5,15 @@ import java.util.Date;
 public class DeviceGun {
     private Integer id;
 
-    private Integer deviceNo;
+    private String deviceNo;
 
-    private Integer gunMac;
+    private String gunMac;
 
     private Date outWarehouseTime;
 
     private Date inWarehouseTime;
 
-    private String state;
+    private Integer state;
 
     private Date createTime;
 
@@ -40,20 +40,20 @@ public class DeviceGun {
         this.id = id;
     }
 
-    public Integer getDeviceNo() {
+    public String getDeviceNo() {
         return deviceNo;
     }
 
-    public void setDeviceNo(Integer deviceNo) {
-        this.deviceNo = deviceNo;
+    public void setDeviceNo(String deviceNo) {
+        this.deviceNo = deviceNo  == null ? null : deviceNo.trim();
     }
 
-    public Integer getGunMac() {
+    public String getGunMac() {
         return gunMac;
     }
 
-    public void setGunMac(Integer gunMac) {
-        this.gunMac = gunMac;
+    public void setGunMac(String gunMac) {
+        this.gunMac = gunMac  == null ? null : gunMac.trim();
     }
 
     public Date getOutWarehouseTime() {
@@ -72,12 +72,12 @@ public class DeviceGun {
         this.inWarehouseTime = inWarehouseTime;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state == null ? null : state.trim();
+    public void setState(Integer state) {
+        this.state = state ;
     }
 
     public Date getCreateTime() {

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>无标题文档</title>
+    <link href="css/loginForm.css" rel="stylesheet" type="text/css"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div class="nav_bg">
+
+    <div class="bor">
+        <div class="wel">用户登录</div>
+
+        <form id="login_form" method="POST">
+            <div class="Login">
+                <img src="img/yonghu.png"/>
+                <p><input type="text" id="userName" name="userName" placeholder="用户名"></p>
+
+            </div>
+            <div class="pass">
+                <img src="img/pass.png"/>
+                <p><input type="password" id="passWord" name="passWord" placeholder="请输入密码"></p>
+
+            </div>
+            <div></div>
+            <p><input class="sure" type="button" id="login" value="登录"/></p>
+        </form>
+
+        <dl class="sign">
+            <dt><a href="retrievePassword.html">忘记密码？</a></dt>
+            <dd>新用户请先<a href="index.html">注册</a></dd>
+        </dl>
+        <div class="clearfix"></div>
+        <div class="rem"><input class="kuai" type="checkbox" value="1"/>
+            <p>记住密码</p></div>
+        <div class="text-center">
+            <span id="error" style="color:red"></span>
+            <span id="errorpass" style="color:red"></span>
+        </div>
+    </div>
+
+    <div class="jpg"><img src="img/beijing.png"/></div>
+</div>
+<input class="sure" type="button" id="login1" value="登录"/>
+<script src="js/jquery-1.4.2.min.js"></script>
+<script src="layui/layui.all.js" type="text/javascript"></script>
+<script>
+    var name = "";
+    var password = "";
+    $("#login").click(function () {
+        name = $("#userName").val();
+        password = $("#passWord").val();
+        var regphone = /^1[34578]\d{9}$/;
+        if (name == "") {
+            $("#error").text("用户名不能为空");
+            return false;
+        } else {
+            $("#error").text("");
+        }
+        if (password == "") {
+            $("#errorpass").text("密码不能为空");
+            return false;
+        } else {
+            $("#errorpass").text("");
+        }
+
+        $.ajax({
+            url: "../webUser/webUserLogin",
+            type: "POST",
+            data: $("#login_form").serialize(),
+            success: function (result) {
+                if (result.status == 1) {/*
+                    layer.msg('登录加载中', {
+                        icon: 16,
+                        shade: 0.01
+                    },function(index){
+                        location.href="index.html";
+                    });*/
+                    var ii = layer.load();
+                    //此处用setTimeout演示ajax的回调
+                    setTimeout(function () {
+                        layer.close(ii);
+                        location.href = "index.html";
+                    }, 2000);
+
+                    //清空文本框的内容
+                    $("input:userName").val("").focus();
+                    $("input:passWord").val("").focus();
+                } else {
+                    layer.msg(result.errorMessage, {
+                        tips: [2, '#3595CC'],
+                        time: 1000,
+                        icon: 2,
+                        skin: 'layer-ext-moon'
+                    });
+                }
+            }
+        });
+    });
+
+
+    //回车键登录
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("#login").trigger("click");
+        }
+    });
+</script>
+</body>
+</html>

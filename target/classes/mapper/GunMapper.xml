@@ -330,5 +330,9 @@
   <select id="selectGunBydevice" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from gun where gun_tag = #{gunTag,jdbcType=VARCHAR}
   </select>
+  <!--根据警员编号信息枪支信息-->
+  <select id="selectGunByGunTag" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from gun where gun_tag = #{gunTag,jdbcType=VARCHAR}
+  </select>
 
 </mapper>

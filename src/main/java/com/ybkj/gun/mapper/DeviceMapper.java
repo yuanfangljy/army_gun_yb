@@ -29,4 +29,14 @@ public interface DeviceMapper {
     int updateByPrimaryKeySelective(Device record);
 
     int updateByPrimaryKey(Device record);
+
+    Device selectMobile(String mobile);
+
+    Device selectEmail(String email);
+
+    Device selectGunMac(String gunMac);
+
+    Device selectDeviceName(String deviceName);
+
+    Device selectDeviceNo(String deviceNo);
 }

@@ -22,5 +22,7 @@ public interface WebUserSerivce {
     //用户注册
     public BaseModel insertWebUsers(WebUser webUser) throws Exception;
     //修改用户密码
-    public BaseModel updateWebUserBy(WebUser webUser,String newPassword);
+    public BaseModel updateWebUserBy(WebUser webUser,String newPassword) throws Exception;
+    //用户名是否存在
+    public BaseModel selectUserName(String mobile) throws Exception;
 }

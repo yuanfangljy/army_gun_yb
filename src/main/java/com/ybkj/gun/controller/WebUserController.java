@@ -8,7 +8,6 @@ import com.ybkj.gun.service.impl.WebUserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -43,9 +42,9 @@ public class WebUserController {
     @ApiOperation(value = "web用户列表",notes = "登录")
     @RequestMapping(value = "/webUserLogin",method = RequestMethod.POST)
     @ResponseBody
-    public BaseModel webUserLogin(@RequestParam String userMobile, @RequestParam String passWord, HttpServletRequest request, HttpSession session) throws Exception {
+    public BaseModel webUserLogin(@RequestParam String userName, @RequestParam String passWord, HttpServletRequest request, HttpSession session) throws Exception {
         BaseModel baseModel=new BaseModel();
-        baseModel = webUserService.loginWebUser(userMobile, passWord, session, request);
+        baseModel = webUserService.loginWebUser(userName, passWord, session, request);
         if(ResultEnum.SUCCESS.getCode() == baseModel.getStatus()){
             baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
             baseModel.setErrorMessage("用户登录成功！");
@@ -64,7 +63,7 @@ public class WebUserController {
      */
     @ApiOperation(value ="判断手机号是否存在",notes = "手机号")
     @RequestMapping(value = "/isSelectMobile",method = RequestMethod.POST)
-    public BaseModel isSelectMobile(String mobile) throws Exception {
+    public BaseModel isSelectMobile(@RequestParam(value = "mobile",required = true) String mobile) throws Exception {
         BaseModel baseModel = webUserService.selectMobile(mobile);
         //表示手机号码不存在
         if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
@@ -73,6 +72,28 @@ public class WebUserController {
         }else{
             baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
             baseModel.setErrorMessage("该手机号已存在！");
+        }
+        return baseModel;
+    }
+
+
+
+    /**
+     * 判断用户名是否存在
+     * @param mobile
+     * @return
+     */
+    @ApiOperation(value ="判断用户名是否存在",notes = "web用户名")
+    @RequestMapping(value = "/isSelectUserName",method = RequestMethod.POST)
+    public BaseModel isSelectUserName(@RequestParam(value = "userName",required = true) String userName) throws Exception {
+        BaseModel baseModel = webUserService.selectUserName(userName);
+        //表示用户名不存在
+        if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+            baseModel.setErrorMessage("校验成功！");
+        }else{
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            baseModel.setErrorMessage("该用户名已存在！");
         }
         return baseModel;
     }

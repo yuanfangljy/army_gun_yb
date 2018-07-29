@@ -3,6 +3,7 @@ package com.ybkj.gun.service.impl;
 import com.ybkj.common.error.ResultEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.mapper.GunMapper;
+import com.ybkj.gun.model.Device;
 import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.service.GunSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,23 @@ public class GunServiceImpl implements GunSerivce{
     @Override
     public List<Gun> findGunsByDeviceNo(String deviceNo) throws Exception{
         return  gunMapper.selectGunBydevice(deviceNo);
+    }
+
+    /**
+     * 根据枪支编码查询
+     * @param gunTag
+     * @return
+     */
+    @Override
+    public BaseModel selectGunTag(String gunTag) {
+        BaseModel baseModel=new BaseModel();
+        Gun device = gunMapper.selectGunByGunTag(gunTag);
+        if(device==null){
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+        }else{
+            baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+        }
+        return baseModel;
     }
 
     @Override

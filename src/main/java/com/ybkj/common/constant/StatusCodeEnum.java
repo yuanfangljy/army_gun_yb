@@ -27,6 +27,12 @@ public enum  StatusCodeEnum {
     LOGIN_FAIL(6,"登录失败"),
     //锁定
     LOCKED(7,"锁定"),
+    //枪支出库
+    GUN_OUTPUT(15,"枪支出库"),
+    //枪支入库
+    GUN_STORAGE(16,"枪支入库"),
+    //设备不存在
+    DEVICE_NONENTITY(17,"设备不存在"),
     //异常状态
     EXCEPTION(8,"异常状态"),
     //忽略
@@ -53,6 +59,8 @@ public enum  StatusCodeEnum {
     BadRequestFail(400,"服务器未能理解请求"),
     //由于媒介类型不被支持，服务器不会接受请求
     UnsupportedMediaTypeFail(415,"服务器不会接受请求"),
+    //暴力操作
+    VIOLENTACTION(18,"暴力操作"),
     ;
     private final Integer statusCode;
     private  String msg;

@@ -32,4 +32,6 @@ public interface GunMapper {
 
     //根据警员编号
     List<Gun> selectGunBydevice(String gunTag);
+    //根据警员编号查询
+    Gun selectGunByGunTag(String gunTag);
 }

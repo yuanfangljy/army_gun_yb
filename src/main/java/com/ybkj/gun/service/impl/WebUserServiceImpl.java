@@ -20,64 +20,87 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- *@Description:  功能描述（管理端用户）
- *@Author:       刘家义
- *@CreateDate:   2018/7/24 19:42
- *@UpdateUser:   刘家义
- *@UpdateDate:   2018/7/24 19:42
- *@UpdateRemark: 修改内容
- *@Version:      1.0
+ * @Description: 功能描述（管理端用户）
+ * @Author: 刘家义
+ * @CreateDate: 2018/7/24 19:42
+ * @UpdateUser: 刘家义
+ * @UpdateDate: 2018/7/24 19:42
+ * @UpdateRemark: 修改内容
+ * @Version: 1.0
  */
 @SuppressWarnings("all")
 @Service
 @Slf4j
-@Transactional(propagation= Propagation.REQUIRED)
-public class WebUserServiceImpl implements WebUserSerivce{
+@Transactional(propagation = Propagation.REQUIRED)
+public class WebUserServiceImpl implements WebUserSerivce {
 
     @Autowired
     private WebUserMapper webUserMapper;
 
     /**
      * Web用户登录
+     *
      * @param userName
      * @param passWord
      * @param httpSession
      * @return
      */
     @Override
-    public BaseModel loginWebUser(String userMobile, String passWord, HttpSession httpSession, HttpServletRequest httpServletRequest) throws Exception {
-        BaseModel baseModel=new BaseModel();
-        WebUser user= webUserMapper.selectMobile(userMobile);
-        System.out.println(user.toString());
-        String password =(MD5.Md5(userMobile, passWord)).toString();
-        //用户存在
-        if(password.endsWith(user.getPassword())){
-            //处理登录限制处理，无论处理结果如何，对本次操作没有影响
-            LoginUtil.LoginUserSessionIds(userMobile,httpServletRequest);
-            //记录在日志中
-            log.info("用户登录处理："+userMobile+","+httpSession.getId());
-            baseModel.setStatus(ResultEnum.SUCCESS.getCode());
-            baseModel.setErrorMessage("用户登录成功！");
-            return baseModel;
+    public BaseModel loginWebUser(String userName, String passWord, HttpSession httpSession, HttpServletRequest httpServletRequest) throws Exception {
+        BaseModel baseModel = new BaseModel();
+        WebUser user = webUserMapper.selectWebUserByUsername(userName);
+        if (user == null) {
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+            baseModel.setErrorMessage("用户账号密码不正确！");
+        } else {
+            String password = (MD5.Md5(userName, passWord)).toString();
+            System.out.println(user.getPassword() + "-" + password);
+            //用户存在
+            if (password.endsWith(user.getPassword())) {
+                //处理登录限制处理，无论处理结果如何，对本次操作没有影响
+                LoginUtil.LoginUserSessionIds(userName, httpServletRequest);
+                //记录在日志中
+                log.info("用户登录处理：" + userName + "," + httpSession.getId());
+                baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+                baseModel.setErrorMessage("用户登录成功！");
+            }
         }
-        baseModel.setStatus(ResultEnum.ERROR.getCode());
-        baseModel.setErrorMessage("用户账号密码不正确！");
         return baseModel;
     }
 
     /**
      * 判断手机号码是否存在
+     *
      * @param mobile
      * @return
      * @throws Exception
      */
     @Override
     public BaseModel selectMobile(String mobile) throws Exception {
-        BaseModel baseModel=new BaseModel();
+        BaseModel baseModel = new BaseModel();
         WebUser user = webUserMapper.selectMobile(mobile);
-        if(user!=null){
+        if (user != null) {
             baseModel.setStatus(ResultEnum.ERROR.getCode());
-        }else{
+        } else {
+            baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+        }
+        return baseModel;
+    }
+
+    /**
+     * 判断用户名是否存在
+     *
+     * @param userName
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public BaseModel selectUserName(String userName) throws Exception {
+        BaseModel baseModel = new BaseModel();
+        WebUser user = webUserMapper.selectWebUserByUsername(userName);
+        if (user != null) {
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+        } else {
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());
         }
         return baseModel;
@@ -85,19 +108,20 @@ public class WebUserServiceImpl implements WebUserSerivce{
 
     /**
      * 添加web用户
+     *
      * @param webUser
      * @return
      * @throws Exception
      */
     @Override
     public BaseModel insertWebUsers(WebUser webUser) throws Exception {
-        BaseModel baseModel=new BaseModel();
-        Object passWord= MD5.Md5(webUser.getPhone(), webUser.getPassword());
+        BaseModel baseModel = new BaseModel();
+        Object passWord = MD5.Md5(webUser.getUserName(), webUser.getPassword());
         webUser.setPassword(passWord.toString());
         final int i = webUserMapper.insertSelective(webUser);
-        if(i!=0){
+        if (i != 0) {
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());
-        }else{
+        } else {
             baseModel.setStatus(ResultEnum.ERROR.getCode());
         }
         return baseModel;
@@ -105,24 +129,25 @@ public class WebUserServiceImpl implements WebUserSerivce{
 
     /**
      * 修改用户密码
+     *
      * @param mobile
      * @param oldPassword
      * @param newPassword
      * @return
      */
     @Override
-    public BaseModel updateWebUserBy(WebUser webUser,String newPassword) {
-        BaseModel baseModel=new BaseModel();
+    public BaseModel updateWebUserBy(WebUser webUser, String newPassword) {
+        BaseModel baseModel = new BaseModel();
         WebUser user = webUserMapper.selectMobile(webUser.getPhone());
-        if(MD5.Md5(webUser.getPhone(), webUser.getPassword()).toString().equals(user.getPassword())){
+        if (MD5.Md5(webUser.getPhone(), webUser.getPassword()).toString().equals(user.getPassword())) {
             user.setPassword(MD5.Md5(webUser.getPhone(), newPassword).toString());
             int i = webUserMapper.updateByPrimaryKeySelective(user);
-            if(i!=0){
+            if (i != 0) {
                 baseModel.setStatus(ResultEnum.SUCCESS.getCode());
-            }else{
+            } else {
                 baseModel.setStatus(ResultEnum.ERROR.getCode());
             }
-        }else{
+        } else {
             baseModel.setStatus(ResultEnum.ERROR.getCode());
         }
         return baseModel;
@@ -158,7 +183,6 @@ public class WebUserServiceImpl implements WebUserSerivce{
     public WebUser findWebUser(Integer webUserId) throws Exception {
         return null;
     }
-
 
 
 }

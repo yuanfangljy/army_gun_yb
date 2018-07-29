@@ -1,17 +1,21 @@
 package com.ybkj.gun.controller;
 
+import com.ybkj.common.constant.StatusCodeEnum;
+import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.Device;
-import com.ybkj.gun.service.DeviceSerivce;
 import com.ybkj.gun.service.impl.DeviceServiceImpl;
-import com.ybkj.gun.service.impl.GunServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@SuppressWarnings("all")
 @RestController
 @RequestMapping("device")
 @Slf4j
@@ -21,16 +25,121 @@ public class DeviceController {
     @Autowired
     DeviceServiceImpl deviceSerivce;
 
-    @ApiOperation(value = "添加设备信息", notes = "设备")
-    @RequestMapping(value = "/errorIndex",method = RequestMethod.GET)
-    public int errorIndex(Device device) throws Exception {
-      //  Device device=new Device();
-      /*  device.setPhone("15575938043");
-        device.setPassword("123123");
-        device.setDeviceNo("123123");
-        device.setDeviceName("1231231");*/
-        int i = deviceSerivce.insertDevice(device);
-        log.info("设备信息："+i);
-        return i;
+
+    /**
+     * 判断手机号码是否存在
+     * @param mobile
+     * @return
+     */
+    @ApiOperation(value ="判断手机号是否存在",notes = "手机号")
+    @RequestMapping(value = "/isInquireMobile",method = RequestMethod.POST)
+    public BaseModel isInquireMobile(@RequestParam(value = "mobile",required = true) String mobile) throws Exception {
+        BaseModel baseModel = deviceSerivce.selectMobile(mobile);
+        //表示手机号码不存在
+        if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+            baseModel.setErrorMessage("手机号存在！");
+        }else{
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            baseModel.setErrorMessage("手机号不存在，可用！");//表示不存在
+        }
+        return baseModel;
     }
+
+
+    /**
+     * 判断邮箱是否存在
+     * @param mobile
+     * @return
+     */
+    @ApiOperation(value ="判断邮箱是否存在",notes = "邮箱")
+    @RequestMapping(value = "/isInquireEmail",method = RequestMethod.POST)
+    public BaseModel isInquireEmail(@RequestParam(value = "email",required = true) String email) throws Exception {
+        BaseModel baseModel = deviceSerivce.selectEmail(email);
+        //表示邮箱不存在
+        if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+            baseModel.setErrorMessage("邮箱存在！");//表示不存在
+        }else{
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            baseModel.setErrorMessage("邮箱不存在，可用！");
+        }
+        return baseModel;
+    }
+
+
+    /**
+     * 判断设备名是否存在
+     * @param mobile
+     * @return
+     */
+    @ApiOperation(value ="判断设备名是否存在",notes = "设备名称")
+    @RequestMapping(value = "/isInquireDeviceName",method = RequestMethod.POST)
+    public BaseModel isInquireUserName(@RequestParam(value = "deviceName",required = true) String deviceName) throws Exception {
+        BaseModel baseModel = deviceSerivce.selectDeviceName(deviceName);
+        //表示设备名称不存在
+        if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+            baseModel.setErrorMessage("设备名存在！");//表示不存在
+        }else{
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            baseModel.setErrorMessage("设备名不存在，可用！");
+        }
+        return baseModel;
+    }
+
+
+    /**
+     * 判断设备编码是否存在
+     * @param mobile
+     * @return
+     */
+    @ApiOperation(value ="判断设备编码是否存在",notes = "设备编码")
+    @RequestMapping(value = "/isInquireDeviceNo",method = RequestMethod.POST)
+    public BaseModel isInquireDeviceNo(@RequestParam(value = "deviceNo",required = true) String deviceNo) throws Exception {
+        BaseModel baseModel = deviceSerivce.selectDeviceNo(deviceNo);
+        //表示设备名称不存在
+        if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+            baseModel.setErrorMessage("设备（警员编码）编码存在！");//表示不存在
+        }else{
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            baseModel.setErrorMessage("设备（警员编码）名不存在，可用！");
+        }
+        return baseModel;
+    }
+
+
+    /**
+     * 添加设备信息
+     * @param device
+     * @param result
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "添加设备信息", notes = "设备")
+    @RequestMapping(value = "/fortifyDevice",method = RequestMethod.PUT)
+    public BaseModel fortifyDevice(@Validated @RequestBody Device device, BindingResult result) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        //校验字段是否正确
+        if(result.hasErrors()){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            List<FieldError> error = result.getFieldErrors();
+            for (FieldError fieldError : error) {
+                baseModel.getMapResults().put(fieldError.getField(),fieldError.getDefaultMessage());
+            }
+        }else{
+            BaseModel device1 = deviceSerivce.insertDevices(device);
+            if (device1.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+                baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+                baseModel.setErrorMessage("注册成功！");
+            }else{
+                baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+                baseModel.setErrorMessage("注册失败！");
+            }
+        }
+        return baseModel;
+    }
+
+
 }

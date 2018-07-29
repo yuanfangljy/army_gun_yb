@@ -27,6 +27,27 @@ public class GunController {
     @Autowired
     GunServiceImpl gunService;
 
+    /**
+     * 判断枪支编号是否存在
+     * @param mobile
+     * @return
+     */
+    @ApiOperation(value ="判断枪支编号是否存在",notes = "枪支编号")
+    @RequestMapping(value = "/isInquireGuntag",method = RequestMethod.POST)
+    public BaseModel isInquireGunTag(@RequestParam(value = "gunTag",required = true) String gunTag) throws Exception {
+        BaseModel baseModel = gunService.selectGunTag(gunTag);
+        //表示枪支存在
+        if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+            baseModel.setErrorMessage("该枪支存在！");//表示存在
+        }else{
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            baseModel.setErrorMessage("该枪支不存在！");
+        }
+        return baseModel;
+    }
+
+
     @ApiOperation(value = "增添枪支",notes = "增加")
     @RequestMapping(value = "/fortifyGun",method = RequestMethod.PUT)
     public BaseModel fortifyGun(@Validated @RequestBody Gun gun , BindingResult result) throws Exception {
@@ -43,7 +64,7 @@ public class GunController {
                 baseModel.setErrorMessage("添加成功");
             }else{
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                baseModel.setErrorMessage("添加成功");
+                baseModel.setErrorMessage("添加失败");
             }
         }
         return baseModel;
@@ -73,7 +94,13 @@ public class GunController {
     }
 
 
-
+    /**
+     * 对枪支信息查询分页
+     * @param pn
+     * @param deviceNo
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "分页查询枪支",notes = "枪支", httpMethod = "POST")
     @RequestMapping(value = "/inquireGun",method = RequestMethod.POST)
     public BaseModel inquireGun(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
