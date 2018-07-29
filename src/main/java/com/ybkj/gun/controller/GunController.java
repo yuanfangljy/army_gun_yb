@@ -27,6 +27,14 @@ public class GunController {
     @Autowired
     GunServiceImpl gunService;
 
+
+
+/*    public BaseModel allGunLocation(){
+
+    }*/
+
+
+
     /**
      * 判断枪支编号是否存在
      * @param mobile

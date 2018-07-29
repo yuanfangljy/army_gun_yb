@@ -41,6 +41,7 @@ public class DeviceServiceImpl implements DeviceSerivce{
         BaseModel baseModel=new BaseModel();
         Object passWord= MD5.Md5(device.getPhone(), device.getPassword());
         device.setPassword(passWord.toString());
+        device.setState(1);//新增时，默认未使用
         final int i = deviceMapper.insertSelective(device);
         if(i!=0){
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());

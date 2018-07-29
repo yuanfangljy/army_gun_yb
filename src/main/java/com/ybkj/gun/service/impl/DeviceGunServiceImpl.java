@@ -96,8 +96,9 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
     public BaseModel addGunDelivery(DeviceGun deviceGun, Integer status) throws Exception {
         BaseModel baseModel=new BaseModel();
         Gun gun = gunMapper.selectGunByGunTag(deviceGun.getGunMac());
+        System.out.println(gun.getState()==null);
         if(gun!=null){
-            if(gun.getState()==1){
+            if(gun.getState()==null || gun.getState()==1){
                 //通过警员编号，枪支的mac地址和状态为0（已经出库）
                 DeviceGun deviceGun1=deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(), gun.getBluetoothMac(),status);
                 if (deviceGun1!=null){
@@ -106,7 +107,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
                     Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
                     //System.out.println(device.getPhone());
                     if(device!=null){
-                        if(device.getState()==0){
+                        if(device.getState()==0 ){
                             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                             baseModel.setErrorMessage("该设备与枪正在连接中");
                         }else {
@@ -141,75 +142,17 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
         }
         return baseModel;
     }
-/*
 
-    *//**
-     * 枪支出入库处理
-     * @param deviceGun
+    /**
+     * 枪支实时列表管理:根据警员编号
+     * @param deviceNo
      * @return
      * @throws Exception
-     *//*
+     */
     @Override
-    public BaseModel updateDeviceGunByStatus(DeviceGun deviceGun,Integer status) throws Exception {
-        BaseModel baseModel=new BaseModel();
-        *//**
-         *先判断是出库还是入库的状态:0表示出库，1表示入库
-         * 最好的办法：
-         * 就是在选择枪支的时候，如果是出库只能查看入库的枪支（状态为 1 ）
-         *                      如果是入库就只能查看出库的枪支（状态为 0）
-         * //通过警员编号和枪支编号（通过蓝牙的mac地址，查找枪支编号）,查询出入时间是否存在
-         //查询的时候，要返回集合（怕用户使用过几次这边枪）
-         *//*
-        System.out.println("-------"+deviceGun.getDeviceNo()+"--"+deviceGun.getCreateTime());
-        Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
-        System.out.println(device.getId());
-        //表示出库：就是新增操作
-        if(gunOutStatus.equals(status)){
-            if (device!=null && device.getId()!=null){
-                //修改设备的状态，根据警员编号
-                device.setState(0);
-                deviceMapper.updateByPrimaryKeySelective(device);
-                //device_gun：修改
-                deviceGun.setOutWarehouseTime(new Date());
-                deviceGun.setState(0);
-                deviceGunMapper.insertSelective(deviceGun);
-                baseModel.setStatus(StatusCodeEnum.GUN_OUTPUT.getStatusCode());
-                baseModel.setErrorMessage("出库成功!");
-            }else{
-                baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-                baseModel.setErrorMessage("设备不存在!");
-            }
-
-        }else{
-
-            if (device!=null && device.getId()!=null){
-                //修改设备的状态
-                device.setState(1);
-                deviceMapper.updateByPrimaryKeySelective(device);
-                //入库：修改操作,根据设备、枪支和状态（“1”）来获取存在的数据
-                DeviceGun deviceGun1=deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(),deviceGun.getGunMac());
-
-                //if(deviceGun1!=null){
-                deviceGun.setInWarehouseTime(new Date());
-                deviceGun.setState(1);
-                    deviceGunMapper.updateByPrimaryKeySelective(deviceGun);
-                    baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
-                    baseModel.setErrorMessage("入库成功!");
-               // }else{
-                  //  baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                   // baseModel.setErrorMessage("库存不存在!");
-               // }
-            }else {
-                baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-                baseModel.setErrorMessage("设备不存在!");
-            }
-
-
-        }
-        return baseModel;
-    }*/
-
-
+    public List<DeviceGun> findGunAndDeviceLocation(String deviceNo) throws Exception {
+        return deviceGunMapper.selectGunAndDeviceLocation(deviceNo);
+    }
 
 
     @Override
@@ -245,11 +188,6 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
     @Override
     public DeviceGun findDeviceGun(Integer deivceGunId) throws Exception {
         return deviceGunMapper.selectByPrimaryKey(deivceGunId);
-    }
-
-    @Override
-    public BaseModel updateDeviceGunByStatus(DeviceGun deviceGun, Integer status) throws Exception {
-        return null;
     }
 
 

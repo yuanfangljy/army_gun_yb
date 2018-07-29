@@ -34,4 +34,6 @@ public interface DeviceGunMapper {
 
     //判断是否，有出库的，枪支
     DeviceGun selectDeviceGunByStatus(@Param(value = "deviceNo") String deviceNo,@Param(value = "gunMac")String gunMac,@Param(value = "state") Integer state);
+   // 枪支实时列表管理:根据警员编号
+    List<DeviceGun> selectGunAndDeviceLocation(String deviceNo);
 }

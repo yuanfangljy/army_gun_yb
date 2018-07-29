@@ -68,11 +68,11 @@
                 <h2 class="sub-header" style="text-align:center">枪支入库</h2>
                 <div class="ruku" style=" float:left; margin-left:35%; margin-top:30px;">
                     <h4 style="float:left; margin-right:10px;">枪号</h4>
-                    <input type="text" class="kung" name="gunMac" id="gunMac" style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px" value="">
+                    <input type="text" class="kung" name="gunMac" id="gunMac" style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px" value=""  placeholder="请输入枪号">
                 </div>
                 <div class="jingyuan" style=" float:left; margin-left:33.5%; margin-top:30px;">
                     <h4 style="float:left; margin-right:10px;">警员号</h4>
-                    <input type="text" class="kuang"  name="deviceNo" id="deviceNo"  value="" style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px">
+                    <input type="text" class="kuang"  name="deviceNo" id="deviceNo"  value="" style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px"  placeholder="请输入警员号">
                 </div>
                 <div class="dispaly" style="clear:both"></div>
                 <button type="button" style=" width:80px; line-height:36px; color:#FFF; margin-left:38.4%; margin-top:30px">取消</button>
@@ -96,31 +96,23 @@
             type:"POST",
             success:function(result){
                 if(result.status=="16"){
-                    layer.msg(result.errorMessage, {
-                        tips: [2, '#3595CC'],
-                        time: 1000,
-                        icon: 2,
+                    layer.alert(result.errorMessage, {
+                        icon: 1,
                         skin: 'layer-ext-moon'
                     });
                 }else if(result.status=="200"){
-                    layer.msg(result.errorMessage, {
-                        tips: [2, '#3595CC'],
-                        time: 1000,
-                        icon: 2,
+                    layer.alert(result.errorMessage, {
+                        icon: 3,
                         skin: 'layer-ext-moon'
                     });
                 }else if(result.status=="17"){
-                    layer.msg(result.errorMessage, {
-                        tips: [2, '#3595CC'],
-                        time: 1000,
-                        icon: 2,
+                    layer.alert(result.errorMessage, {
+                        icon: 3,
                         skin: 'layer-ext-moon'
                     });
                 }else if(result.status=="18"){
-                    layer.msg(result.errorMessage, {
-                        tips: [2, '#3595CC'],
-                        time: 1000,
-                        icon: 2,
+                    layer.alert(result.errorMessage, {
+                        icon: 3,
                         skin: 'layer-ext-moon'
                     });
                 }

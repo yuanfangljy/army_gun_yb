@@ -1,5 +1,7 @@
 package com.ybkj.gun.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.mapper.GunMapper;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -41,6 +44,30 @@ public class DeviceGunController {
     DeviceGunServiceImpl deviceGunService;
     @Autowired
     GunMapper gunMapper;
+
+
+    /**
+     * 对已经拿枪的警员，进行实时监测
+     * @param pn
+     * @param deviceNo
+     * @return
+     */
+    @ApiOperation(value = "分页查询枪支实时位置信息",notes = "枪支实时", httpMethod = "POST")
+    @RequestMapping(value = "/realTimeDispalyDeviceGun",method = RequestMethod.POST)
+    public BaseModel realTimeDispalyDeviceGun(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="pageSize",defaultValue="10") Integer pageSize,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        PageHelper.startPage(pn, pageSize);
+        //startPage后面紧跟着的这个查询就是一个分页查询
+        List<DeviceGun> guns=deviceGunService.findGunAndDeviceLocation(deviceNo);
+        //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
+        //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
+        PageInfo<DeviceGun> page = new PageInfo<DeviceGun>(guns,pageSize);
+        baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+        baseModel.setErrorMessage("统计成功");
+        baseModel.add("adverPageInfo",page).add("deviceNo", deviceNo);
+        baseModel.add("guns", guns);
+        return baseModel;
+    }
 
 
     /**
@@ -96,80 +123,6 @@ public class DeviceGunController {
             baseModel.setStatus(StatusCodeEnum.VIOLENTACTION.getStatusCode());
             baseModel.setErrorMessage("请不要暴力操作！");
         }
-        return baseModel;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @ApiOperation(value ="枪支出入库",notes = "枪支状态")
-    @RequestMapping(value = "/amendDeviceGunStatus",method = RequestMethod.POST)
-    public BaseModel amendDeviceGunStatus(@RequestParam(value="gunTag",required=false) String gunTag,@RequestParam(value="deviceNo",required=false) String deviceNo,@RequestParam(value="status",required=false) Integer status,@RequestParam(value="updateTime",required=false) String updateTime) throws Exception {
-        BaseModel baseModel=new BaseModel();
-        DeviceGun deviceGun=new DeviceGun();
-        if(status==0){
-            deviceGun.setDeviceNo(deviceNo);
-            Gun gun = gunMapper.selectGunByGunTag(gunTag);
-            deviceGun.setGunMac(gun.getBluetoothMac());
-            deviceGun.setCreateTime(new Date());
-            BaseModel deviceGunByStatus = deviceGunService.updateDeviceGunByStatus(deviceGun,status);
-            if (deviceGunByStatus.getStatus()== StatusCodeEnum.GUN_OUTPUT.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.GUN_OUTPUT.getStatusCode());
-                baseModel.setErrorMessage("出库成功！");
-            }else if(deviceGunByStatus.getStatus()== StatusCodeEnum.DEVICE_NONENTITY.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-                baseModel.setErrorMessage("设备不存在！");
-            }
-        }else if(status==1){
-            deviceGun.setDeviceNo(deviceNo);
-            Gun gun = gunMapper.selectGunByGunTag(gunTag);
-            deviceGun.setGunMac(gun.getBluetoothMac());
-            deviceGun.setUpdateTime(new Date());
-            BaseModel deviceGunByStatus = deviceGunService.updateDeviceGunByStatus(deviceGun,status);
-            if (deviceGunByStatus.getStatus()== StatusCodeEnum.GUN_STORAGE.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
-                baseModel.setErrorMessage("入库成功！");
-            }else if(deviceGunByStatus.getStatus()== StatusCodeEnum.DEVICE_NONENTITY.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-                baseModel.setErrorMessage("设备不存在！");
-            }else if(deviceGunByStatus.getStatus()== StatusCodeEnum.Fail.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                baseModel.setErrorMessage("库存不存在!");
-            }
-        }else{
-            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-            baseModel.setErrorMessage("请不要暴力操作！");
-        }
-
-
-      /*  if(status==0 || status==1){
-            BaseModel deviceGunByStatus = deviceGunService.updateDeviceGunByStatus(deviceGun,status);
-            if (deviceGunByStatus.getStatus()== StatusCodeEnum.GUN_OUTPUT.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.GUN_OUTPUT.getStatusCode());
-                baseModel.setErrorMessage("出库成功！");
-            }else if(deviceGunByStatus.getStatus()== StatusCodeEnum.GUN_STORAGE.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
-                baseModel.setErrorMessage("入库成功！");
-            }else if(deviceGunByStatus.getStatus()== StatusCodeEnum.DEVICE_NONENTITY.getStatusCode()){
-                baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-                baseModel.setErrorMessage("设备不存在！");
-            }
-        } else{
-            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-            baseModel.setErrorMessage("请不要暴力操作！");
-        }*/
         return baseModel;
     }
 

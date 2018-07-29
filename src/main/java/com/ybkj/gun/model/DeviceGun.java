@@ -1,6 +1,10 @@
 package com.ybkj.gun.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
+
 
 public class DeviceGun {
     private Integer id;
@@ -22,15 +26,38 @@ public class DeviceGun {
     private Integer version;
 
     //关联属性
+    @Getter
+    @Setter
     private Gun guns;
+    @Getter
+    @Setter
+    private Device device;
+    @Getter
+    @Setter
+    private DeviceLocation deviceLocation;
 
-    public Gun getGun() {
-        return guns;
-    }
+    //查询出来的值，重新取别名
+    @Getter
+    @Setter
+    private Integer device_location_id;
+    @Getter
+    @Setter
+    private String device_location_latirude;
+    @Getter
+    @Setter
+    private String device_location_longitude;
+    @Getter
+    @Setter
+    private Integer gun_state;
+    @Getter
+    @Setter
+    private Integer device_state;
+    @Getter
+    @Setter
+    private String gun_tag;
 
-    public void setGun(Gun guns) {
-        this.guns = guns;
-    }
+
+
 
     public Integer getId() {
         return id;

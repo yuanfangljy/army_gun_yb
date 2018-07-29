@@ -38,6 +38,7 @@ public class GunServiceImpl implements GunSerivce{
     @Override
     public BaseModel insertGuns(Gun gun) throws Exception{
         BaseModel baseModel=new BaseModel();
+        gun.setState(1);//默认未使用
         final int i = gunMapper.insertSelective(gun);
         if (i!=0){
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());
