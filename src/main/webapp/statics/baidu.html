@@ -10,6 +10,13 @@
 </head>
 <body>
 <div id="allmap"></div>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="layui/layui.all.js" type="text/javascript"></script>
+<script>
+    $(function(){
+        liu();
+    })
+</script>
 </body>
 </html>
 <script type="text/javascript">
@@ -28,10 +35,17 @@
     //5、进行拖拽
     map.enableScrollWheelZoom(true);
     map.disableDragging();     //禁止拖拽
+
     setTimeout(function(){
         map.enableDragging();   //两秒后开启拖拽
         //map.enableInertialDragging();   //两秒后开启惯性拖拽
     }, 2000);
+    //设置地图
+    map.addControl(new BMap.MapTypeControl({
+        mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP//卫星地图
+        ]}));
 
     //6、 添加带有定位的导航控件
     var navigationControl = new BMap.NavigationControl({
@@ -61,7 +75,7 @@
     });
     map.addControl(geolocationControl);
 
-    //7、添加标注
+/*   //7、添加标注
     //var pt = new BMap.Point(116.383752,39.91334);
     var json_data = [[116.404,39.915],[116.383752,39.91334],[116.384502,39.932241]];
     var pointArray = new Array();
@@ -80,7 +94,41 @@
     function attribute(e){
         var p = e.target;
         //alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
-    }
+    }*/
+
+
+//7、添加标注
+function liu() {
+    var label = [];//保存日期
+    var value = [];//数量
+    //设备实时状态显示
+    $.ajax({
+        url: "../deviceGun/realTimeDispalyDeviceGun",
+        type: "POST",
+        success: function (result) {
+            $.each(result.extend.devices, function(i, p) {
+                label[i] = p.deviceLocationLatirude;
+                value[i] = p.deviceLocationLongitude;
+               // 创建点
+                var myIcon = new BMap.Icon('img/zaixian.gif',new BMap.Size(58,58));//这里先不用第三个参数IconOptions
+                var marker = new BMap.Marker(new BMap.Point(label[i], value[i]),{icon:myIcon});//这就是对象的字面量形式
+                map.addOverlay(marker);  //将标注添加到地图中
+                label[i] = new BMap.Point(label[i], value[i]);
+                marker.addEventListener("click",attribute);
+            //让所有点在视野范围内
+            map.setViewport(label);
+            });
+            //获取覆盖物位置
+            function attribute(e){
+                var p = e.target;
+               // layer.alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
+            }
+        }
+    });
+}
+
+
+
 
 
 </script>

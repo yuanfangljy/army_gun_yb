@@ -96,7 +96,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
     public BaseModel addGunDelivery(DeviceGun deviceGun, Integer status) throws Exception {
         BaseModel baseModel=new BaseModel();
         Gun gun = gunMapper.selectGunByGunTag(deviceGun.getGunMac());
-        System.out.println(gun.getState()==null);
+       /* System.out.println(gun.getState()==null);*/
         if(gun!=null){
             if(gun.getState()==null || gun.getState()==1){
                 //通过警员编号，枪支的mac地址和状态为0（已经出库）
@@ -153,6 +153,16 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
     public List<DeviceGun> findGunAndDeviceLocation(String deviceNo) throws Exception {
         return deviceGunMapper.selectGunAndDeviceLocation(deviceNo);
     }
+    /**
+     * 枪支实时列表管理:全部
+     * @param deviceNo
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<DeviceGun> findGunAndDeviceLocation() throws Exception {
+        return deviceGunMapper.selectGunAndDeviceLocationAll();
+    }
 
 
     @Override
@@ -166,12 +176,12 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
     }
 
     @Override
-    public void removeDeviceGun(List<Integer> deivceGunIds) throws Exception {
+    public void removeDeviceGun(List<String> deivceGunIds) throws Exception {
         DeviceGunExample example = new DeviceGunExample();
         DeviceGunExample.Criteria criteria = example.createCriteria();
         //delect from User where emp_id in(1,2,3);
         //在哪一个集合里面
-        criteria.andDeviceNoNotIn(deivceGunIds);
+       criteria.andDeviceNoIn(deivceGunIds);
     }
 
     @Override

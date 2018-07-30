@@ -1,5 +1,8 @@
 package com.ybkj.gun.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
 public class Gun {
@@ -16,6 +19,10 @@ public class Gun {
     private Integer warehouseId;
 
     private Integer state;
+
+    @Getter
+    @Setter
+    private Integer realTimeState;
 
     private Date createTime;
 

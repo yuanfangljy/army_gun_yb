@@ -71,15 +71,15 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-row-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
+        <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
           <ul class="nav nav-sidebar">
-            <li class="activb"><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理<img src="img/jiantou.png" style="margin-left:24px;"></a></li>
-            <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库<img src="img/jiantou.png" style="margin-left:24px;"></a></li>
-            <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库<img src="img/jiantou.png" style="margin-left:24px;"></a></li>
-            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹<img src="img/jiantou.png" style="margin-left:24px;"></a></li>
-            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支调库<img src="img/jiantou.png" style="margin-left:24px;"></a></li>
-            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理<img src="img/jiantou.png" style="margin-left:24px;"></a></li>
-            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息<img src="img/jiantou.png" style="margin-left:24px;"></a></li>
+            <li class="activb"><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+            <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+            <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支调库</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
           </ul>
         </div>
         </div>
@@ -91,22 +91,26 @@
 		</div>
           <h2 class="sub-header">枪支管理</h2>
 </div>
-            <div id="dituContent" >      	
+            <div id="dituContent">      	
             </div>
-          <div class="biaoti">消息提醒</div> 
-        <div id="news" onMouseOver="tz()" onMouseOut="ks()">
-        	<ul id="p1">
-        	<li><a href=""><p>警告！</p>枪械85013413离位</a></li>
-            <li><a href=""><p>警告！</p>枪械86013443离线</a></li>
-            <li><a href=""><p>警告！</p>枪械85411313离位</a></li>
-            <li><a href=""><p>警告！</p>枪械85411313离位</a></li>
-            <li><a href=""><p>警告！</p>枪械87245523离位</a></li>
-            <li><a href=""><p>警告！</p>枪械78212013离位</a></li>
-            <li><a href=""><p>警告！</p>枪械27811313离位</a></li>
-            <li style="font-size:14px; margin-left:10px; color:#06F; text-decoration:underline; font-family:"黑体""><p>警告！</p>2781351离位</li>
-            </ul>
-			<ul id="p2">
-			</ul>
+		<!--<div style="position:absolute; 	left: 45%;top:150px;">
+        	<img src="img/linshi.png">
+        </div>-->
+        <div class="news" id="news">
+        	<div class="offline" style="margin-top:16px; margin-left:25px;">
+            	<img src="img/lixian.png" style="float:left;">
+                <dl style="color:#fa1267; float:left; margin-left:16px; margin-top:-10px; padding-right:20px; border-right:1px solid rgba(255,255,255,0.70)">
+                	<dd><span id="offline data" style="font-size:28px">3</span>个</dd>
+                    <dd>离线设备数</dd>
+                </dl>
+            </div>
+            <div class="dislocation" style=" float:left; padding-left:25px;">
+            	<img src="img/liwei.png" style="float:left;">
+                <dl style="color:#2db5ee; float:left; margin-left:16px; margin-top:-10px">
+                	<dd><span id="dislocation data" style="font-size:28px">5</span>个</dd>
+                    <dd>离位设备数</dd>
+                </dl>
+            </div>
         </div>
 
     <!-- Bootstrap core JavaScript
@@ -120,27 +124,6 @@
    
 </body>
 
-<script type="text/javascript">
-var n=document.getElementById("news");
-var p1=document.getElementById("p1");
-var p2=document.getElementById("p2");
-p2.innerHTML=p1.innerHTML;
-//alert(n.offsetHeight+" 1  "+p1.offsetHeight);
-var f=function(){
-    n.scrollTop++;
-    if(n.scrollTop>=p1.offsetHeight){
-        //alert(n.scrollTop+" 1  "+p1.offsetHeight);
-        n.scrollTop=0;
-    }
-}
-var i=setInterval(f,30);
-var tz=function(){
-    clearInterval(i);
-}
-var ks=function(){
-    i=setInterval(f,30);
-}
-</script>
 
 <script type="text/javascript">
 		/*

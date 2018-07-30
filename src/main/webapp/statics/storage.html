@@ -74,7 +74,7 @@
                     <input type="text" class="kuang"  name="deviceNo" id="deviceNo"  value="" style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px"  placeholder="请输入警员号">
                 </div>
                 <div class="dispaly" style="clear:both"></div>
-                <button type="button" style=" width:80px; line-height:36px; color:#FFF; margin-left:38.4%; margin-top:30px">取消</button>
+                <button type="button" id="cancel" style=" width:80px; line-height:36px; color:#FFF; margin-left:38.4%; margin-top:30px">取消</button>
                 <button type="button" id="submit_device_gun" style=" width:80px; line-height:36px; color:#FFF; background-color:#3f8ff1; margin-left:140px">确定</button>
             </div>
         </form>
@@ -123,7 +123,11 @@
                 }
             }
         })
+    })
 
+    $("#cancel").click(function(){
+        $("#gunMac").val("");
+        $("#deviceNo").val("");
     })
 </script>
 </body>

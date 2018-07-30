@@ -16,6 +16,7 @@
     <script src="js/ie-emulation-modes-warning.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="layui/laydate/laydate.js"></script>
     <![endif]-->
 
 </head>
@@ -87,13 +88,13 @@
                     <input type="text" class="kuang" name="deviceNo" id="deviceNo" value="" placeholder="请输入警员号"
                            style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px">
                 </div>
-              <!--  <div class="time" style=" float:left; margin-left:32.1%; margin-top:30px;">
+             <div class="time" style=" float:left; margin-left:32.1%; margin-top:30px;">
                     <h4 style="float:left; margin-right:10px;">截止时间</h4>
-                    <input type="date" name="updateTime" id="updateTime" value=""
+                    <input type="test"  placeholder="请选择日期" id="temperanceTime" value=""
                            style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px"/>
-                </div>-->
-             <!--   <div class="dispaly" style="clear:both"></div>-->
-                <button type="button"
+                </div>
+              <div class="dispaly" style="clear:both"></div>
+                <button type="button" id="cancel"
                         style=" width:80px; line-height:36px; color:#FFF; margin-left:38.4%; margin-top:30px">取消
                 </button>
                 <button type="button" id="submit_device_gun"
@@ -113,8 +114,12 @@
 <script type="text/javascript">
     $("#submit_device_gun").click(function () {
         var status = 0;
+        var endtime=$("#temperanceTime").val();
+        if(endtime==""){
+            layer.alert("请选择日期！");
+        }
         $.ajax({
-            url: "../deviceGun/gunDelivery/" + status,
+            url: "../deviceGun/gunDelivery/" + status+"/"+endtime,
             data: $("#delivery_gun_from").serialize(),
             type: "POST",
             dataType: "json",
@@ -148,6 +153,17 @@
             }
         })
 
+    })
+
+    //执行一个laydate实例
+    laydate.render({
+        elem: '#temperanceTime' //指定元素
+    });
+
+    $("#cancel").click(function(){
+        $("#temperanceTime").val("");
+        $("#gunMac").val("");
+        $("#deviceNo").val("");
     })
 </script>
 </body>

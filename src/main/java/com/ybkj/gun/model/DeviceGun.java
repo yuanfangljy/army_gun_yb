@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import java.util.Date;
 
-
 public class DeviceGun {
     private Integer id;
 
@@ -22,6 +21,8 @@ public class DeviceGun {
     private Date createTime;
 
     private Date updateTime;
+
+    private Date temperanceTime;
 
     private Integer version;
 
@@ -59,9 +60,6 @@ public class DeviceGun {
     @Setter
     private String  gunWarehouseName;
 
-
-
-
     public Integer getId() {
         return id;
     }
@@ -75,7 +73,7 @@ public class DeviceGun {
     }
 
     public void setDeviceNo(String deviceNo) {
-        this.deviceNo = deviceNo  == null ? null : deviceNo.trim();
+        this.deviceNo = deviceNo == null ? null : deviceNo.trim();
     }
 
     public String getGunMac() {
@@ -83,7 +81,7 @@ public class DeviceGun {
     }
 
     public void setGunMac(String gunMac) {
-        this.gunMac = gunMac  == null ? null : gunMac.trim();
+        this.gunMac = gunMac == null ? null : gunMac.trim();
     }
 
     public Date getOutWarehouseTime() {
@@ -107,7 +105,7 @@ public class DeviceGun {
     }
 
     public void setState(Integer state) {
-        this.state = state ;
+        this.state = state;
     }
 
     public Date getCreateTime() {
@@ -126,6 +124,14 @@ public class DeviceGun {
         this.updateTime = updateTime;
     }
 
+    public Date getTemperanceTime() {
+        return temperanceTime;
+    }
+
+    public void setTemperanceTime(Date temperanceTime) {
+        this.temperanceTime = temperanceTime;
+    }
+
     public Integer getVersion() {
         return version;
     }
@@ -133,7 +139,4 @@ public class DeviceGun {
     public void setVersion(Integer version) {
         this.version = version;
     }
-
-
-
 }

@@ -1,5 +1,8 @@
 package com.ybkj.gun.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 
@@ -24,6 +27,10 @@ public class Device {
     private Date createTime;
 
     private Date updateTime;
+
+    @Getter
+    @Setter
+    private Date temperanceTime;
 
     private Integer version;
 

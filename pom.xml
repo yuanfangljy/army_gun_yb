@@ -37,6 +37,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-activemq</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-pool</artifactId>
+    </dependency>
     <!-- 引入freeMarker的依赖包. -->
     <!--<dependency>
       <groupId>org.springframework.boot</groupId>

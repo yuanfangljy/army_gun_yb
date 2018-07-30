@@ -175,52 +175,62 @@ public class DeviceGunExample {
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoEqualTo(Integer value) {
+        public Criteria andDeviceNoEqualTo(String value) {
             addCriterion("device_no =", value, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoNotEqualTo(Integer value) {
+        public Criteria andDeviceNoNotEqualTo(String value) {
             addCriterion("device_no <>", value, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoGreaterThan(Integer value) {
+        public Criteria andDeviceNoGreaterThan(String value) {
             addCriterion("device_no >", value, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoGreaterThanOrEqualTo(Integer value) {
+        public Criteria andDeviceNoGreaterThanOrEqualTo(String value) {
             addCriterion("device_no >=", value, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoLessThan(Integer value) {
+        public Criteria andDeviceNoLessThan(String value) {
             addCriterion("device_no <", value, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoLessThanOrEqualTo(Integer value) {
+        public Criteria andDeviceNoLessThanOrEqualTo(String value) {
             addCriterion("device_no <=", value, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoIn(List<Integer> values) {
+        public Criteria andDeviceNoLike(String value) {
+            addCriterion("device_no like", value, "deviceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceNoNotLike(String value) {
+            addCriterion("device_no not like", value, "deviceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceNoIn(List<String> values) {
             addCriterion("device_no in", values, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoNotIn(List<Integer> values) {
+        public Criteria andDeviceNoNotIn(List<String> values) {
             addCriterion("device_no not in", values, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoBetween(Integer value1, Integer value2) {
+        public Criteria andDeviceNoBetween(String value1, String value2) {
             addCriterion("device_no between", value1, value2, "deviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andDeviceNoNotBetween(Integer value1, Integer value2) {
+        public Criteria andDeviceNoNotBetween(String value1, String value2) {
             addCriterion("device_no not between", value1, value2, "deviceNo");
             return (Criteria) this;
         }
@@ -235,52 +245,62 @@ public class DeviceGunExample {
             return (Criteria) this;
         }
 
-        public Criteria andGunMacEqualTo(Integer value) {
+        public Criteria andGunMacEqualTo(String value) {
             addCriterion("gun_mac =", value, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacNotEqualTo(Integer value) {
+        public Criteria andGunMacNotEqualTo(String value) {
             addCriterion("gun_mac <>", value, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacGreaterThan(Integer value) {
+        public Criteria andGunMacGreaterThan(String value) {
             addCriterion("gun_mac >", value, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacGreaterThanOrEqualTo(Integer value) {
+        public Criteria andGunMacGreaterThanOrEqualTo(String value) {
             addCriterion("gun_mac >=", value, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacLessThan(Integer value) {
+        public Criteria andGunMacLessThan(String value) {
             addCriterion("gun_mac <", value, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacLessThanOrEqualTo(Integer value) {
+        public Criteria andGunMacLessThanOrEqualTo(String value) {
             addCriterion("gun_mac <=", value, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacIn(List<Integer> values) {
+        public Criteria andGunMacLike(String value) {
+            addCriterion("gun_mac like", value, "gunMac");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunMacNotLike(String value) {
+            addCriterion("gun_mac not like", value, "gunMac");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunMacIn(List<String> values) {
             addCriterion("gun_mac in", values, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacNotIn(List<Integer> values) {
+        public Criteria andGunMacNotIn(List<String> values) {
             addCriterion("gun_mac not in", values, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacBetween(Integer value1, Integer value2) {
+        public Criteria andGunMacBetween(String value1, String value2) {
             addCriterion("gun_mac between", value1, value2, "gunMac");
             return (Criteria) this;
         }
 
-        public Criteria andGunMacNotBetween(Integer value1, Integer value2) {
+        public Criteria andGunMacNotBetween(String value1, String value2) {
             addCriterion("gun_mac not between", value1, value2, "gunMac");
             return (Criteria) this;
         }
@@ -415,62 +435,52 @@ public class DeviceGunExample {
             return (Criteria) this;
         }
 
-        public Criteria andStateEqualTo(String value) {
+        public Criteria andStateEqualTo(Integer value) {
             addCriterion("state =", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotEqualTo(String value) {
+        public Criteria andStateNotEqualTo(Integer value) {
             addCriterion("state <>", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThan(String value) {
+        public Criteria andStateGreaterThan(Integer value) {
             addCriterion("state >", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateGreaterThanOrEqualTo(String value) {
+        public Criteria andStateGreaterThanOrEqualTo(Integer value) {
             addCriterion("state >=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThan(String value) {
+        public Criteria andStateLessThan(Integer value) {
             addCriterion("state <", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLessThanOrEqualTo(String value) {
+        public Criteria andStateLessThanOrEqualTo(Integer value) {
             addCriterion("state <=", value, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateLike(String value) {
-            addCriterion("state like", value, "state");
-            return (Criteria) this;
-        }
-
-        public Criteria andStateNotLike(String value) {
-            addCriterion("state not like", value, "state");
-            return (Criteria) this;
-        }
-
-        public Criteria andStateIn(List<String> values) {
+        public Criteria andStateIn(List<Integer> values) {
             addCriterion("state in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotIn(List<String> values) {
+        public Criteria andStateNotIn(List<Integer> values) {
             addCriterion("state not in", values, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateBetween(String value1, String value2) {
+        public Criteria andStateBetween(Integer value1, Integer value2) {
             addCriterion("state between", value1, value2, "state");
             return (Criteria) this;
         }
 
-        public Criteria andStateNotBetween(String value1, String value2) {
+        public Criteria andStateNotBetween(Integer value1, Integer value2) {
             addCriterion("state not between", value1, value2, "state");
             return (Criteria) this;
         }
@@ -592,6 +602,66 @@ public class DeviceGunExample {
 
         public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
             addCriterion("update_time not between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeIsNull() {
+            addCriterion("temperance_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeIsNotNull() {
+            addCriterion("temperance_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeEqualTo(Date value) {
+            addCriterion("temperance_time =", value, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeNotEqualTo(Date value) {
+            addCriterion("temperance_time <>", value, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeGreaterThan(Date value) {
+            addCriterion("temperance_time >", value, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("temperance_time >=", value, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeLessThan(Date value) {
+            addCriterion("temperance_time <", value, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeLessThanOrEqualTo(Date value) {
+            addCriterion("temperance_time <=", value, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeIn(List<Date> values) {
+            addCriterion("temperance_time in", values, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeNotIn(List<Date> values) {
+            addCriterion("temperance_time not in", values, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeBetween(Date value1, Date value2) {
+            addCriterion("temperance_time between", value1, value2, "temperanceTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemperanceTimeNotBetween(Date value1, Date value2) {
+            addCriterion("temperance_time not between", value1, value2, "temperanceTime");
             return (Criteria) this;
         }
 

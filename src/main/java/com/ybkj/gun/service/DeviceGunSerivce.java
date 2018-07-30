@@ -39,7 +39,7 @@ public interface DeviceGunSerivce {
      * @param deivceGunIds
      * @throws Exception
      */
-    public void removeDeviceGun(List<Integer> deivceGunIds) throws Exception;
+    public void removeDeviceGun(List<String> deivceGunIds) throws Exception;
 
     /**
      * 入库表：修改枪支领取
@@ -71,6 +71,8 @@ public interface DeviceGunSerivce {
     //枪支出库
     BaseModel addGunDelivery(DeviceGun deviceGun, Integer status) throws Exception;
 
-    //枪支实时列表管理
+    //枪支实时列表管理:可根据设备号
     List<DeviceGun> findGunAndDeviceLocation(String deviceNo) throws Exception;
+    //枪支实时列表管理:全部
+    List<DeviceGun> findGunAndDeviceLocation() throws Exception;
 }

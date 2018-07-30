@@ -30,7 +30,7 @@ public class ErrorInterceptor extends HandlerInterceptorAdapter {
             if("XMLHttpRequest".equals(XRequested)){
                 response.getWriter().write("IsAjax");
             }else{
-                response.sendRedirect("/statics/errorpage/500.html");
+                response.sendRedirect("/gun/statics/errorpage/500.html");
             }
             return false;
         }
@@ -39,7 +39,7 @@ public class ErrorInterceptor extends HandlerInterceptorAdapter {
             if("XMLHttpRequest".equals(XRequested)){
                 response.getWriter().write("IsAjax");
             }else{
-                response.sendRedirect("/statics/errorpage/500.html");
+                response.sendRedirect("/gun/statics/errorpage/500.html");
             }
             return false;
         }

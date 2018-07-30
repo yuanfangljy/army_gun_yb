@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
+import com.ybkj.common.processingTime.DataTool;
 import com.ybkj.gun.mapper.GunMapper;
 import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.Gun;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -45,6 +47,21 @@ public class DeviceGunController {
     @Autowired
     GunMapper gunMapper;
 
+    /**
+     * 全部以领装备的士兵实时状态
+     * @param pn
+     * @param deviceNo
+     * @return
+     */
+    @RequestMapping(value = "/realTimeDispalyDeviceGun",method = RequestMethod.POST)
+    public BaseModel realTimeDeviceAndGun() throws Exception {
+        BaseModel baseModel=new BaseModel();
+        List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation();
+        baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+        baseModel.setErrorMessage("统计成功");
+        baseModel.add("devices",devices);
+        return baseModel;
+    }
 
     /**
      * 对已经拿枪的警员，进行实时监测
@@ -76,8 +93,9 @@ public class DeviceGunController {
      * @param status
      * @return
      */
-    @RequestMapping(value = "/gunDelivery/{status}",method = RequestMethod.POST)
-    public BaseModel gunDelivery(DeviceGun deviceGun,@PathVariable(value = "status",required = true) Integer status) throws Exception {
+    @RequestMapping(value = "/gunDelivery/{status}/{endtime}",method = RequestMethod.POST)
+    public BaseModel gunDelivery(DeviceGun deviceGun,@PathVariable(value = "status",required = true) Integer status,@PathVariable(value = "endtime",required = true) String endtime) throws Exception {
+        deviceGun.setTemperanceTime(new DataTool().stringToDate(endtime));
         BaseModel baseModel=new BaseModel();
         if(status==0) {
             BaseModel storage = deviceGunService.addGunDelivery(deviceGun, status);
