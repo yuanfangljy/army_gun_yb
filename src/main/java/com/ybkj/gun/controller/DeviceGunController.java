@@ -52,19 +52,19 @@ public class DeviceGunController {
      * @param deviceNo
      * @return
      */
-    @ApiOperation(value = "分页查询枪支实时位置信息",notes = "枪支实时", httpMethod = "POST")
-    @RequestMapping(value = "/realTimeDispalyDeviceGun",method = RequestMethod.POST)
+    @ApiOperation(value = "分页查询枪支实时位置信息",notes = "枪支实时", httpMethod = "GET")
+    @RequestMapping(value = "/realTimeDispalyDeviceGun",method = RequestMethod.GET)
     public BaseModel realTimeDispalyDeviceGun(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="pageSize",defaultValue="10") Integer pageSize,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
         BaseModel baseModel=new BaseModel();
-        PageHelper.startPage(pn, pageSize);
+        PageHelper.startPage(pn, 1);
         //startPage后面紧跟着的这个查询就是一个分页查询
         List<DeviceGun> guns=deviceGunService.findGunAndDeviceLocation(deviceNo);
         //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
         //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
-        PageInfo<DeviceGun> page = new PageInfo<DeviceGun>(guns,pageSize);
+        PageInfo<DeviceGun> page = new PageInfo<DeviceGun>(guns,5);
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.setErrorMessage("统计成功");
-        baseModel.add("adverPageInfo",page).add("deviceNo", deviceNo);
+        baseModel.add("pageInfo",page).add("deviceNo", deviceNo);
         baseModel.add("guns", guns);
         return baseModel;
     }

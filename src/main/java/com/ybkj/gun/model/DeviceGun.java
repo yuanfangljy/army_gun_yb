@@ -39,22 +39,25 @@ public class DeviceGun {
     //查询出来的值，重新取别名
     @Getter
     @Setter
-    private Integer device_location_id;
+    private Integer deviceLocationId;
     @Getter
     @Setter
-    private String device_location_latirude;
+    private String deviceLocationLatirude;
     @Getter
     @Setter
-    private String device_location_longitude;
+    private String deviceLocationLongitude;
     @Getter
     @Setter
-    private Integer gun_state;
+    private Integer gunState;
     @Getter
     @Setter
-    private Integer device_state;
+    private Integer deviceState;
     @Getter
     @Setter
-    private String gun_tag;
+    private String gunTag;
+    @Getter
+    @Setter
+    private String  gunWarehouseName;
 
 
 

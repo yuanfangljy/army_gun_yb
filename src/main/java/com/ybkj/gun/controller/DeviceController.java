@@ -141,5 +141,10 @@ public class DeviceController {
         return baseModel;
     }
 
+    public static void main(String[] args) {
+        int a=0;
+        String  b=(a>89)?"A":(a>60)?"B":"C";//三目运算符里的嵌套
+        System.out.println(b);
+    }
 
 }

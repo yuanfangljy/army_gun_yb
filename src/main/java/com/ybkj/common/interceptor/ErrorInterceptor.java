@@ -3,9 +3,7 @@ package com.ybkj.common.interceptor;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.util.LoginUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -15,23 +13,66 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 自定义拦截器
  */
+@SuppressWarnings("all")
 @Controller
 @Slf4j
 public class ErrorInterceptor extends HandlerInterceptorAdapter {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("在Controller之前执行！");
+        //获取判定登陆的session是否存在
+       // String token = (String) request.getSession().getAttribute("token");
+        String userName = (String) request.getSession().getAttribute("userName");
+        if(userName == null){
+            String XRequested =request.getHeader("X-Requested-With");
+            if("XMLHttpRequest".equals(XRequested)){
+                response.getWriter().write("IsAjax");
+            }else{
+                response.sendRedirect("/statics/errorpage/500.html");
+            }
+            return false;
+        }
+        if(userName == null || userName == ""){
+            String XRequested =request.getHeader("X-Requested-With");
+            if("XMLHttpRequest".equals(XRequested)){
+                response.getWriter().write("IsAjax");
+            }else{
+                response.sendRedirect("/statics/errorpage/500.html");
+            }
+            return false;
+        }
+
+    /*    String userName = (String) request.getSession().getAttribute("userName");
+        //获取用户的session
+       System.out.println(userName+"-------------------------------------");
+        if(userName==null){
+            String path = request.getContextPath();
+            String basePath = request.getScheme() + "://"+ request.getServerName() + ":" + request.getServerPort()+ path + "/";
+           String url= basePath+"statics/errorpage/500.html";
+            System.out.println(url);
+            BaseModel baseModel = new BaseModel();
+            baseModel.setErrorMessage("您还没有登录，请登录后再试！");
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            // 返回给前端页面的未登陆标识
+            PrintWriter out=response.getWriter();
+            out.print(baseModel);
+            out.flush();
+            out.close();
+//           response.sendRedirect(url);
+
+            return  false;
+        }*/
         /**
          * 1、当用户发生请求时，如果用户的sessionId不存在，就在用户踢出，提示用户账号在被的位置的登录
          */
-   /* if(LoginUtil.loginUserSessionIds.contains(request.getSession().getId())){
+   if(LoginUtil.loginUserSessionIds.contains(request.getSession().getId())){
        //挤下线并跳到提示页面
+       String path = request.getContextPath();
       LoginUtil.loginUserSessionIds.remove("userName");
-      response.sendRedirect("/static/errorpage/500.html");
-    }*/
+      response.sendRedirect(path+"/statics/errorpage/500.html");
+    }
 
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求
 
@@ -39,8 +80,7 @@ public class ErrorInterceptor extends HandlerInterceptorAdapter {
 
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-                           ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,ModelAndView modelAndView) throws Exception {
         log.info("preHandle执行结果返回正确执行！" + String.valueOf(response.getStatus()));
 
         /**

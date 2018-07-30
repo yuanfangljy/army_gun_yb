@@ -13,12 +13,13 @@
         <result column="version" jdbcType="INTEGER" property="version"/>
 
         <!--查询出来的值，重新取别名-->
-        <result column="device_location_id" jdbcType="INTEGER" property="deviceLocationId"/>
-        <result column="device_location_latirude" jdbcType="VARCHAR" property="deviceLocationLatirude"/>
-        <result column="device_location_longitude" jdbcType="VARCHAR" property="deviceLocationLongitude"/>
-        <result column="gun_tag" jdbcType="VARCHAR" property="gunTag"/>
-        <result column="gun_state" jdbcType="INTEGER" property="gunState"/>
-        <result column="device_state" jdbcType="INTEGER" property="deviceState"/>
+        <result column="deviceLocationId" jdbcType="INTEGER" property="deviceLocationId"/>
+        <result column="deviceLocationLatirude" jdbcType="VARCHAR" property="deviceLocationLatirude"/>
+        <result column="deviceLocationLongitude" jdbcType="VARCHAR" property="deviceLocationLongitude"/>
+        <result column="gunWarehouseName" jdbcType="VARCHAR" property="gunWarehouseName"/>
+        <result column="gunTag" jdbcType="VARCHAR" property="gunTag"/>
+        <result column="gunState" jdbcType="INTEGER" property="gunState"/>
+        <result column="deviceState" jdbcType="INTEGER" property="deviceState"/>
         <!--关联枪支信息表-->
         <association property="guns" javaType="com.ybkj.gun.model.Gun">
             <id column="id" jdbcType="INTEGER" property="id"/>
@@ -358,14 +359,15 @@
      select * from device_gun where device_no = #{deviceNo,jdbcType=VARCHAR} and gun_mac=#{gunMac,jdbcType=INTEGER} and state = #{state,jdbcType=INTEGER}
   </select>
     <!-- 枪支实时列表管理:根据警员编号-->
-    <select id="selectGunAndDeviceLocation" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no as deviceNo,d.latitude as deviceLocationLatirude,d.longitude as deviceLocationLongitude,b.state as gunState,c.state as deviceState
+    <select id="selectGunAndDeviceLocation" resultType="java.lang.String"  resultMap="BaseResultMap">
+        SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.state as gunState,c.state as deviceState
         FROM device_gun a,gun b,device c,device_location d
         WHERE a.device_no=c.device_no
         AND a.gun_mac=b.bluetooth_mac
         AND d.device_no=c.device_no
         AND a.device_no like '%' #{deviceNo} '%'
-        GROUP BY b.gun_tag,a.device_no
+        GROUP BY gunTag,a.device_no
+        <!---->
     </select>
 
 
