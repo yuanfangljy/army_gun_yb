@@ -75,4 +75,8 @@ public interface DeviceGunSerivce {
     List<DeviceGun> findGunAndDeviceLocation(String deviceNo) throws Exception;
     //枪支实时列表管理:全部
     List<DeviceGun> findGunAndDeviceLocation() throws Exception;
+    //统计设备离位
+    Integer findGunDislocation() throws Exception;
+    //统计设备离线
+    Integer findDeviceOffLine() throws Exception;
 }

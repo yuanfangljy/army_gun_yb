@@ -27,10 +27,10 @@ public class QueueSender {
 		for(int i=0;i<1;i++) {
 			AuthCodeMessage authCodeMessageBody = new AuthCodeMessage();
 			AuthCodeMessageBody authSunBody = new AuthCodeMessageBody();
-			authSunBody.setCommand("234223");
+			/*authSunBody.setCommand("234223");
 			authSunBody.setLa("234234");
 			authSunBody.setLo("234234");
-			authSunBody.setUsername("123456");
+			authSunBody.setUsername("123456");*/
 			
 			authCodeMessageBody.setDeviceType(1);
 			authCodeMessageBody.setFormatVersion("1.0");
@@ -47,7 +47,6 @@ public class QueueSender {
 			
 			producer.send(message);
 		}
-		
 		session.commit();
 		session.close();
 		connection.close();

@@ -44,10 +44,5 @@ public class QueueConfig {
 		factory.setRecoveryInterval(1000L);
 		factory.setSessionAcknowledgeMode(4);
 		return factory;
-
-
 	}
-
-
-
 }

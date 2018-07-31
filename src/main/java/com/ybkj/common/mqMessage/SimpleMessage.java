@@ -1,5 +1,17 @@
 package com.ybkj.common.mqMessage;
 
+import lombok.Data;
+
+/**
+ *@Description:  功能描述（出库消息报文：无消息体）
+ *@Author:       刘家义
+ *@CreateDate:   2018/7/31 9:53
+ *@UpdateUser:   刘家义
+ *@UpdateDate:   2018/7/31 9:53
+ *@UpdateRemark: 修改内容
+ *@Version:      1.0
+*/
+@Data
 public class SimpleMessage {
 	
 	private String serviceType;
@@ -8,43 +20,4 @@ public class SimpleMessage {
 	private String serialNumber;
 	private String messageType;
 	private String sendTime;
-	
-	public String getServiceType() {
-		return serviceType;
-	}
-	public void setServiceType(String serviceType) {
-		this.serviceType = serviceType;
-	}
-	public String getFormatVersion() {
-		return formatVersion;
-	}
-	public void setFormatVersion(String formatVersion) {
-		this.formatVersion = formatVersion;
-	}
-	public Integer getDeviceType() {
-		return deviceType;
-	}
-	public void setDeviceType(Integer deviceType) {
-		this.deviceType = deviceType;
-	}
-	public String getSerialNumber() {
-		return serialNumber;
-	}
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
-	}
-	public String getMessageType() {
-		return messageType;
-	}
-	public void setMessageType(String messageType) {
-		this.messageType = messageType;
-	}
-	public String getSendTime() {
-		return sendTime;
-	}
-	public void setSendTime(String sendTime) {
-		this.sendTime = sendTime;
-	}
-	
-	
 }

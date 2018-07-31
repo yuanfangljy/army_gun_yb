@@ -35,4 +35,8 @@ public interface DeviceGunMapper {
     // 枪支实时列表管理:根据警员编号
     List<DeviceGun> selectGunAndDeviceLocationAll() throws Exception ;
     List<DeviceGun> selectDeviceGun(DeviceGun deviceGun) throws Exception;
+    //统计设备离线
+    Integer findDeviceOffLine();
+    //统计（枪支）蓝牙离位
+    Integer selectGunDislocation();
 }

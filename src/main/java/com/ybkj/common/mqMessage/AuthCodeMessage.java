@@ -11,7 +11,4 @@ public class AuthCodeMessage extends SimpleMessage{
 	public void setMessageBody(AuthCodeMessageBody messageBody) {
 		this.messageBody = messageBody;
 	}
-	
-	
-	
 }

@@ -1,7 +1,11 @@
 package com.ybkj.gun.service.impl;
 
+import com.ybkj.common.activeMq.Producer;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
+import com.ybkj.common.util.DataTool;
+import com.ybkj.common.util.ProgressiveIncreaseNumber;
+import com.ybkj.common.util.RandomNumber;
 import com.ybkj.gun.mapper.DeviceGunMapper;
 import com.ybkj.gun.mapper.DeviceMapper;
 import com.ybkj.gun.mapper.GunMapper;
@@ -41,7 +45,12 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
     DeviceMapper deviceMapper;
     @Autowired
     GunMapper gunMapper;
-
+    @Autowired
+    private Producer producer;
+    @Autowired
+    private DataTool dataTool;
+    @Autowired
+    private RandomNumber randomNumber;
 
     /**
      * 枪支入库
@@ -71,9 +80,17 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
                 //枪支入库
                 deviceGun1.setState(1);
                 deviceGun1.setInWarehouseTime(new Date());
+                boolean sendMessageStorage = producer.sendMessageStorage(gun.getBluetoothMac(), randomNumber.getRandomNumber(),deviceGun.getDeviceNo());
+                if (!sendMessageStorage){
+                    baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
+                    baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                    baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
+                }
                 deviceGunMapper.updateByPrimaryKeySelective(deviceGun1);
                 baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
                 baseModel.setErrorMessage("入库成功!");
+                //send Storage message to Netty
+
             }else{
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                 baseModel.setErrorMessage("枪号与警员号，不匹配，请重新审查");
@@ -123,9 +140,17 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
                             deviceGun.setOutWarehouseTime(new Date());
                             deviceGun.setState(0);
                             deviceGun.setGunMac(gun.getBluetoothMac());
+                            boolean sendMessageDelivery = producer.sendMessageDelivery(gun.getBluetoothMac(), deviceGun.getGunTag(), dataTool.dateToString(), dataTool.dateToString(deviceGun.getTemperanceTime()),deviceGun.getDeviceNo());
+                            if (!sendMessageDelivery){
+                                baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
+                                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                                baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
+                            }
                             deviceGunMapper.insertSelective(deviceGun);
                             baseModel.setStatus(StatusCodeEnum.GUN_OUTPUT.getStatusCode());
                             baseModel.setErrorMessage("出库成功!");
+                            //send Delivery message to Netty
+
                         }
                     }else{
                         baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
@@ -162,6 +187,26 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
     @Override
     public List<DeviceGun> findGunAndDeviceLocation() throws Exception {
         return deviceGunMapper.selectGunAndDeviceLocationAll();
+    }
+
+    /**
+     * 枪支离位
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer findGunDislocation() throws Exception {
+        return deviceGunMapper.selectGunDislocation();
+    }
+
+    /**
+     * 设备离线
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer findDeviceOffLine() throws Exception {
+        return deviceGunMapper.findDeviceOffLine();
     }
 
 

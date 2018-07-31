@@ -4,7 +4,9 @@ package com.ybkj.common.mqMessage;
 public class ServerInWareHouseReplyBody {
 	
 	private String reserve;
+	//授权码
 	private String authCode;
+
 	
 	public String getReserve() {
 		return reserve;

@@ -4,21 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
-import com.ybkj.common.processingTime.DataTool;
+import com.ybkj.common.util.DataTool;
 import com.ybkj.gun.mapper.GunMapper;
 import com.ybkj.gun.model.DeviceGun;
-import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.service.impl.DeviceGunServiceImpl;
-import com.ybkj.gun.service.impl.DeviceServiceImpl;
-import com.ybkj.gun.service.impl.GunServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -48,6 +42,33 @@ public class DeviceGunController {
     GunMapper gunMapper;
 
     /**
+     * 统计设备离线数
+     * @return
+     */
+    @ApiOperation(value = "统计设备离线数",notes = "设备线位", httpMethod = "POST")
+    @RequestMapping(value = "/statisticsDeviceOffLine",method = RequestMethod.POST)
+    public BaseModel statisticsDeviceOffLine() throws Exception {
+        BaseModel baseModel=new BaseModel();
+        Integer deviceDislocation=deviceGunService.findDeviceOffLine();
+        baseModel.add("deviceDislocation",deviceDislocation);
+        return baseModel;
+    }
+
+    /**
+     * 统计：枪支离位数
+     * @return
+     */
+    @ApiOperation(value = "统计枪支离位数",notes = "枪支离位", httpMethod = "POST")
+    @RequestMapping(value = "/statisticsGunDislocation",method = RequestMethod.POST)
+    public BaseModel statisticsGunDislocation() throws Exception {
+        BaseModel baseModel=new BaseModel();
+        Integer deviceDislocation=deviceGunService.findGunDislocation();
+        baseModel.add("deviceDislocation",deviceDislocation);
+        return baseModel;
+    }
+
+
+    /**
      * 全部以领装备的士兵实时状态
      * @param pn
      * @param deviceNo
@@ -58,7 +79,6 @@ public class DeviceGunController {
         BaseModel baseModel=new BaseModel();
         List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation();
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
-        baseModel.setErrorMessage("统计成功");
         baseModel.add("devices",devices);
         return baseModel;
     }
