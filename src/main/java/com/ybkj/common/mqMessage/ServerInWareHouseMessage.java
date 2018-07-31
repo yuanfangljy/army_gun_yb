@@ -1,16 +1,13 @@
 package com.ybkj.common.mqMessage;
 
+import lombok.Data;
+
+@Data
 public class ServerInWareHouseMessage extends SimpleMessage {
-	
-	private ServerInWareHouseBody serverInWareHouseBody;
 
-	public ServerInWareHouseBody getServerInWareHouseBody() {
-		return serverInWareHouseBody;
-	}
+	private ServerInWareHouseBody messageBody;;
 
-	public void setServerInWareHouseBody(ServerInWareHouseBody serverInWareHouseBody) {
-		this.serverInWareHouseBody = serverInWareHouseBody;
-	}
+
 	
 	
 }

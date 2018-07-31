@@ -71,15 +71,15 @@
     <div class="offline" style="margin-top:16px; margin-left:25px;">
         <img src="img/lixian.png" style="float:left;">
         <dl style="color:#fa1267; float:left; margin-left:16px; margin-top:-10px; padding-right:20px; border-right:1px solid rgba(255,255,255,0.70)">
-            <dd><span id="offline data" style="font-size:28px">3</span>个</dd>
+            <dd><span id="offline" style="font-size:28px"></span>个</dd>
             <dd>离线设备数</dd>
         </dl>
     </div>
     <div class="dislocation" style=" float:left; padding-left:25px;">
         <img src="img/liwei.png" style="float:left;">
         <dl style="color:#2db5ee; float:left; margin-left:16px; margin-top:-10px">
-            <dd><span id="dislocation data" style="font-size:28px">5</span>个</dd>
-            <dd>离位设备数</dd>
+            <dd><span id="dislocation" style="font-size:28px"></span>个</dd>
+            <dd>离位枪支数</dd>
         </dl>
     </div>
 </div>
@@ -91,7 +91,9 @@
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script>
     $(function(){
-        liu();
+        deviceLocation();
+        deviceDislocation();
+        gunDislocation();
     })
 </script>
 </body>
@@ -179,7 +181,7 @@
 
 
 //7、添加标注
-function liu() {
+function deviceLocation() {
     var label = [];//保存日期
     var value = [];//数量
     //设备实时状态显示
@@ -223,7 +225,25 @@ function liu() {
 }
 
 
-
-
+//枪支离位数
+    function deviceDislocation() {
+        $.ajax({
+            url: "../deviceGun/statisticsDeviceOffLine",
+            type: "POST",
+            success: function (result) {
+                $("#offline").text(result.extend.deviceDislocation);
+            }
+        })
+    }
+    
+    function gunDislocation() {
+        $.ajax({
+            url: "../deviceGun/statisticsGunDislocation",
+            type: "POST",
+            success: function (result) {
+                $("#dislocation").text(result.extend.gunDislocation);
+            }
+        })
+    }
 
 </script>

@@ -47,5 +47,5 @@ public class AuthCodeMessageBody {
 	//安全字
 	private String safeCode;
 	//警员编号
-	private String deivceNo;
+	private String deviceNo;
 }

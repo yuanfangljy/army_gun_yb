@@ -36,7 +36,7 @@ public interface DeviceGunMapper {
     List<DeviceGun> selectGunAndDeviceLocationAll() throws Exception ;
     List<DeviceGun> selectDeviceGun(DeviceGun deviceGun) throws Exception;
     //统计设备离线
-    Integer findDeviceOffLine();
+    Integer selectDeviceOffLine() throws Exception;
     //统计（枪支）蓝牙离位
-    Integer selectGunDislocation();
+    Integer selectGunDislocation() throws Exception;
 }

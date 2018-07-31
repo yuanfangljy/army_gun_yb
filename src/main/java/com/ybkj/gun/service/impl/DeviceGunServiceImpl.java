@@ -206,7 +206,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce{
      */
     @Override
     public Integer findDeviceOffLine() throws Exception {
-        return deviceGunMapper.findDeviceOffLine();
+        return deviceGunMapper.selectDeviceOffLine();
     }
 
 

@@ -62,8 +62,8 @@ public class DeviceGunController {
     @RequestMapping(value = "/statisticsGunDislocation",method = RequestMethod.POST)
     public BaseModel statisticsGunDislocation() throws Exception {
         BaseModel baseModel=new BaseModel();
-        Integer deviceDislocation=deviceGunService.findGunDislocation();
-        baseModel.add("deviceDislocation",deviceDislocation);
+        Integer gunDislocation=deviceGunService.findGunDislocation();
+        baseModel.add("gunDislocation",gunDislocation);
         return baseModel;
     }
 

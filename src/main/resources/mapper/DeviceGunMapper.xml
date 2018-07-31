@@ -358,9 +358,9 @@
     AND a.state=0
     GROUP BY gunTag,a.device_no
   </select>
-<!--  &lt;!&ndash;统计设备离线&ndash;&gt;
-  <select id="findDeviceOffLine" parameterType="com.ybkj.gun.model.DeviceGun" resultMap="java.lang.Long">
- SELECT COUNT(DISTINCT b.`gun_tag`);COUNT(DISTINCT a.`device_no`)  AS number
+<!-- 统计设备离线-->
+  <select id="selectDeviceOffLine" parameterType="com.ybkj.gun.model.DeviceGun" resultType="java.lang.Integer">
+ SELECT COUNT(DISTINCT b.gun_tag) &amp; COUNT(DISTINCT a.device_no)  AS deviceState
     FROM device_gun a,gun b,device c,device_location d
     WHERE a.device_no=c.device_no
     AND a.gun_mac=b.bluetooth_mac
@@ -368,14 +368,14 @@
     AND a.state=0
     AND c.state=2
   </select>
-  &lt;!&ndash;统计枪支离位&ndash;&gt;
-  <select id="findGunDislocation" parameterType="com.ybkj.gun.model.DeviceGun" resultMap="java.lang.Long">
- SELECT COUNT(DISTINCT b.`gun_tag`);COUNT(DISTINCT a.`device_no`)  AS number
+  <!--统计枪支离位-->
+  <select id="selectGunDislocation" parameterType="com.ybkj.gun.model.DeviceGun" resultType="java.lang.Integer">
+ SELECT COUNT(DISTINCT b.gun_tag) &amp; COUNT(DISTINCT a.device_no)  AS deviceState
     FROM device_gun a,gun b,device c,device_location d
     WHERE a.device_no=c.device_no
     AND a.gun_mac=b.bluetooth_mac
     AND d.device_no=c.device_no
     AND a.state=0
     AND (b.real_time_state=2) OR (b.real_time_state IS NULL)
-  </select>-->
+  </select>
 </mapper>
