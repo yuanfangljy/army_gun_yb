@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+	<link href="css/index.css" rel="stylesheet" type="text/css" />
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/jquery.js"></script>
+    <script src="js/ie-emulation-modes-warning.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=txyCbKTm1TbFwqyT90iB1t9YLiUY9ZG6">			    </script>
+<!--    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+-->	<script type="text/javascript" src="js/amq_jquery_adapter.js"></script>
+	<script type="text/javascript" src="js/amq.js"></script>
+    <script type="text/javascript">
+	 	var list=new Array();
+		var sessionId=null;
+		var sensorIdMarkerIdList= new Array();
+ 		var marker2 = new Array(); //存放标注点对象的数
+    </script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" >
+      <div class="container-fluid" style="background-color:#022581">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <img src="img/logo.png" width="36" height="36" style=" float:left; margin-top:6px; margin-right:6px">
+          <a class="navbar-brand" href="#">枪械定位追踪</a>
+        </div>
+        <div id="navba	r" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">设置</a></li>
+            <li><a href="#">admin</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="搜索">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
+          <ul class="nav nav-sidebar">
+            <li class="activb"><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+            <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+            <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支调库</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+            <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
+          </ul>
+        </div>
+        </div>
+     </div>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-left:13%; width:87%;">
+          <div class="btn-group" role="group" aria-label="..." style="float:right; margin-top:16px;">
+  <a href=""><button type="button" class="btn btn-default" style="background-color:#004892; color:#FFF">地图</button></a>
+ <a href="index.html"><button type="button" class="btn btn-default">列表</button></a>
+		</div>
+          <h2 class="sub-header">枪支管理</h2>
+</div>
+            <div id="dituContent">      	
+            </div>
+		<!--<div style="position:absolute; 	left: 45%;top:150px;">
+        	<img src="img/linshi.png">
+        </div>-->
+        <div class="news" id="news">
+        	<div class="offline" style="margin-top:16px; margin-left:25px;">
+            	<img src="img/lixian.png" style="float:left;">
+                <dl style="color:#fa1267; float:left; margin-left:16px; margin-top:-10px; padding-right:20px; border-right:1px solid rgba(255,255,255,0.70)">
+                	<dd><span id="offline data" style="font-size:28px">3</span>个</dd>
+                    <dd>离线设备数</dd>
+                </dl>
+            </div>
+            <div class="dislocation" style=" float:left; padding-left:25px;">
+            	<img src="img/liwei.png" style="float:left;">
+                <dl style="color:#2db5ee; float:left; margin-left:16px; margin-top:-10px">
+                	<dd><span id="dislocation data" style="font-size:28px">5</span>个</dd>
+                    <dd>离位设备数</dd>
+                </dl>
+            </div>
+        </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+  	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/holder.min.js"></script>
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+   
+</body>
+
+
+<script type="text/javascript">
+		/*
+	 	var list=new Array();
+		var sessionId=null;
+		*/
+		sessionId=login();
+		getSensorlist();
+		addlist();
+		
+		var amq = org.activemq.Amq;
+		amq.init({
+		  uri: 'amq',
+		  logging: true,
+		  timeout: 1,
+		  clientId:(new Date()).getTime().toString()
+		 });
+		
+		var myHandler = function(message){
+// 		      var messagejson=xmlToJson(message);
+// 		      var onlinetype="online-status";
+// 		      var loctype="loc";
+// 		      if(onlinetype==messagejson.type.toSring){
+// 		    	  tankuang("sensorId:"+messagejson.eqiId+ "status:"+messagejson.status); 
+// 		      }else if(loctype==messagejson.type.toString){
+		    	  
+// 		    	  var tmepi=0;
+		    	  
+// 		    	  for(var j=0;j<sensorIdMarkerIdList.length;j++){
+// 		    		  if(messagejson.eqId==sensorIdMarkerIdList[i].sensorId){
+// 		    			  tmepi= sensorIdMarkerIdList[i].markid;  
+// 		    			  break;
+// 		    		  }
+// 		    	  }
+// 		    	  window.map.removeOverlay(marker2[tmepi]);
+// 		    	  var point = new BMap.Point(messagejson.loc.lo,messagejson.loc.lo);
+// 		    	  var markerTemp = new BMap.Marker(point);
+// 		    	  marker2[tmepi]=markerTemp;
+// 		    	  window.map.addOverlay(marker2[tmepi]);
+// 			  }
+// 		      else{
+		    	  
+// 		      }
+		      
+
+		      var nodeName=null;
+		      nodeName=message.nodeName;
+		      if(nodeName!=null&&nodeName=='onlineStatusMessage'){
+		    	 tankuang("2342234242432234");
+//  		 	 	 $("#msgDiv").append(message.childNodes[0].textContent);
+// 			 	 $("#msgDiv").append("<br>");
+// 			     $("#msgDiv").append(message.childNodes[1].textContent);
+// 				 $("#msgDiv").append("<br>");
+// 			     $("#msgDiv").append(message.childNodes[2].textContent);
+// 				 $("#msgDiv").append("<br>");
+// 			     $("#msgDiv").append(message.childNodes[3].textContent);
+// 				 $("#msgDiv").append("<br>");
+// 			     $("#msgDiv").append(message.childNodes[4].textContent);
+// 				 $("#msgDiv").append("<br>"); 
+		      }else if(nodeName!=null&&nodeName=='locationMessageBean'){
+		    	  
+		    	  	 var loc=message.childNodes[3];
+		    	  	 console.log(loc.childNodes[0].textContent);
+		    	  	 console.log(loc.childNodes[1].textContent);
+		    	  	 console.log(loc.childNodes[2].textContent);
+		    	  	 console.log(loc.childNodes[3].textContent);
+// 		 		     $("#msgDiv").append(loc.childNodes[0].textContent);
+// 					 $("#msgDiv").append("<br>");
+// 			 	 	 $("#msgDiv").append(loc.childNodes[1].textContent);
+// 					 $("#msgDiv").append("<br>");
+// 			 	 	 $("#msgDiv").append(loc.childNodes[2].textContent);
+// 					 $("#msgDiv").append("<br>");
+// 			 	 	 $("#msgDiv").append(loc.childNodes[3].textContent);
+// 					 $("#msgDiv").append("<br>"); 
+					 
+					 mapshow(message.childNodes[5].textContent,loc.childNodes[2].textContent,loc.childNodes[1].textContent);
+		      }else{
+//  			      $("#msgDiv").append(message);	
+// 			      $("#msgDiv").append("<br>"); 
+		      }
+		  }
+		//amq.addListener("smeguangdong","topic://hww",myHandler);
+		amq.addListener("smeguangdong",'queue://lcctest',myHandler);
+		
+		function mapshow(sensorId,lo,la){
+	    	  var tmepi=0;
+	    	  var aboolean=false;
+	    	  for(var j=0;j<sensorIdMarkerIdList.length;j++){
+	    		  if(sensorId==sensorIdMarkerIdList[j].sensorId){
+	    			  tmepi= sensorIdMarkerIdList[j].markid;
+	    			  aboolean=true;
+	    			  break;
+	    		  }
+	    	  }
+	    	  
+	    	  if(aboolean){
+		    	  window.map.removeOverlay(marker2[tmepi]);
+		    	  var point = new BMap.Point(lo,la);
+		    	  var markerTemp = new BMap.Marker(point);
+		    	  marker2[tmepi]=markerTemp;
+		    	  window.map.addOverlay(marker2[tmepi]);
+	    	  }
+
+		}
+		
+
+		function login(){
+				var localsession=null;
+				jQuery.ajax({
+					  url: "http://120.25.146.54:8081/router/rest?method=user.login&password=E10ADC3949BA59ABBE56E057F20F883E&account=15810275609&app_key=uboand&v=1.0.0&sign=D0AF4466EB0A5CD50C8DC685C83E2A5995B2B83B&sessionId=1b6676c30a1141f6b84b50c6d18a7933",
+					  type: "GET",
+					  dataType:"json",
+					  async:false,
+					  success: function(data){
+							localsession=data.session;
+							//console.log(localsession);
+
+					  },
+					  error: function (err) {
+							console.log(err)
+					  }
+					});
+					return localsession;
+					//console.log("my id is");
+			}
+		
+		function getSensorlist(){
+			 var urlstr="http://120.25.146.54:8081/router/rest?method=user.sensorlist&app_key=uboand&v=1.0.0&sign=D0AF4466EB0A5CD50C8DC685C83E2A5995B2B83B&session="+sessionId;
+					console.log(urlstr);
+
+					  jQuery.ajax({
+					  url: urlstr,
+					  type: "GET",
+					  dataType:"json",
+					  async:false,
+					  success: function(data){
+						  	
+							
+							var sensorlist=data.sensors;
+							console.log(sensorlist);
+							for(var i=0;i<sensorlist.length;i++){
+								var item=sensorlist[i];
+								var loc=item['loc'];
+								if(loc!=undefined && loc!=null){
+									var la=loc.la;
+									var lo=loc.lo;	
+								}else{
+									var la=0.000000;
+									var lo=0.000000;
+								}
+								var sensorId=item.sensorId;
+								var online= item.online;
+									//将获取到的列表信息的单个元素取出，并在地图上描点
+								var object={'sensorId':sensorId,'la':la,'lo':lo}
+								list.push(object);
+							}
+							//console.log(list);
+
+							
+						    //$("#msgDiv").append((obj.session)+"<br>");
+					  },
+					  error: function (err) {
+							console.log(err)
+					  }
+					});
+		}
+		
+	function getDocumentElement(eleId) {
+        return document.getElementById(eleId);
+    }
+	function addlist(){    
+          var table = getDocumentElement("table1");
+		  //console.log(list);
+		  //console.log(list.length);
+		for(var i=0;i<list.length;i++){
+			var row;  //创建表格的行
+			row = table.insertRow();
+			var cell0 = row.insertCell(0); //创建表格的列
+			var e1 = document.createElement("a");
+			e1.href = "javascript:#";
+			//console.log(list[i]);
+			e1.innerHTML = list[i].sensorId;
+			cell0.appendChild(e1);
+		 }		          
+	}
+	
+	function offLine(){
+		alert("注意：枪支 95B-1 005194 非法离位");
+	}
+	
+	function tankuang(content)
+    {    
+        $("#msg").remove();
+        var pWidth=300;
+        var html ='<div id="msg" style="position:fixed;top:50%;width:100%;height:30px;line-height:30px;margin-top:-15px;"><p style="background:#000;opacity:0.8;width:'+ pWidth +'px;color:#fff;text-align:center;padding:10px 10px;margin:0 auto;font-size:12px;border-radius:4px;">'+ content +'</p></div>'
+                $("body").append(html);
+                var t=setTimeout(next,2000);
+                function next()
+                {
+                    $("#msg").remove();
+                    
+                }
+    }
+
+	function xmlToJson(xml) {
+	    // Create the return object
+	    var obj = {};
+	    if (xml.nodeType == 1) { // element
+	        // do attributes
+	        if (xml.attributes.length > 0) {
+	        obj["@attributes"] = {};
+	            for (var j = 0; j < xml.attributes.length; j++) {
+	                var attribute = xml.attributes.item(j);
+	                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+	            }
+	        }
+	    } else if (xml.nodeType == 3) { // text
+	        obj = xml.nodeValue;
+	    }
+	    // do children
+	    if (xml.hasChildNodes()) {
+	        for(var i = 0; i < xml.childNodes.length; i++) {
+	            var item = xml.childNodes.item(i);
+	            var nodeName = item.nodeName;
+	            if (typeof(obj[nodeName]) == "undefined") {
+	                obj[nodeName] = xmlToJson(item);
+	            } else {
+	                if (typeof(obj[nodeName].length) == "undefined") {
+	                    var old = obj[nodeName];
+	                    obj[nodeName] = [];
+	                    obj[nodeName].push(old);
+	                }
+	                obj[nodeName].push(xmlToJson(item));
+	            }
+	        }
+	    }
+	    return obj;
+	};
+</script>
+<style type="text/css">
+.anchorBL{display:none;}
+</style>
+<script type="text/javascript">
+/*		var markerArr= new Array();
+		
+		for(var i=0;i<list.length;i++){
+			var titlestr=list[i].sensorId;
+			var pointstr=list[i].la+","+list[i].lo;
+			var locationstr={"title":titlestr,"point":pointstr};
+			markerArr.push(locationstr);
+		}
+		console.log(markerArr);*/
+
+					 
+    //创建和初始化地图函数：
+    function initMap(){
+        createMap();//创建地图
+        setMapEvent();//设置地图事件
+        addMapControl();//向地图添加控件
+		
+		 
+    }
+
+var markerArr = [  
+                { title: "95B-1 005186", point: "118.264531,23.157003"},  
+                { title: "95B-1 005194", point: "118.330934,23.113401"},  
+                { title: "95B-1 005202", point: "118.312213,23.147267"},  
+                { title: "95B-1 005844", point: "118.372867,23.134274"},
+				{ title: "95B-1 005388", point: "118.372867,23.134274"}, 
+				];
+
+    //创建地图函数：
+    function createMap(){
+        var map = new BMap.Map("dituContent",{mapType: BMAP_HYBRID_MAP});//在百度地图容器中创建一个地图
+        var point = new BMap.Point(114.056915, 22.627935);//定义一个中心点坐标
+        map.centerAndZoom(point,19);//设定地图的中心点和坐标并将地图显示在地图容器中
+        window.map = map;//将map变量存储在全局
+		var marker = new BMap.Marker(point);  // 创建标注
+		//map.addOverlay(marker);              // 将标注添加到地图中
+
+		var label = new BMap.Label("",{offset:new BMap.Size(20,-10)});
+	marker.setLabel(label);
+		var point2 = new Array(); //存放标注点经纬信息的数组  
+        //var marker2 = new Array(); //存放标注点对象的数组  
+        var info = new Array(); //存放提示信息窗口对象的数组  
+		//console.log(markerArr.length);
+        for (var i = 0; i < markerArr.length; i++) { 	
+            var p0 = markerArr[i].point.split(",")[0]; //纬度 
+			if(p0=='0'){
+				continue;
+			}
+            
+            var tempobject={sensorId:markerArr[i].title,markid:i};
+			sensorIdMarkerIdList.push(tempobject);
+			
+            var pt = new BMap.Point(114.056915, 22.627935);
+			//var myIcon = new BMap.Icon("http://api.map.baidu.com/img/markers.png", new BMap.Size(300,157));
+			var myIcon = new BMap.Icon("img/qiang.png", new BMap.Size(58,58));
+			var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+			map.addOverlay(marker2);              // 将标注添加到地图
+			
+			
+			
+			//console.log(p0);
+            var p1 = markerArr[i].point.split(",")[1]; //经度 
+			//console.log(p1);
+            point2[i] = new BMap.Point(p1, p0); //循环生成新的地图点  
+            marker2[i] = new BMap.Marker(point2[i],{icon:myIcon}); //按照地图点坐标生成标记
+            var infoWindow = null;
+            var content="<p id=longitude class=longitude name=longitude>"+p1+"</p><p id=latitude class=latitude name=latitude>"+p0+"</p>";
+      
+            marker2[i].addEventListener("mouseover",function(e){    
+            	var opts = {    
+            		    width : 250,     // 信息窗口宽度    
+            		    height: 80,     // 信息窗口高度    
+            		    title : "设备信息"  // 信息窗口标题   
+            		}    
+            		infoWindow = new BMap.InfoWindow(content, opts);  // 创建信息窗口对象   
+            		var pointt=new BMap.Point(e.point.lng,e.point.lat);
+            		map.openInfoWindow(infoWindow, pointt);     
+            });
+            marker2[i].addEventListener("mouseout",function(){    
+            		map.closeInfoWindow();     
+            });
+            map.addOverlay(marker2[i]);   
+			//console.log(markerArr[i].title);
+            //var label2 = new window.BMap.Label(markerArr[i].title, { offset: new window.BMap.Size(20, -10) });
+			//marker2[i].setLabel(label2);
+		}
+		
+		//console.log(point2);
+		
+		
+    }
+    
+	
+    //地图事件设置函数：
+    function setMapEvent(){
+        map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+        map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+        map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+        map.enableKeyboard();//启用键盘上下左右键移动地图
+    }
+    
+    //地图控件添加函数：
+    function addMapControl(){
+        //向地图中添加缩放控件
+	var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+	map.addControl(ctrl_nav);
+        //向地图中添加缩略图控件
+	var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+	map.addControl(ctrl_ove);
+        //向地图中添加比例尺控件
+	var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+	map.addControl(ctrl_sca);
+    }
+    
+    
+    initMap();//创建和初始化地图
+	
+</script>
+</html>
