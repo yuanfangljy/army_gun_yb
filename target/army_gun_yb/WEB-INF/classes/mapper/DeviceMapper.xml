@@ -324,6 +324,21 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
+  <!--查询手机号-->
+  <select id="selectMobile" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from device where phone = #{mobile,jdbcType=VARCHAR}
+  </select>
+  <!--查询邮箱-->
+  <select id="selectEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from device where email = #{email,jdbcType=VARCHAR}
+  </select>
+  <!--查询警员编号-->
+  <select id="selectDeviceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from device where device_no = #{deviceNo,jdbcType=VARCHAR}
+  </select>
+  <!--查询设备名-->
+  <select id="selectDeviceName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from device where device_name = #{deviceName,jdbcType=VARCHAR}
+  </select>
 
 </mapper>

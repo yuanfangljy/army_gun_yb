@@ -2,6 +2,7 @@ package com.ybkj.gun.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ybkj.common.baiduMap.BaiDuUtil;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.DataTool;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -74,10 +76,11 @@ public class DeviceGunController {
      * @param deviceNo
      * @return
      */
-    @RequestMapping(value = "/realTimeDispalyDeviceGun",method = RequestMethod.POST)
-    public BaseModel realTimeDeviceAndGun() throws Exception {
+    @RequestMapping(value = "/realTimeDeviceAndGun",method = RequestMethod.GET)
+    public BaseModel realTimeDeviceAndGun(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
         BaseModel baseModel=new BaseModel();
-        List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation();
+        List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation(deviceNo);
+        System.out.println("---------@@@@@@@@@-----------"+deviceNo);
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.add("devices",devices);
         return baseModel;
@@ -91,18 +94,23 @@ public class DeviceGunController {
      */
     @ApiOperation(value = "分页查询枪支实时位置信息",notes = "枪支实时", httpMethod = "GET")
     @RequestMapping(value = "/realTimeDispalyDeviceGun",method = RequestMethod.GET)
-    public BaseModel realTimeDispalyDeviceGun(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="pageSize",defaultValue="10") Integer pageSize,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+    public BaseModel realTimeDispalyDeviceGun(@RequestParam(value="pn",defaultValue="1",required=false) Integer pn,@RequestParam(value="pageSize",defaultValue="10") Integer pageSize,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
         BaseModel baseModel=new BaseModel();
-        PageHelper.startPage(pn, 1);
+        List<String> locationList=new ArrayList<>();
+        String location="";
+        PageHelper.startPage(pn, 5);
         //startPage后面紧跟着的这个查询就是一个分页查询
         List<DeviceGun> guns=deviceGunService.findGunAndDeviceLocation(deviceNo);
+
+        for (DeviceGun gun : guns) {
+            location+=BaiDuUtil.getAddress(gun.getDeviceLocationLongitude(),gun.getDeviceLocationLatirude())+"@";
+        }
         //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
         //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
         PageInfo<DeviceGun> page = new PageInfo<DeviceGun>(guns,5);
-        baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
-        baseModel.setErrorMessage("统计成功");
+        System.out.println("---------%%%%%%%%%%%%---------"+page.getSize()+"--"+deviceNo);
         baseModel.add("pageInfo",page).add("deviceNo", deviceNo);
-        baseModel.add("guns", guns);
+        baseModel.add("location", location);
         return baseModel;
     }
 
@@ -149,13 +157,13 @@ public class DeviceGunController {
             BaseModel storage = deviceGunService.updategunStorage(deviceGun, status);
             if (storage.getStatus() == StatusCodeEnum.GUN_STORAGE.getStatusCode()) {
                 baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
-                baseModel.setErrorMessage("入库成功!");
+                baseModel.setErrorMessage(storage.getErrorMessage());
             } else if (storage.getStatus() == StatusCodeEnum.Fail.getStatusCode()) {
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                baseModel.setErrorMessage("枪号与警员号，不匹配，请重新审查");
+                baseModel.setErrorMessage(storage.getErrorMessage());
             } else if (storage.getStatus() == StatusCodeEnum.DEVICE_NONENTITY.getStatusCode()) {
                 baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-                baseModel.setErrorMessage("该枪支不存在");
+                baseModel.setErrorMessage(storage.getErrorMessage());
             }
         }else{
             baseModel.setStatus(StatusCodeEnum.VIOLENTACTION.getStatusCode());

@@ -39,9 +39,9 @@
                 <li><a href="#">设置</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="搜索">
-            </form>
+            <div class="navbar-form navbar-right">
+                <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索">
+            </div>
         </div>
     </div>
 </nav>
@@ -126,31 +126,35 @@
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="layui/layui.all.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/mq/stomp.min.js"></script>
+<script type="text/javascript" src="js/mq/sockjs.min.js"></script>
+<script type="text/javascript" src="js/mq/customer.js"></script>
 <script>
 
     $(function () {
-        $.ajaxSetup( {
-//设置ajax请求结束后的执行动作
-            complete :
-                function(XMLHttpRequest, textStatus) {
-// 通过XMLHttpRequest取得响应头，sessionstatus
-                    var sessionstatus = XMLHttpRequest.getResponseHeader("sessionstatus");
-                    if (sessionstatus == "TIMEOUT") {
-                        var win = window;
-                        while (win != win.top){
-                            win = win.top;
+        /*        $.ajaxSetup( {
+        //设置ajax请求结束后的执行动作
+                    complete :
+                        function(XMLHttpRequest, textStatus) {
+        // 通过XMLHttpRequest取得响应头，sessionstatus
+                            var sessionstatus = XMLHttpRequest.getResponseHeader("sessionstatus");
+                            if (sessionstatus == "TIMEOUT") {
+                                var win = window;
+                                while (win != win.top){
+                                    win = win.top;
+                                }
+                                win.location.href= XMLHttpRequest.getResponseHeader("CONTEXTPATH");
+                            }
                         }
-                        win.location.href= XMLHttpRequest.getResponseHeader("CONTEXTPATH");
-                    }
-                }
-        });
+                });*/
 
         to_page(1, null);
     });
 
-    var likePhone="";
+    var likePhone = "";
     //定义全局变量，保存总记录数
-    var totalRecord,currentPage;
+    var totalRecord, currentPage;
+
     //请求数据
     function to_page(pn, deviceNo) {
         $.ajax({
@@ -159,30 +163,32 @@
             type: "GET",
             dataType: "json",
             success: function (result) {
+
                 var ii = layer.load(1, {
-                    shade: [0.2,'#ffc659'] //0.1透明度的白色背景
+                    shade: [0.1, '#ffc659'] //0.1透明度的白色背景
                 });
                 //此处用setTimeout演示ajax的回调
                 setTimeout(function () {
                     layer.close(ii);
-                    //1、解析屏显示枪支地点数据、
-                    build_location_table(result);
-                    //2、解析并显示分页信息
-                    buid_page_info(result);
-                    //3、解析显示分页条
-                    build_page_nac(result);
-                    //4.伸长选择页码跳转div
-                    $(".pagination").width($(".pagination").width()+500);
+                    if (result.extend.pageInfo.list != "") {
+                        //1、解析屏显示枪支地点数据、
+                        build_location_table(result);
+                        //2、解析并显示分页信息
+                        buid_page_info(result);
+                        //3、解析显示分页条
+                        build_page_nac(result);
+                        //4.伸长选择页码跳转div
+                        $(".pagination").width($(".pagination").width() + 500);
+                    }
+
                 }, 200);
 
-            }, error:function(result){
-                if(result.responseText=="IsAjax"){
-                    window.location.href="login.html";
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
                     return false;
                 }
             }
-
-
         });
     }
 
@@ -194,36 +200,39 @@
         $("#location_table tbody").empty();
 //extend中有个方法pageInfo中一个list：所有的员工信息
         var emps = result.extend.pageInfo.list;
+        //位置
+        var location=result.extend.location.split("@");
 //遍历员工信息 index代表索引   item代表当前的对象
         $.each(emps, function (index, item) {
-            // var deviceLocationId=$("<td></td>").append(item.deviceLocationId);
-            var deviceNo = $("<td></td>").append(item.deviceNo).addClass("text-center");
-            var gunTag = $("<td></td>").append(item.gunTag).addClass("text-center");
-            var deviceLocationLatirude = $("<td></td>").append(item.deviceLocationLatirude).addClass("text-center");
-            var gunWarehouseName = $("<td></td>").append(item.gunWarehouseName).addClass("text-center");
-            var gunState = $("<td></td>").append((item.gunState) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
-            var deviceState = $("<td></td>").append((item.deviceState) == 1 ? "未使用" : (item.deviceState) == 0 ? "在线" : "离线").addClass("text-center");
-            //edit_btn添加上的class标识
-            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-                .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
-                    .append("查询"));
-            //查询按钮添加最新枪支轨道的Id
-            selectBtn.attr("device-location-id", item.deviceLocationId);
+                // var deviceLocationId=$("<td></td>").append(item.deviceLocationId);
+                var deviceNo = $("<td></td>").append(item.deviceNo).addClass("text-center");
+                var gunTag = $("<td></td>").append(item.gunTag).addClass("text-center");
+                var deviceLocationLatirude = $("<td></td>").append(location[index]).addClass("text-center");
+                var gunWarehouseName = $("<td></td>").append(item.gunWarehouseName).addClass("text-center");
+                var gunState = $("<td></td>").append((item.gunState) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
+                var deviceState = $("<td></td>").append((item.deviceState) == 1 ? "离线" : "在线").addClass("text-center");
+                //edit_btn添加上的class标识
+                var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                    .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+                        .append("查询"));
+                //查询按钮添加最新枪支轨道的Id
+                selectBtn.attr("device-location-id", item.deviceLocationId);
 
-            //将两个按钮追加到一个按钮中
-            var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
+                //将两个按钮追加到一个按钮中
+                var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
 
-            //append（追加）方法执行完成以后还是放回原来的元素
-            $("<tr></tr>")
-            //.append(deviceLocationId)
-                .append(gunTag)
-                .append(deviceNo)
-                .append(deviceLocationLatirude)
-                .append(gunWarehouseName)
-                .append(gunState)
-                .append(deviceState)
-                .append(btnTd)
-                .appendTo("#location_table tbody");
+                //append（追加）方法执行完成以后还是放回原来的元素
+                $("<tr></tr>")
+                //.append(deviceLocationId)
+                    .append(gunTag)
+                    .append(deviceNo)
+                    .append(deviceLocationLatirude)
+                    .append(gunWarehouseName)
+                    .append(gunState)
+                    .append(deviceState)
+                    .append(btnTd)
+                    .appendTo("#location_table tbody");
+
         });
     }
 
@@ -330,6 +339,15 @@
     $(document).on('click', '#goPageButton', function () {
         to_page($("#toPage").val(), likePhone);
     });
+
+
+    //回车查询事件
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            to_page(1, $("#deviceNos").val());
+        }
+    });
+
 
 </script>
 </body>
