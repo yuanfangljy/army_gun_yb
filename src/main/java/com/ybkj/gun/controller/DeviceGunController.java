@@ -108,7 +108,6 @@ public class DeviceGunController {
         //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
         //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
         PageInfo<DeviceGun> page = new PageInfo<DeviceGun>(guns,5);
-        System.out.println("---------%%%%%%%%%%%%---------"+page.getSize()+"--"+deviceNo);
         baseModel.add("pageInfo",page).add("deviceNo", deviceNo);
         baseModel.add("location", location);
         return baseModel;

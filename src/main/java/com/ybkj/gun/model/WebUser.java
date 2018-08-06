@@ -1,22 +1,16 @@
 package com.ybkj.gun.model;
 
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
 import java.util.Date;
 
-public class WebUser implements Serializable {
-
-    private static final long serialVersionUID = 6803791908148880587L;
-
-    private Long id;
+public class WebUser {
+    private Integer id;
 
     private String userName;
-
     @Pattern(regexp = "^[a-zA-Z0-9_-]{6,18}$",message="{password}")
     private String password;
 
     private String deptment;
-
     @Pattern(regexp = "^1[34578]\\d{9}$",message="{phone}")
     private String phone;
 
@@ -34,11 +28,11 @@ public class WebUser implements Serializable {
 
     private Integer version;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -128,24 +122,5 @@ public class WebUser implements Serializable {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    @Override
-    public String
-    toString() {
-        return "WebUser{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", deptment='" + deptment + '\'' +
-                ", phone='" + phone + '\'' +
-                ", ip='" + ip + '\'' +
-                ", logintime=" + logintime +
-                ", logouttime=" + logouttime +
-                ", state=" + state +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", version=" + version +
-                '}';
     }
 }

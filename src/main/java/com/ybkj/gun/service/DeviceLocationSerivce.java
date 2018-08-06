@@ -3,6 +3,7 @@ package com.ybkj.gun.service;
 import com.ybkj.gun.model.DeviceLocation;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *@Description:  功能描述（设备地点）
@@ -23,5 +24,6 @@ public interface DeviceLocationSerivce {
     public List<DeviceLocation> findDeviceLocations(DeviceLocation deviceLocations) throws Exception;
     public DeviceLocation findDeviceLocation(Integer deviceLocationId) throws Exception;
 
-
+    //根据时间查询枪支的轨迹
+    List<DeviceLocation> selectDeviceLocationTrajectory(Map<String, Object> map);
 }

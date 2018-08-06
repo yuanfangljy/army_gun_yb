@@ -3,6 +3,7 @@
 <mapper namespace="com.ybkj.gun.mapper.GunMapper">
   <resultMap id="BaseResultMap" type="com.ybkj.gun.model.Gun">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="web_id" jdbcType="INTEGER" property="webId" />
     <result column="gun_tag" jdbcType="VARCHAR" property="gunTag" />
     <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac" />
     <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, gun_tag, bluetooth_mac, warehouse_name,bullet_number, warehouse_id, state,real_time_state, create_time, update_time,
+    id,web_id, gun_tag, bluetooth_mac, warehouse_name,bullet_number, warehouse_id, state,real_time_state, create_time, update_time,
     version
   </sql>
   <select id="selectByExample" parameterType="com.ybkj.gun.model.GunExample" resultMap="BaseResultMap">
@@ -96,6 +97,10 @@
       <if test="id !=null">
         and id=#{id}
       </if>
+      <if test="webId !=null">
+        and web_id=#{webId}
+      </if>
+
       <if test="gunTag !=null">
         and gun_tag=#{gunTag}
       </if>
@@ -146,11 +151,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ybkj.gun.model.Gun">
-    insert into gun (id, gun_tag, bluetooth_mac, 
+    insert into gun (id,web_id gun_tag, bluetooth_mac,
       warehouse_name,bullet_number, warehouse_id, state,real_time_state,
       create_time, update_time, version
       )
-    values (#{id,jdbcType=INTEGER}, #{gunTag,jdbcType=VARCHAR}, #{bluetoothMac,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{webId,jdbcType=INTEGER}, #{gunTag,jdbcType=VARCHAR}, #{bluetoothMac,jdbcType=VARCHAR},
       #{warehouseName,jdbcType=VARCHAR},#{bulletNumber,jdbcType=INTEGER}, #{warehouseId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER},#{realTimeState,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}
       )
@@ -160,6 +165,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="webId != null">
+        web_id,
       </if>
       <if test="gunTag != null">
         gun_tag,
@@ -193,8 +201,13 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="webId != null">
+        #{webId,jdbcType=INTEGER},
       </if>
       <if test="gunTag != null">
         #{gunTag,jdbcType=VARCHAR},
@@ -238,6 +251,10 @@
   <update id="updateByExampleSelective" parameterType="map">
     update gun
     <set>
+
+      <if test="record.webId != null">
+        web_id= #{record.webId,jdbcType=INTEGER},
+      </if>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
@@ -279,6 +296,7 @@
   <update id="updateByExample" parameterType="map">
     update gun
     set id = #{record.id,jdbcType=INTEGER},
+       web_id= #{record.webId,jdbcType=INTEGER},
       gun_tag = #{record.gunTag,jdbcType=VARCHAR},
       bluetooth_mac = #{record.bluetoothMac,jdbcType=VARCHAR},
       warehouse_name = #{record.warehouseName,jdbcType=VARCHAR},
@@ -296,6 +314,10 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.ybkj.gun.model.Gun">
     update gun
     <set>
+
+      <if test="webId != null">
+        web_id= #{webId,jdbcType=INTEGER},
+      </if>
       <if test="gunTag != null">
         gun_tag = #{gunTag,jdbcType=VARCHAR},
       </if>
@@ -331,7 +353,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ybkj.gun.model.Gun">
     update gun
-    set gun_tag = #{gunTag,jdbcType=VARCHAR},
+    set
+     web_id= #{webId,jdbcType=INTEGER},
+    gun_tag = #{gunTag,jdbcType=VARCHAR},
       bluetooth_mac = #{bluetoothMac,jdbcType=VARCHAR},
       warehouse_name = #{warehouseName,jdbcType=VARCHAR},
       bullet_number = #{bulletNumber,jdbcType=INTEGER},
@@ -346,11 +370,16 @@
 
   <!--根据警员编号信息枪支信息-->
   <select id="selectGunBydevice" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select * from gun where gun_tag = #{gunTag,jdbcType=VARCHAR}
+    select * from gun where gun_tag LIKE '%' #{gunTag,jdbcType=VARCHAR} '%'
   </select>
   <!--根据警员编号信息枪支信息-->
   <select id="selectGunByGunTag" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from gun where gun_tag = #{gunTag,jdbcType=VARCHAR}
+  </select>
+
+  <!--根据蓝牙编号信息枪支信息-->
+  <select id="selectGunByBluetoothMac" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from gun where bluetooth_mac = #{bluetoothMac,jdbcType=VARCHAR}
   </select>
 
 </mapper>

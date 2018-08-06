@@ -56,17 +56,17 @@
                         src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
                 <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
                         src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png"
-                                                                                                 style="padding-right:20px;">枪支轨迹</a>
+                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png"
+                                                                                                               style="padding-right:20px;">枪支轨迹</a>
                 </li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png"
-                                                                                                 style="padding-right:20px;">枪支调库</a>
+                <li><a href="Library.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png"
+                                                                                                            style="padding-right:20px;">枪支调库</a>
                 </li>
                 <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png"
                                                                                                  style="padding-right:20px;">库室管理</a>
                 </li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png"
-                                                                                                 style="padding-right:20px;">警告信息</a>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png"
+                                                                                                            style="padding-right:20px;">警告信息</a>
                 </li>
             </ul>
         </div>
@@ -132,22 +132,6 @@
 <script>
 
     $(function () {
-        /*        $.ajaxSetup( {
-        //设置ajax请求结束后的执行动作
-                    complete :
-                        function(XMLHttpRequest, textStatus) {
-        // 通过XMLHttpRequest取得响应头，sessionstatus
-                            var sessionstatus = XMLHttpRequest.getResponseHeader("sessionstatus");
-                            if (sessionstatus == "TIMEOUT") {
-                                var win = window;
-                                while (win != win.top){
-                                    win = win.top;
-                                }
-                                win.location.href= XMLHttpRequest.getResponseHeader("CONTEXTPATH");
-                            }
-                        }
-                });*/
-
         to_page(1, null);
     });
 

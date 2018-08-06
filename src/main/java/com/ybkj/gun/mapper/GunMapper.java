@@ -34,4 +34,6 @@ public interface GunMapper {
     List<Gun> selectGunBydevice(String gunTag);
     //根据警员编号查询
     Gun selectGunByGunTag(String gunTag);
+
+    Gun selectGunByBluetoothMac(String bluetoothMac);
 }

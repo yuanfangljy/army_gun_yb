@@ -9,6 +9,10 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
+   <!-- &lt;!&ndash;开始时间和结束时间&ndash;&gt;
+    <result column="beginTime" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="endTimes" jdbcType="TIMESTAMP" property="endTimes" />-->
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -267,4 +271,9 @@
       version = #{version,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--根据时间和枪支查询枪支的轨迹-->
+  <select id="selectDeviceLocationByTimeAndGunTag" resultType="java.util.Map" parameterType="com.ybkj.gun.model.DeviceLocation">
+     select latitude,longitude from device_location as l LEFT JOIN device_gun as g ON l.device_no=g.device_no and g.state=0 WHERE l.device_no= #{DeviceNo ,jdbcType=VARCHAR} and l.create_time between  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+  </select>
 </mapper>

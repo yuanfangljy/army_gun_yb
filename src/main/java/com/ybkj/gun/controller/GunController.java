@@ -3,9 +3,12 @@ package com.ybkj.gun.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ybkj.common.annotation.Token;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
+import com.ybkj.gun.mapper.WebUserMapper;
 import com.ybkj.gun.model.Gun;
+import com.ybkj.gun.model.WebUser;
 import com.ybkj.gun.service.impl.GunServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +18,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -26,12 +34,34 @@ public class GunController {
 
     @Autowired
     GunServiceImpl gunService;
+    @Autowired
+    WebUserMapper webUserMapper;
 
 
-
-/*    public BaseModel allGunLocation(){
-
-    }*/
+    /**
+     * 修改离位报警查找启停控制：实际不是后台去修改，是推送到sevice进行响应修改
+     * @param state
+     * @param gunMac
+     * @return
+     */
+    @RequestMapping(value = "/revampGunStartAndStop",method = RequestMethod.POST)
+    public BaseModel revampGunStartAndStop(@RequestParam(value = "state",required = true) String state,@RequestParam(value = "gunMac",required = true) String gunMac) throws ParseException {
+        BaseModel baseModel=new BaseModel();
+        if(state=="1" || state=="0") {
+            BaseModel gun = gunService.updategunStartAndStop(state, gunMac);
+            if (gun.getStatus() == StatusCodeEnum.SUCCESS.getStatusCode()) {
+                baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+                baseModel.setErrorMessage(gun.getErrorMessage());
+            } else {
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                baseModel.setErrorMessage(gun.getErrorMessage());
+            }
+        }else{
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("请不要暴力操作");
+        }
+        return baseModel;
+    }
 
 
 
@@ -56,9 +86,10 @@ public class GunController {
     }
 
 
+    @Token(remove = true)
     @ApiOperation(value = "增添枪支",notes = "增加")
     @RequestMapping(value = "/fortifyGun",method = RequestMethod.PUT)
-    public BaseModel fortifyGun(@Validated @RequestBody Gun gun , BindingResult result) throws Exception {
+    public BaseModel fortifyGun(@Valid Gun gun , BindingResult result, HttpSession session , HttpServletRequest request, HttpServletResponse response,String token) throws Exception {
         BaseModel baseModel=new BaseModel();
         if (result.hasErrors()){
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
@@ -66,13 +97,13 @@ public class GunController {
                 baseModel.getMapResults().put(fieldError.getField(),fieldError.getRejectedValue());
             }
         }else{
-            BaseModel gunModel=gunService.insertGuns(gun);
+            BaseModel gunModel=gunService.insertGuns(gun,session);
             if (gunModel.getStatus()== StatusCodeEnum.SUCCESS.getStatusCode()){
                 baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
-                baseModel.setErrorMessage("添加成功");
+                baseModel.setErrorMessage(gunModel.getErrorMessage());
             }else{
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                baseModel.setErrorMessage("添加失败");
+                baseModel.setErrorMessage(gunModel.getErrorMessage());
             }
         }
         return baseModel;
@@ -110,22 +141,37 @@ public class GunController {
      * @throws Exception
      */
     @ApiOperation(value = "分页查询枪支",notes = "枪支", httpMethod = "POST")
-    @RequestMapping(value = "/inquireGun",method = RequestMethod.POST)
-    public BaseModel inquireGun(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+    @RequestMapping(value = "/inquireGun",method = RequestMethod.GET)
+    public BaseModel inquireGun(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="gunTag",required=false)String gunTag) throws Exception {
         BaseModel baseModel=new BaseModel();
         PageHelper.startPage(pn, 5);
         //startPage后面紧跟着的这个查询就是一个分页查询
-        List<Gun> guns=gunService.findGunsByDeviceNo(deviceNo);
+        List<Gun> guns=gunService.findGunsByDeviceNo(gunTag);
+        String webNames="";
+        for (Gun gun : guns) {
+            WebUser webUser = webUserMapper.selectByPrimaryKey(gun.getWebId());
+            webNames+=webUser.getUserName()+"@";
+        }
         //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
         //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
         PageInfo<Gun> page = new PageInfo<Gun>(guns,5);
 
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.setErrorMessage("统计成功");
-        baseModel.add("adverPageInfo",page).add("deviceNo", deviceNo);
-        baseModel.add("guns", guns);
+        baseModel.add("pageInfo",page).add("gunTag", gunTag);
+        baseModel.add("webNames", webNames);
         return baseModel;
     }
 
+
+    @Token(save = true)
+    @RequestMapping(value = "/saveToken",method = RequestMethod.POST)
+    public BaseModel saveToken(HttpServletRequest request, HttpServletResponse response){
+        BaseModel baseModel=new BaseModel();
+        String token=(String) request.getSession().getAttribute("tokenliu");
+        baseModel.add("token",token);
+        System.out.println("-------生成token-----"+ token);
+        return baseModel;
+    }
 
 }

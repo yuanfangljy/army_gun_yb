@@ -1,66 +1,91 @@
 package com.ybkj.gun.service.impl;
 
+import com.ybkj.common.activeMq.Producer;
+import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.error.ResultEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.mapper.GunMapper;
-import com.ybkj.gun.model.Device;
+import com.ybkj.gun.mapper.WebUserMapper;
 import com.ybkj.gun.model.Gun;
+import com.ybkj.gun.model.WebUser;
 import com.ybkj.gun.service.GunSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 /**
- *@Description:  功能描述（枪支信息）
- *@Author:       刘家义
- *@CreateDate:   2018/7/24 19:42
- *@UpdateUser:   刘家义
- *@UpdateDate:   2018/7/24 19:42
- *@UpdateRemark: 修改内容
- *@Version:      1.0
+ * @Description: 功能描述（枪支信息）
+ * @Author: 刘家义
+ * @CreateDate: 2018/7/24 19:42
+ * @UpdateUser: 刘家义
+ * @UpdateDate: 2018/7/24 19:42
+ * @UpdateRemark: 修改内容
+ * @Version: 1.0
  */
 @SuppressWarnings("ALL")
 @Service
-@Transactional(propagation= Propagation.REQUIRED)
-public class GunServiceImpl implements GunSerivce{
+@Transactional(propagation = Propagation.REQUIRED)
+public class GunServiceImpl implements GunSerivce {
     @Autowired
     GunMapper gunMapper;
+    @Autowired
+    WebUserMapper webUserMapper;
+    @Autowired
+    Producer producer;
 
     /**
      * 添加枪支信息
+     *
      * @param gun
      * @return
      * @throws Exception
      */
     @Override
-    public BaseModel insertGuns(Gun gun) throws Exception{
-        BaseModel baseModel=new BaseModel();
-        gun.setState(1);//默认未使用
-        final int i = gunMapper.insertSelective(gun);
-        if (i!=0){
-            baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+    public BaseModel insertGuns(Gun gun, HttpSession session) throws Exception {
+        BaseModel baseModel = new BaseModel();
+        Gun device = gunMapper.selectGunByGunTag(gun.getGunTag());
+        if (device == null) {
+            gun.setState(1);//默认未使用
+            gun.setCreateTime(new Date());
+            WebUser webUser = webUserMapper.selectWebUserByUsername((String) session.getAttribute("userName"));
+            gun.setWebId(webUser.getId());
+            gun.setBulletNumber(0);
+            gun.setRealTimeState(1);
+            final int i = gunMapper.insertSelective(gun);
+            if (i != 0) {
+                baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+                baseModel.setErrorMessage("添加成功");
+            } else {
+                baseModel.setStatus(ResultEnum.ERROR.getCode());
+                baseModel.setErrorMessage("添加失败");
+            }
         }else{
             baseModel.setStatus(ResultEnum.ERROR.getCode());
+            baseModel.setErrorMessage("该枪支已存在，请重新输入！");
         }
         return baseModel;
     }
 
     /**
      * 修改枪支信息
+     *
      * @param gun
      * @return
      * @throws Exception
      */
     @Override
-    public BaseModel updateGuns(Gun gun) throws Exception{
-        BaseModel baseModel=new BaseModel();
+    public BaseModel updateGuns(Gun gun) throws Exception {
+        BaseModel baseModel = new BaseModel();
         int i = gunMapper.updateByPrimaryKeySelective(gun);
-        if (i!=0){
+        if (i != 0) {
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());
-        }else{
+        } else {
             baseModel.setStatus(ResultEnum.ERROR.getCode());
         }
         return baseModel;
@@ -68,27 +93,50 @@ public class GunServiceImpl implements GunSerivce{
 
     /**
      * 查询枪支信息
+     *
      * @param deviceNo
      * @return
      */
     @Override
-    public List<Gun> findGunsByDeviceNo(String deviceNo) throws Exception{
-        return  gunMapper.selectGunBydevice(deviceNo);
+    public List<Gun> findGunsByDeviceNo(String deviceNo) throws Exception {
+        return gunMapper.selectGunBydevice(deviceNo);
     }
 
     /**
      * 根据枪支编码查询
+     *
      * @param gunTag
      * @return
      */
     @Override
     public BaseModel selectGunTag(String gunTag) {
-        BaseModel baseModel=new BaseModel();
+        BaseModel baseModel = new BaseModel();
         Gun device = gunMapper.selectGunByGunTag(gunTag);
-        if(device==null){
+        if (device == null) {
             baseModel.setStatus(ResultEnum.ERROR.getCode());
-        }else{
+        } else {
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+        }
+        return baseModel;
+    }
+
+    /**
+     *修改离位报警查找启停控制：实际不是后台去修改，是推送到sevice进行响应修改
+     * @param state
+     * @param gunMac
+     * @return
+     */
+    @Override
+    public BaseModel updategunStartAndStop(String state, String gunMac) throws ParseException {
+        //send StartAndStop message to Netty
+        BaseModel baseModel=new BaseModel();
+        BaseModel sendMessageStartAndStop = producer.sendMessageOffNormalAlarmStartAndStop(state,gunMac);
+        System.out.println("-----&&&&&------" + sendMessageStartAndStop);
+        if (sendMessageStartAndStop.getStatus()!= StatusCodeEnum.Fail.getStatusCode()) {
+            //mq推送成功
+        }else{
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
         }
         return baseModel;
     }

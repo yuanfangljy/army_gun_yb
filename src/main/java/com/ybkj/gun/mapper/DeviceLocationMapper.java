@@ -4,6 +4,7 @@ import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.DeviceLocationExample;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 public interface DeviceLocationMapper {
@@ -30,4 +31,6 @@ public interface DeviceLocationMapper {
     int updateByPrimaryKeySelective(DeviceLocation record);
 
     int updateByPrimaryKey(DeviceLocation record);
+    //根据时间枪支查询枪支的轨迹
+    List<DeviceLocation> selectDeviceLocationByTimeAndGunTag(Map<String, Object> map);
 }

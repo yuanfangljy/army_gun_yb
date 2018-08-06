@@ -4,7 +4,6 @@ import com.ybkj.common.activeMq.Producer;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.DataTool;
-import com.ybkj.common.util.ProgressiveIncreaseNumber;
 import com.ybkj.common.util.RandomNumber;
 import com.ybkj.gun.mapper.DeviceGunMapper;
 import com.ybkj.gun.mapper.DeviceMapper;
@@ -137,10 +136,10 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
                                 //进行出库操作
                                 //修改设备的状态，根据警员编号
                                 device.setState(0);
-                                deviceMapper.updateByPrimaryKeySelective(device);
+                               // deviceMapper.updateByPrimaryKeySelective(device);
                                 //修改枪支的状态
                                 gun.setState(0);
-                                gunMapper.updateByPrimaryKeySelective(gun);
+                               // gunMapper.updateByPrimaryKeySelective(gun);
                                 //device_gun：修改
                                 deviceGun.setCreateTime(new Date());
                                 deviceGun.setOutWarehouseTime(new Date());

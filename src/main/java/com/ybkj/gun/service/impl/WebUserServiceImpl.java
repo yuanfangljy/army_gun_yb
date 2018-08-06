@@ -5,6 +5,7 @@ import com.ybkj.common.error.ResultEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.LoginUtil;
 import com.ybkj.gun.mapper.WebUserMapper;
+import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.WebUser;
 import com.ybkj.gun.service.WebUserSerivce;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

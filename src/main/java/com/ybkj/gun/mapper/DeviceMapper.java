@@ -3,6 +3,9 @@ package com.ybkj.gun.mapper;
 import com.ybkj.gun.model.Device;
 import com.ybkj.gun.model.DeviceExample;
 import java.util.List;
+import java.util.Map;
+
+import com.ybkj.gun.model.DeviceLocation;
 import org.apache.ibatis.annotations.Param;
 
 public interface DeviceMapper {
@@ -39,4 +42,5 @@ public interface DeviceMapper {
     Device selectDeviceName(String deviceName);
 
     Device selectDeviceNo(String deviceNo);
+
 }

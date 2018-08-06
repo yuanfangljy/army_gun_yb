@@ -20,9 +20,15 @@
     <result column="gunTag" jdbcType="VARCHAR" property="gunTag"/>
     <result column="gunState" jdbcType="INTEGER" property="gunState"/>
     <result column="deviceState" jdbcType="INTEGER" property="deviceState"/>
+    <result column="locationEndTime" jdbcType="TIMESTAMP" property="locationEndTime"/>
+    <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+
+
+
     <!--关联枪支信息表-->
     <association property="guns" javaType="com.ybkj.gun.model.Gun">
       <id column="id" jdbcType="INTEGER" property="id"/>
+      <id column="web_id" jdbcType="INTEGER" property="webId" />
       <result column="gun_tag" jdbcType="VARCHAR" property="gunTag"/>
       <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac"/>
       <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
@@ -339,7 +345,7 @@
   </select>
   <!-- 枪支实时列表管理:根据警员编号-->
   <select id="selectGunAndDeviceLocation" resultType="java.lang.String"  resultMap="BaseResultMap">
-    SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState
+    SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState ,c.create_time as locationEndTime ,c.phone as mobile ,a.gun_mac
     FROM device_gun a,gun b,device c,device_location d
     WHERE a.device_no=c.device_no
     AND a.gun_mac=b.bluetooth_mac
@@ -376,6 +382,12 @@
     AND a.gun_mac=b.bluetooth_mac
     AND d.device_no=c.device_no
     AND a.state=0
+    AND b.real_time_state=2
     AND (b.real_time_state=2) OR (b.real_time_state IS NULL)
+  </select>
+
+  <!--通过蓝牙和状态获取设备号-->
+  <select id="selectDeviceGunByMacAndState" resultMap="BaseResultMap">
+    select device_no from device_gun where gun_mac= #{bluetoothMac,jdbcType=VARCHAR} and state= #{state,jdbcType=INTEGER}
   </select>
 </mapper>

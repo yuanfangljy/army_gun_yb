@@ -59,6 +59,15 @@ public class DeviceGun {
     @Getter
     @Setter
     private String  gunWarehouseName;
+    @Getter
+    @Setter
+    private Date locationEndTime;
+    @Getter
+    @Setter
+    private String mobile;
+
+
+
 
     public Integer getId() {
         return id;
@@ -139,4 +148,6 @@ public class DeviceGun {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+
 }

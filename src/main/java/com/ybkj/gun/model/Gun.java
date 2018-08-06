@@ -8,6 +8,10 @@ import java.util.Date;
 public class Gun {
     private Integer id;
 
+    @Getter
+    @Setter
+    private Integer webId;
+
     private String gunTag;
 
     private String bluetoothMac;

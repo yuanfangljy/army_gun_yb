@@ -1,6 +1,7 @@
 package com.ybkj.gun.service.impl;
 
 import com.ybkj.gun.mapper.DeviceLocationMapper;
+import com.ybkj.gun.mapper.GunMapper;
 import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.DeviceLocationExample;
 import com.ybkj.gun.service.DeviceLocationSerivce;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *@Description:  功能描述（设备（用户）地点）
@@ -26,6 +28,18 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce{
 
     @Autowired
     DeviceLocationMapper deviceLocationMapper;
+
+    /**
+     * 查询枪支的轨迹，根据时间
+     * @param map
+     * @return
+     */
+    @Override
+    public List<DeviceLocation> selectDeviceLocationTrajectory(Map<String, Object> map) {
+
+        return deviceLocationMapper.selectDeviceLocationByTimeAndGunTag(map);
+    }
+
 
     @Override
     public int insertDeviceLocation(DeviceLocation deviceLocation) throws Exception {
@@ -58,4 +72,6 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce{
     public DeviceLocation findDeviceLocation(Integer deviceLocationId) throws Exception {
         return deviceLocationMapper.selectByPrimaryKey(deviceLocationId);
     }
+
+
 }

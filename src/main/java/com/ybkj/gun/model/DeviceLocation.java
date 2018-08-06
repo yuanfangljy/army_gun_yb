@@ -1,5 +1,9 @@
 package com.ybkj.gun.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class DeviceLocation {
@@ -16,6 +20,13 @@ public class DeviceLocation {
     private Date updateTime;
 
     private Integer version;
+
+  /*  @Getter
+    @Setter
+    private Date beginTime;
+    @Getter
+    @Setter
+    private Data endTime;*/
 
     public Integer getId() {
         return id;

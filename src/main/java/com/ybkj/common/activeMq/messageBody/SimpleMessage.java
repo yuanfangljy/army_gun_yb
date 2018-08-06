@@ -20,4 +20,5 @@ public class SimpleMessage {
 	private String serialNumber;
 	private String messageType;
 	private String sendTime;
+	private String sessionToken;
 }

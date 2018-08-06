@@ -1,12 +1,12 @@
 
-/*接收mq显示*/
+/*接收出入库mq显示*/
 
-var url = "ws://localhost:61614/stomp";
+var url = "ws://112.74.51.194:61616/WebInQueue";
 var login = "admin";
 var passcode = "admin";
 //监听的队列
 //需要和发送者的发送的队列名称一致否则无法接受到数据
-destination = "stomp";
+destination = "WebInQueue";
 var client = Stomp.client(url);
 var onconnect = function (frame) {
     client.subscribe(destination, function (message) {

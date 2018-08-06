@@ -1,10 +1,10 @@
 package com.ybkj.gun.service;
 
-
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.DeviceGun;
 
 import java.util.List;
+
 
 /**
  *@Description:  功能描述（枪支领取表）
@@ -14,9 +14,9 @@ import java.util.List;
  *@UpdateDate:   2018/7/24 19:32
  *@UpdateRemark: 修改内容
  *@Version:      1.0
-*/
+ */
 @SuppressWarnings("all")
-public interface DeviceGunSerivce {
+public  interface DeviceGunSerivce {
 
     /**
      * 枪支出库添加

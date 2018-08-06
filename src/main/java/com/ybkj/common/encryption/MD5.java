@@ -29,9 +29,9 @@ public class MD5 {
 				//1.算法
 				String hashAlgorithmName="MD5";
 				//2.密码（从数据中的密码）
-				Object credentials="123456";
+				Object credentials="15534324353";
 				//3.盐值 user为唯一的：我们这里要做成用户名盐值加密
-				Object salt=ByteSource.Util.bytes("15575944586");
+				Object salt=ByteSource.Util.bytes("admin123");
 				//4.加密的次数
 				int hashIterations =1024;
 				Object encryptPassword=new SimpleHash(hashAlgorithmName,credentials,salt,hashIterations );

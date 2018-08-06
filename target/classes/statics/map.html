@@ -56,24 +56,13 @@
     <div class="row">
         <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
             <ul class="nav nav-sidebar">
-                <li class="activb"><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
-                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
-                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png"
-                                                                                                 style="padding-right:20px;">枪支轨迹</a>
-                </li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png"
-                                                                                                 style="padding-right:20px;">枪支调库</a>
-                </li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png"
-                                                                                                 style="padding-right:20px;">库室管理</a>
-                </li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png"
-                                                                                                 style="padding-right:20px;">警告信息</a>
-                </li>
+                <li class="activb"><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+                <li><a href="Library.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支调库</a></li>
+                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
             </ul>
         </div>
     </div>
@@ -158,8 +147,9 @@
     //设置地图
     map.addControl(new BMap.MapTypeControl({
         mapTypes: [
-            BMAP_NORMAL_MAP,
-            BMAP_SATELLITE_MAP//卫星地图
+            BMAP_HYBRID_MAP,
+            BMAP_NORMAL_MAP
+            //BMAP_SATELLITE_MAP//卫星地图
         ]
     }));
 
@@ -230,21 +220,32 @@
                     label[i] = p.deviceLocationLongitude;
                     value[i] = p.deviceLocationLatirude;
                     // 7.1:创建点
-                    var myIcon = new BMap.Icon('img/zaixian.gif', new BMap.Size(58, 58));//这里先不用第三个参数IconOptions
+                    var myIcon = new BMap.Icon('img/qiang.png', new BMap.Size(58, 58));//这里先不用第三个参数IconOptions
                     //这就是对象的字面量形式
                     var marker = new BMap.Marker(new BMap.Point(label[i], value[i]), {icon: myIcon});
                    //将标注添加到地图中
                     map.addOverlay(marker);
                     //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-
+                    var sContent =
+                        "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>天安门</h4>" +
+                        "<img style='float:right;margin:4px' id='imgDemo' src='../img/tianAnMen.jpg' width='139' height='104' title='天安门'/>" +
+                        "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>天安门坐落在中国北京市中心,故宫的南侧,与天安门广场隔长安街相望,是清朝皇城的大门...</p>" +
+                        "</div>";
                     //7.2 添加字体
-                    var labela = new BMap.Label("警员编号：" + p.deviceNo + "</br>" + "枪号：" + p.gunTag + "</br>" + "枪号状态：" + p.gunState + "</br>" + "设备状态：" + p.deviceState, {offset: new BMap.Size(25, 5)});
+                    var labela = new BMap.Label("警员编号：" + p.deviceNo + "</br>"
+                                                + "枪号：" + p.gunTag + "</br>"
+                                                + "枪号状态：" + ((p.gunState)==0?'随行':(p.gunState)                                                     ==1?'未使用':'离位') + "</br>"
+                                                + "设备状态：" + ((p.deviceState)==0?'在线':(p                                                    .deviceState)==1?'未使用': (p.deviceState)==2 ? '离线':'协助中')
+                        ,
+                        {offset: new BMap.Size(25, 10)});
                     labela.setStyle({
-                        color: "#ff3136",
-                        fontSize: "13px",
-                        backgroundColor: "0.1",
-                        border: "0",
-                        fontWeight: "bold"
+                        color : "#ff2217",
+                        width : "100%",
+                        height : "100%",
+                        fontSize : "14px",
+                        //backgroundColor :"#ffc659",
+                        //border :"-1",
+                       // fontWeight :"bold"
                     });
                     marker.setLabel(labela);
 
@@ -278,7 +279,7 @@
     }
 
 
-    //枪支离位数
+    //枪支离线数
     function deviceDislocation() {
         $.ajax({
             url: "../deviceGun/statisticsDeviceOffLine",
@@ -288,7 +289,7 @@
             }
         })
     }
-   //设备离线数
+   //设备离位数
     function gunDislocation() {
         $.ajax({
             url: "../deviceGun/statisticsGunDislocation",

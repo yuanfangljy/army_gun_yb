@@ -1,14 +1,12 @@
 package com.ybkj.common.activeMq;
 
 import com.alibaba.fastjson.JSONObject;
-import com.ybkj.common.activeMq.messageBody.AuthCodeMessage;
-import com.ybkj.common.activeMq.messageBody.AuthCodeMessageBody;
-import com.ybkj.common.activeMq.messageBody.ServerInWareHouseBody;
-import com.ybkj.common.activeMq.messageBody.ServerInWareHouseMessage;
+import com.ybkj.common.activeMq.messageBody.*;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.DataTool;
 import com.ybkj.common.util.ProgressiveIncreaseNumber;
+import com.ybkj.common.util.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -29,7 +27,13 @@ public class Producer {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
     @Autowired
-    private Queue queue;
+    private Queue storageQueue;
+    @Autowired
+    private Queue deliveryQueue;
+    @Autowired
+    private Queue helpFindQueue;
+    @Autowired
+    private Queue startAndStopQueue;
     @Autowired
     private DataTool dataTool;
     @Autowired
@@ -78,11 +82,11 @@ public class Producer {
             authCodeMessageBody.setMessageType("03");//报文类型： 03:出库下发报文
             authCodeMessageBody.setMessageBody(messageBody);//报文消息体
             authCodeMessageBody.setSendTime(dataTool.dateToString());//发报时间：系统时间
-
+            authCodeMessageBody.setSessionToken(TokenUtils.getMemberToken());
             String jsonString = JSONObject.toJSONString(authCodeMessageBody);
             //一对一发送
             try {
-                jmsMessagingTemplate.convertAndSend(queue, jsonString);
+                jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
                 log.info("************出库报文信息**************：" + jsonString);
             } catch (Exception e) {
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
@@ -107,7 +111,7 @@ public class Producer {
         for (int i = 0; i < 1; i++) {
             //报文体
             messageBody.setBluetoothMac(bluetoothMac);
-            messageBody.setAuthCode(authCode);
+            messageBody.setAuthCode(TokenUtils.getMemberToken());
             messageBody.setDeviceNo(deviceNo);
 
             authCodeMessageBody.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
@@ -117,10 +121,10 @@ public class Producer {
             authCodeMessageBody.setMessageType("09");//报文类型： 09:入库下发报文
             authCodeMessageBody.setMessageBody(messageBody);//报文消息体
             authCodeMessageBody.setSendTime(dataTool.dateToString());//发报时间：系统时间
-
+            authCodeMessageBody.setSessionToken(TokenUtils.getMemberToken());
             String jsonString = JSONObject.toJSONString(authCodeMessageBody);
             try {
-                jmsMessagingTemplate.convertAndSend(queue, jsonString);
+                jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
                 log.info("************入库报文信息**************：" + jsonString);
             } catch (Exception e) {
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
@@ -132,5 +136,92 @@ public class Producer {
     }
 
 
+    /**
+     * 协助查找报文消息
+     *
+     * @param body
+     * @return
+     */
+    public BaseModel sendMessageMinistrantFind(String body) throws ParseException {
+        BaseModel baseModel = new BaseModel();
+        ServerOffLocationSearchMessage serverMessageBody = new ServerOffLocationSearchMessage();
+        ServerOffLocationSearchBody messageBody = new ServerOffLocationSearchBody();
+        String[] split = body.split(",");
+        for (int i = 0; i < 1; i++) {
+            //报文体
+            try {
+                messageBody.setAssDeviceNo(split[0]);
+                messageBody.setBluetoothMac(split[1]);
+                messageBody.setLo(split[2]);
+                messageBody.setLa(split[3]);
+                messageBody.setLostDeviceNo(split[4]);
+                messageBody.setLostphone(split[5]);
+                messageBody.setLostTime(split[6]);
+            } catch (Exception e) {
+                e.printStackTrace();
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            }
+
+            serverMessageBody.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
+            serverMessageBody.setFormatVersion("1.0");//格式版本
+            serverMessageBody.setDeviceType(1);//设备类型：1.随行设备 2.离位报警器 3.腕表
+            serverMessageBody.setSerialNumber(dataTool.dateToString() + progressiveIncreaseNumber.getNumber(i));//交易流水号:yyyyMMddHHmmss+循环递增0-9999
+            serverMessageBody.setMessageType("19");//报文类型： 09:入库下发报文
+            serverMessageBody.setMessageBody(messageBody);//报文消息体
+            serverMessageBody.setSendTime(dataTool.dateToString());//发报时间：系统时间
+            serverMessageBody.setSessionToken(TokenUtils.getMemberToken());
+            String jsonString = JSONObject.toJSONString(serverMessageBody);
+            try {
+                jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
+                log.info("************协助查找报文信息**************：" + jsonString);
+            } catch (Exception e) {
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                e.printStackTrace();
+            }
+            return baseModel;
+        }
+        return baseModel;
+    }
+
+
+    /**
+     * 离位报警启停操作
+     *
+     * @param state        启停状态：[1/0（停止/重启）
+     * @param bluetoothMac
+     * @return
+     * @throws ParseException
+     */
+    public BaseModel sendMessageOffNormalAlarmStartAndStop(String state, String bluetoothMac) throws ParseException {
+        BaseModel baseModel = new BaseModel();
+        ServerOffLocationWarningStartStopMessage message = new ServerOffLocationWarningStartStopMessage();
+        ServerOffLocationWarningStartStopBody messageBody = new ServerOffLocationWarningStartStopBody();
+
+        for (int i = 0; i < 1; i++) {
+            //报文体
+            messageBody.setReserve(state);
+            messageBody.setBluetoothMac(bluetoothMac);
+            messageBody.setAuthCode(TokenUtils.getMemberToken());
+
+            message.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
+            message.setFormatVersion("1.0");//格式版本
+            message.setDeviceType(1);//设备类型：1.随行设备 2.离位报警器 3.腕表
+            message.setSerialNumber(dataTool.dateToString() + progressiveIncreaseNumber.getNumber(i));//交易流水号:yyyyMMddHHmmss+循环递增0-9999
+            message.setMessageType("17");//报文类型： 09:入库下发报文
+            message.setMessageBody(messageBody);//报文消息体
+            message.setSendTime(dataTool.dateToString());//发报时间：系统时间
+            message.setSessionToken(TokenUtils.getMemberToken());
+            String jsonString = JSONObject.toJSONString(message);
+            try {
+                jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
+                log.info("************报文信息**************：" + jsonString);
+            } catch (Exception e) {
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                e.printStackTrace();
+            }
+            return baseModel;
+        }
+        return baseModel;
+    }
 }
 

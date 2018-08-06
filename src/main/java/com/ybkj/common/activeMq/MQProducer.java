@@ -1,6 +1,5 @@
 package com.ybkj.common.activeMq;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -12,7 +11,7 @@ public class MQProducer {
     private static final String USERNAME = "admin"; //用户名
     private static final String PASSWORD = "admin";  //密码
     private static final String BROKENURL = "tcp://127.0.0.1:61616";
-    private static final String Q_NAME = "stomp";  //消息队列
+    private static final String Q_NAME = "StorageQueue";  //消息队列
     
     public static void main(String[] args) {
             ConnectionFactory connectionFactory;

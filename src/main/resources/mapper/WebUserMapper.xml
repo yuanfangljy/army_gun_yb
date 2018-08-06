@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ybkj.gun.mapper.WebUserMapper">
+
   <resultMap id="BaseResultMap" type="com.ybkj.gun.model.WebUser">
-    <id column="id" jdbcType="BIGINT" property="id" />
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="deptment" jdbcType="VARCHAR" property="deptment" />
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_name, password, deptment, phone, ip, logintime, logouttime, state, create_time, 
+    id, user_name, password, deptment, phone, ip, logintime, logouttime, state, create_time,
     update_time, version
   </sql>
   <select id="selectByExample" parameterType="com.ybkj.gun.model.WebUserExample" resultMap="BaseResultMap">
@@ -91,55 +92,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectWebUser" parameterType="com.ybkj.gun.model.WebUser"
-          resultMap="BaseResultMap">
-    select * from web_user
-    <where>
-      <if test="id !=null">
-        and id=#{id}
-      </if>
-      <if test="userName !=null">
-        and user_name=#{userName}
-      </if>
-      <if test="password !=null">
-        and password=#{password}
-      </if>
-      <if test="deptment !=null">
-        and deptment=#{deptment}
-      </if>
-      <if test="ip !=null">
-        and ip ='%' #{ip} '%'
-      </if>
-      <if test="logintime !=null">
-        and logintime like '%' #{logintime} '%'
-      </if>
-      <if test="logouttime !=null">
-        and logouttime like '%' #{logouttime} '%'
-      </if>
-      <if test="state !=null">
-        and state like '%' #{state} '%'
-      </if>
-      <if test="createTime !=null">
-        and create_time like '%' #{createTime} '%'
-      </if>
-      <if test="updateTime !=null">
-        and update_time like '%' #{updateTime} '%'
-      </if>
-      <if test="version !=null">
-        and version=#{version}
-      </if>
-    </where>
-  </select>
-
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from web_user
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from web_user
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.ybkj.gun.model.WebUserExample">
     delete from web_user
@@ -153,7 +114,7 @@
       logintime, logouttime, state, 
       create_time, update_time, version
       )
-    values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{deptment,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
       #{logintime,jdbcType=TIMESTAMP}, #{logouttime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}
@@ -201,7 +162,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=BIGINT},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
@@ -248,7 +209,7 @@
     update web_user
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.userName != null">
         user_name = #{record.userName,jdbcType=VARCHAR},
@@ -290,7 +251,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update web_user
-    set id = #{record.id,jdbcType=BIGINT},
+    set id = #{record.id,jdbcType=INTEGER},
       user_name = #{record.userName,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       deptment = #{record.deptment,jdbcType=VARCHAR},
@@ -343,7 +304,7 @@
         version = #{version,jdbcType=INTEGER},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ybkj.gun.model.WebUser">
     update web_user
@@ -358,9 +319,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       version = #{version,jdbcType=INTEGER}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-
 
   <select id="selectWebUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from web_user where user_name = #{userName,jdbcType=VARCHAR}
