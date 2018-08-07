@@ -30,6 +30,7 @@
       <id column="id" jdbcType="INTEGER" property="id"/>
       <id column="web_id" jdbcType="INTEGER" property="webId" />
       <result column="gun_tag" jdbcType="VARCHAR" property="gunTag"/>
+      <result column="gun_model" jdbcType="VARCHAR" property="gunModel" />
       <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac"/>
       <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
       <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber"/>

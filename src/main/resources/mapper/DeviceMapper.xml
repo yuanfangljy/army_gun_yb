@@ -340,5 +340,9 @@
   <select id="selectDeviceName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from device where device_name = #{deviceName,jdbcType=VARCHAR}
   </select>
+  <!--设备离线统计-->
+  <select id="selectDeviceOffLine"  resultMap="BaseResultMap">
+    select * from device where state = 2
+  </select>
 
 </mapper>

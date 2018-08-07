@@ -3,12 +3,13 @@
 <mapper namespace="com.ybkj.gun.mapper.GunMapper">
   <resultMap id="BaseResultMap" type="com.ybkj.gun.model.Gun">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="web_id" jdbcType="INTEGER" property="webId" />
+    <result column="web_id" jdbcType="INTEGER" property="webId" />
     <result column="gun_tag" jdbcType="VARCHAR" property="gunTag" />
+    <result column="gun_model" jdbcType="VARCHAR" property="gunModel" />
     <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac" />
     <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
-    <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber" />
     <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId" />
+    <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="real_time_state" jdbcType="INTEGER" property="realTimeState" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id,web_id, gun_tag, bluetooth_mac, warehouse_name,bullet_number, warehouse_id, state,real_time_state, create_time, update_time,
-    version
+    id, web_id, gun_tag, gun_model, bluetooth_mac, warehouse_name, warehouse_id, bullet_number, 
+    state, real_time_state, create_time, update_time, version
   </sql>
   <select id="selectByExample" parameterType="com.ybkj.gun.model.GunExample" resultMap="BaseResultMap">
     select
@@ -91,49 +92,6 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectGun" parameterType="com.ybkj.gun.model.Gun" resultMap="BaseResultMap">
-    select * from gun
-    <where>
-      <if test="id !=null">
-        and id=#{id}
-      </if>
-      <if test="webId !=null">
-        and web_id=#{webId}
-      </if>
-
-      <if test="gunTag !=null">
-        and gun_tag=#{gunTag}
-      </if>
-      <if test="bluetoothMac !=null">
-        and bluetooth_mac=#{bluetoothMac}
-      </if>
-      <if test="warehouseName !=null">
-        and warehouse_name=#{warehouseName}
-      </if>
-      <if test="bulletNumber !=null">
-        and bullet_number ='%' #{bulletNumber} '%'
-      </if>
-      <if test="warehouseId !=null">
-        and warehouse_id ='%' #{warehouseId} '%'
-      </if>
-      <if test="real_time_state !=null">
-        and real_time_state like '%' #{realTimeState} '%'
-      </if>
-      <if test="state !=null">
-        and state like '%' #{state} '%'
-      </if>
-      <if test="createTime !=null">
-        and create_time like '%' #{createTime} '%'
-      </if>
-      <if test="updateTime !=null">
-        and update_time like '%' #{updateTime} '%'
-      </if>
-      <if test="version !=null">
-        and version=#{version}
-      </if>
-    </where>
-  </select>
-
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -151,14 +109,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ybkj.gun.model.Gun">
-    insert into gun (id,web_id gun_tag, bluetooth_mac,
-      warehouse_name,bullet_number, warehouse_id, state,real_time_state,
-      create_time, update_time, version
-      )
-    values (#{id,jdbcType=INTEGER}, #{webId,jdbcType=INTEGER}, #{gunTag,jdbcType=VARCHAR}, #{bluetoothMac,jdbcType=VARCHAR},
-      #{warehouseName,jdbcType=VARCHAR},#{bulletNumber,jdbcType=INTEGER}, #{warehouseId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER},#{realTimeState,jdbcType=INTEGER},
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER}
-      )
+    insert into gun (id, web_id, gun_tag, 
+      gun_model, bluetooth_mac, warehouse_name, 
+      warehouse_id, bullet_number, state, 
+      real_time_state, create_time, update_time, 
+      version)
+    values (#{id,jdbcType=INTEGER}, #{webId,jdbcType=INTEGER}, #{gunTag,jdbcType=VARCHAR}, 
+      #{gunModel,jdbcType=VARCHAR}, #{bluetoothMac,jdbcType=VARCHAR}, #{warehouseName,jdbcType=VARCHAR}, 
+      #{warehouseId,jdbcType=INTEGER}, #{bulletNumber,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{realTimeState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ybkj.gun.model.Gun">
     insert into gun
@@ -172,17 +132,20 @@
       <if test="gunTag != null">
         gun_tag,
       </if>
+      <if test="gunModel != null">
+        gun_model,
+      </if>
       <if test="bluetoothMac != null">
         bluetooth_mac,
       </if>
       <if test="warehouseName != null">
         warehouse_name,
       </if>
-      <if test="bulletNumber != null">
-        bullet_number,
-      </if>
       <if test="warehouseId != null">
         warehouse_id,
+      </if>
+      <if test="bulletNumber != null">
+        bullet_number,
       </if>
       <if test="state != null">
         state,
@@ -201,8 +164,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-
-
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
@@ -212,17 +173,20 @@
       <if test="gunTag != null">
         #{gunTag,jdbcType=VARCHAR},
       </if>
+      <if test="gunModel != null">
+        #{gunModel,jdbcType=VARCHAR},
+      </if>
       <if test="bluetoothMac != null">
         #{bluetoothMac,jdbcType=VARCHAR},
       </if>
       <if test="warehouseName != null">
         #{warehouseName,jdbcType=VARCHAR},
       </if>
-      <if test="bulletNumber != null">
-        #{bulletNumber,jdbcType=INTEGER},
-      </if>
       <if test="warehouseId != null">
         #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="bulletNumber != null">
+        #{bulletNumber,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -247,31 +211,32 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-
   <update id="updateByExampleSelective" parameterType="map">
     update gun
     <set>
-
-      <if test="record.webId != null">
-        web_id= #{record.webId,jdbcType=INTEGER},
-      </if>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.webId != null">
+        web_id = #{record.webId,jdbcType=INTEGER},
       </if>
       <if test="record.gunTag != null">
         gun_tag = #{record.gunTag,jdbcType=VARCHAR},
       </if>
+      <if test="record.gunModel != null">
+        gun_model = #{record.gunModel,jdbcType=VARCHAR},
+      </if>
       <if test="record.bluetoothMac != null">
         bluetooth_mac = #{record.bluetoothMac,jdbcType=VARCHAR},
       </if>
-      <if test="record.bulletNumber != null">
-        bullet_number = #{record.bulletNumber,jdbcType=VARCHAR},
-      </if>
       <if test="record.warehouseName != null">
-        warehouse_id = #{record.warehouseName,jdbcType=INTEGER},
+        warehouse_name = #{record.warehouseName,jdbcType=VARCHAR},
       </if>
       <if test="record.warehouseId != null">
         warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bulletNumber != null">
+        bullet_number = #{record.bulletNumber,jdbcType=INTEGER},
       </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=INTEGER},
@@ -296,12 +261,13 @@
   <update id="updateByExample" parameterType="map">
     update gun
     set id = #{record.id,jdbcType=INTEGER},
-       web_id= #{record.webId,jdbcType=INTEGER},
+      web_id = #{record.webId,jdbcType=INTEGER},
       gun_tag = #{record.gunTag,jdbcType=VARCHAR},
+      gun_model = #{record.gunModel,jdbcType=VARCHAR},
       bluetooth_mac = #{record.bluetoothMac,jdbcType=VARCHAR},
       warehouse_name = #{record.warehouseName,jdbcType=VARCHAR},
-      bullet_number = #{record.bulletNumber,jdbcType=INTEGER},
       warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      bullet_number = #{record.bulletNumber,jdbcType=INTEGER},
       state = #{record.state,jdbcType=INTEGER},
       real_time_state = #{record.realTimeState,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -314,12 +280,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.ybkj.gun.model.Gun">
     update gun
     <set>
-
       <if test="webId != null">
-        web_id= #{webId,jdbcType=INTEGER},
+        web_id = #{webId,jdbcType=INTEGER},
       </if>
       <if test="gunTag != null">
         gun_tag = #{gunTag,jdbcType=VARCHAR},
+      </if>
+      <if test="gunModel != null">
+        gun_model = #{gunModel,jdbcType=VARCHAR},
       </if>
       <if test="bluetoothMac != null">
         bluetooth_mac = #{bluetoothMac,jdbcType=VARCHAR},
@@ -327,11 +295,11 @@
       <if test="warehouseName != null">
         warehouse_name = #{warehouseName,jdbcType=VARCHAR},
       </if>
-      <if test="bulletNumber != null">
-        bullet_number = #{bulletNumber,jdbcType=INTEGER},
-      </if>
       <if test="warehouseId != null">
         warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="bulletNumber != null">
+        bullet_number = #{bulletNumber,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
@@ -353,20 +321,21 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ybkj.gun.model.Gun">
     update gun
-    set
-     web_id= #{webId,jdbcType=INTEGER},
-    gun_tag = #{gunTag,jdbcType=VARCHAR},
+    set web_id = #{webId,jdbcType=INTEGER},
+      gun_tag = #{gunTag,jdbcType=VARCHAR},
+      gun_model = #{gunModel,jdbcType=VARCHAR},
       bluetooth_mac = #{bluetoothMac,jdbcType=VARCHAR},
       warehouse_name = #{warehouseName,jdbcType=VARCHAR},
-      bullet_number = #{bulletNumber,jdbcType=INTEGER},
       warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      bullet_number = #{bulletNumber,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
-       real_time_state = #{realTimeState,jdbcType=INTEGER},
+      real_time_state = #{realTimeState,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       version = #{version,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 
   <!--根据警员编号信息枪支信息-->
   <select id="selectGunBydevice" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -382,4 +351,8 @@
     select * from gun where bluetooth_mac = #{bluetoothMac,jdbcType=VARCHAR}
   </select>
 
+  <!--统计枪支离位信息-->
+  <select id="selectGunOffNormal"  resultMap="BaseResultMap">
+    select * from gun where real_time_state = 2
+  </select>
 </mapper>

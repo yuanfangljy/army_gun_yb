@@ -40,7 +40,7 @@
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
-                <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索">
+                <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索"><button id="liu">nishi</button>
             </div>
         </div>
     </div>
@@ -50,37 +50,17 @@
     <div class="row">
         <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
             <ul class="nav nav-sidebar">
-                <li class="activb"><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
-                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
-                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
-                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png"
-                                                                                                               style="padding-right:20px;">枪支轨迹</a>
-                </li>
-                <li><a href="Library.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png"
-                                                                                                            style="padding-right:20px;">枪支调库</a>
-                </li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png"
-                                                                                                 style="padding-right:20px;">库室管理</a>
-                </li>
-                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png"
-                                                                                                            style="padding-right:20px;">警告信息</a>
-                </li>
+                <li><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+                <li class="activb"><a href="index.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支列表</a></li>
+              <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+                <li><a href="llibrary.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-left:13%; width:87%;">
-            <div class="btn-group" role="group" aria-label="..." style="float:right; margin-top:16px;">
-                <a href="map.html">
-                    <button type="button" class="btn btn-default">地图</button>
-                </a>
-                <a href="">
-                    <button type="button" class="btn btn-default" style="background-color:#004892; color:#FFF">列表
-                    </button>
-                </a>
-            </div>
-            <h2 class="sub-header">枪支管理</h2>
+          <h2 class="sub-header">枪支列表</h2>
             <div class="table-responsive">
                 <table class="table table-bordered" id="location_table">
                     <thead>
@@ -121,6 +101,28 @@
     </div>
 </div>
 
+<!--离线枪支列表-->
+<div id="ycxg" style="display:none">
+    <table class="table table-bordered">
+        <caption>枪支离线列表</caption>
+        <thead>
+        <tr>
+            <th>警员编号</th>
+            <th>枪支</th>
+            <th>枪号</th>
+            <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Tanmay</td>
+            <td>Bangalore</td>
+            <td>560001</td>
+            <td>560001</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/holder.min.js"></script>
 <script src="js/ie10-viewport-bug-workaround.js"></script>
@@ -130,7 +132,17 @@
 <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
 <script type="text/javascript" src="js/mq/customer.js"></script>
 <script>
-
+    $(document).ready(function() {
+        $('#liu').hover(function(){
+            $("#ycxg").toggle();
+        }, function() {
+            layer.close(differentindex);
+        })
+    });
+    $("body").click(function(){
+        // 点击body时 隐藏 div
+        $("#ycxg").hide();
+    });
     $(function () {
         to_page(1, null);
     });
@@ -206,16 +218,41 @@
                 var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
 
                 //append（追加）方法执行完成以后还是放回原来的元素
+            if(item.gunState==0 && item.deviceState==0){
                 $("<tr></tr>")
                 //.append(deviceLocationId)
                     .append(gunTag)
                     .append(deviceNo)
                     .append(deviceLocationLatirude)
                     .append(gunWarehouseName)
-                    .append(gunState)
+                    .append(gunState).addClass("info")
                     .append(deviceState)
                     .append(btnTd)
                     .appendTo("#location_table tbody");
+            }else if(item.gunState==2 && item.deviceState==1){
+                $("<tr></tr>")
+                //.append(deviceLocationId)
+                    .append(gunTag)
+                    .append(deviceNo)
+                    .append(deviceLocationLatirude)
+                    .append(gunWarehouseName)
+                    .append(gunState).addClass("warning")
+                    .append(deviceState)
+                    .append(btnTd)
+                    .appendTo("#location_table tbody");
+            }else{
+                $("<tr></tr>")
+                //.append(deviceLocationId)
+                    .append(gunTag)
+                    .append(deviceNo)
+                    .append(deviceLocationLatirude)
+                    .append(gunWarehouseName)
+                    .append(gunState).addClass("danger")
+                    .append(deviceState)
+                    .append(btnTd)
+                    .appendTo("#location_table tbody");
+            }
+
 
         });
     }

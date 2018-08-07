@@ -165,6 +165,66 @@ public class GunExample {
             return (Criteria) this;
         }
 
+        public Criteria andWebIdIsNull() {
+            addCriterion("web_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdIsNotNull() {
+            addCriterion("web_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdEqualTo(Integer value) {
+            addCriterion("web_id =", value, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdNotEqualTo(Integer value) {
+            addCriterion("web_id <>", value, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdGreaterThan(Integer value) {
+            addCriterion("web_id >", value, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("web_id >=", value, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdLessThan(Integer value) {
+            addCriterion("web_id <", value, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdLessThanOrEqualTo(Integer value) {
+            addCriterion("web_id <=", value, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdIn(List<Integer> values) {
+            addCriterion("web_id in", values, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdNotIn(List<Integer> values) {
+            addCriterion("web_id not in", values, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdBetween(Integer value1, Integer value2) {
+            addCriterion("web_id between", value1, value2, "webId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWebIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("web_id not between", value1, value2, "webId");
+            return (Criteria) this;
+        }
+
         public Criteria andGunTagIsNull() {
             addCriterion("gun_tag is null");
             return (Criteria) this;
@@ -232,6 +292,76 @@ public class GunExample {
 
         public Criteria andGunTagNotBetween(String value1, String value2) {
             addCriterion("gun_tag not between", value1, value2, "gunTag");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelIsNull() {
+            addCriterion("gun_model is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelIsNotNull() {
+            addCriterion("gun_model is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelEqualTo(String value) {
+            addCriterion("gun_model =", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelNotEqualTo(String value) {
+            addCriterion("gun_model <>", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelGreaterThan(String value) {
+            addCriterion("gun_model >", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelGreaterThanOrEqualTo(String value) {
+            addCriterion("gun_model >=", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelLessThan(String value) {
+            addCriterion("gun_model <", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelLessThanOrEqualTo(String value) {
+            addCriterion("gun_model <=", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelLike(String value) {
+            addCriterion("gun_model like", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelNotLike(String value) {
+            addCriterion("gun_model not like", value, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelIn(List<String> values) {
+            addCriterion("gun_model in", values, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelNotIn(List<String> values) {
+            addCriterion("gun_model not in", values, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelBetween(String value1, String value2) {
+            addCriterion("gun_model between", value1, value2, "gunModel");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunModelNotBetween(String value1, String value2) {
+            addCriterion("gun_model not between", value1, value2, "gunModel");
             return (Criteria) this;
         }
 
@@ -435,6 +565,66 @@ public class GunExample {
             return (Criteria) this;
         }
 
+        public Criteria andBulletNumberIsNull() {
+            addCriterion("bullet_number is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberIsNotNull() {
+            addCriterion("bullet_number is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberEqualTo(Integer value) {
+            addCriterion("bullet_number =", value, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberNotEqualTo(Integer value) {
+            addCriterion("bullet_number <>", value, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberGreaterThan(Integer value) {
+            addCriterion("bullet_number >", value, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberGreaterThanOrEqualTo(Integer value) {
+            addCriterion("bullet_number >=", value, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberLessThan(Integer value) {
+            addCriterion("bullet_number <", value, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberLessThanOrEqualTo(Integer value) {
+            addCriterion("bullet_number <=", value, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberIn(List<Integer> values) {
+            addCriterion("bullet_number in", values, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberNotIn(List<Integer> values) {
+            addCriterion("bullet_number not in", values, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberBetween(Integer value1, Integer value2) {
+            addCriterion("bullet_number between", value1, value2, "bulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andBulletNumberNotBetween(Integer value1, Integer value2) {
+            addCriterion("bullet_number not between", value1, value2, "bulletNumber");
+            return (Criteria) this;
+        }
+
         public Criteria andStateIsNull() {
             addCriterion("state is null");
             return (Criteria) this;
@@ -492,6 +682,66 @@ public class GunExample {
 
         public Criteria andStateNotBetween(Integer value1, Integer value2) {
             addCriterion("state not between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateIsNull() {
+            addCriterion("real_time_state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateIsNotNull() {
+            addCriterion("real_time_state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateEqualTo(Integer value) {
+            addCriterion("real_time_state =", value, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateNotEqualTo(Integer value) {
+            addCriterion("real_time_state <>", value, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateGreaterThan(Integer value) {
+            addCriterion("real_time_state >", value, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("real_time_state >=", value, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateLessThan(Integer value) {
+            addCriterion("real_time_state <", value, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateLessThanOrEqualTo(Integer value) {
+            addCriterion("real_time_state <=", value, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateIn(List<Integer> values) {
+            addCriterion("real_time_state in", values, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateNotIn(List<Integer> values) {
+            addCriterion("real_time_state not in", values, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateBetween(Integer value1, Integer value2) {
+            addCriterion("real_time_state between", value1, value2, "realTimeState");
+            return (Criteria) this;
+        }
+
+        public Criteria andRealTimeStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("real_time_state not between", value1, value2, "realTimeState");
             return (Criteria) this;
         }
 

@@ -163,15 +163,19 @@ public class GunController {
         return baseModel;
     }
 
-
-    @Token(save = true)
-    @RequestMapping(value = "/saveToken",method = RequestMethod.POST)
-    public BaseModel saveToken(HttpServletRequest request, HttpServletResponse response){
+    /**
+     * 统计枪支离位信息
+     * @return
+     */
+    @RequestMapping(value = "/inquireGunOffNormal",method = RequestMethod.POST)
+    public BaseModel inquireGunOffNormal(@RequestParam(value="pn",defaultValue="1") Integer pn) throws Exception {
         BaseModel baseModel=new BaseModel();
-        String token=(String) request.getSession().getAttribute("tokenliu");
-        baseModel.add("token",token);
-        System.out.println("-------生成token-----"+ token);
+        PageHelper.startPage(pn, 4);
+        //startPage后面紧跟着的这个查询就是一个分页查询
+        List<Gun> guns=gunService.findGunOffNormal();
+        PageInfo<Gun> page = new PageInfo<Gun>(guns,1);
+        baseModel.setErrorMessage("统计成功");
+        baseModel.add("pageInfo",page);
         return baseModel;
     }
-
 }

@@ -5,6 +5,7 @@ import com.ybkj.common.error.ResultEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.mapper.DeviceMapper;
 import com.ybkj.gun.model.Device;
+import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.model.WebUser;
 import com.ybkj.gun.service.DeviceSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +117,15 @@ public class DeviceServiceImpl implements DeviceSerivce{
             baseModel.setStatus(ResultEnum.SUCCESS.getCode());
         }
         return baseModel;
+    }
+
+    /**
+     * 设备离线统计
+     * @return
+     */
+    @Override
+    public List<Gun> findDeviceOffLine() {
+        return deviceMapper.selectDeviceOffLine();
     }
 
 

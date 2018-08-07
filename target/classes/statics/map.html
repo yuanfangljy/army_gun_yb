@@ -10,6 +10,22 @@
             margin: 0;
             font-family: "微软雅黑";
         }
+
+        .tag:before, .tag:after {
+            content: "";
+            display: block;
+            border-width: 10px;
+            position: absolute;
+            bottom: -20px;
+            left: 60px;
+            border-style: solid dashed dashed;
+            border-color: #ccc transparent transparent;
+        }
+
+        .tag:after {
+            bottom: -19px;
+            border-color: #FFF transparent transparent;
+        }
     </style>
     <link rel="icon" href="../../favicon.ico">
     <title>Dashboard Template for Bootstrap</title>
@@ -56,67 +72,135 @@
     <div class="row">
         <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
             <ul class="nav nav-sidebar">
-                <li class="activb"><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
-                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
-                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
-                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
-                <li><a href="Library.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支调库</a></li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
-                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
+                <li class="activb"><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+                <li><a href="index.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/diaoku.png" style="padding-right:20px;">枪支列表</a></li>
+                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+                <li><a href="llibrary.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
             </ul>
         </div>
     </div>
 </div>
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-left:13%; width:87%;">
-    <div class="btn-group" role="group" aria-label="..." style="float:right; margin-top:16px;">
-        <a href="">
-            <button type="button" class="btn btn-default" style="background-color:#004892; color:#FFF">地图</button>
-        </a>
-        <a href="index.html">
-            <button type="button" class="btn btn-default">列表</button>
-        </a>
-    </div>
-    <h2 class="sub-header">枪支管理</h2>
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"
+     style="margin-left:11.8%; width:89.4%; margin-top:2px;">
+
+    <!--地图-->
+    <div id="allmap"></div>
+
 </div>
-<!--地图-->
-<div id="allmap"></div>
+
 <div class="news" id="news">
-    <div class="offline" style="margin-top:16px; margin-left:25px;">
-        <img src="img/lixian.png" style="float:left;">
-        <dl style="color:#fa1267; float:left; margin-left:16px; margin-top:-10px; padding-right:20px; border-right:1px solid rgba(255,255,255,0.70)">
+    <div class="offlines" style="margin-top:16px; margin-left:25px;">
+        <img src="img/lixian.png" style="float:left; margin-top:-5px;">
+        <dl style="color:#fa1267; float:left; margin-left:16px; margin-top:-15px; padding-right:20px; border-right:1px solid rgba(255,255,255,0.70)">
             <dd><span id="offline" style="font-size:28px"></span>个</dd>
             <dd>离线设备数</dd>
         </dl>
     </div>
-    <div class="dislocation" style=" float:left; padding-left:25px;">
-        <img src="img/liwei.png" style="float:left;">
-        <dl style="color:#2db5ee; float:left; margin-left:16px; margin-top:-10px">
+    <div class="dislocations" style=" float:left; padding-left:25px;">
+        <img src="img/liwei.png" style="float:left; margin-top:-5px;">
+        <dl style="color:#2db5ee; float:left; margin-left:16px; margin-top:-15px">
             <dd><span id="dislocation" style="font-size:28px"></span>个</dd>
             <dd>离位枪支数</dd>
         </dl>
     </div>
 </div>
+<!--枪支离位列表-->
+<div class="state" id="showTableGun" style="display:none">
+    <table class="table table-striped" id="gunTag_OffNormal_table">
+        <caption class="text-center">枪支离位列表</caption>
+        <thead>
+        <tr style="color: #b9b9b9">
+            <th class="text-center">警员编号</th>
+            <th class="text-center">枪支</th>
+            <th class="text-center">枪号</th>
+            <!--<th class="text-center">状态</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div  style="margin-top: 70px; margin-left: -220px">
+
+        <!--分页文字信息 -->
+        <div class="col-md-6 ">
+        </div>
+        <!-- 分页条-->
+        <div class="col-md-6" id="page_nav_gun">
+        </div>
+    </div>
+</div>
 
 
-<script src="layui/layui.all.js" type="text/javascript"></script>
+<!--设备离线列表-->
+<div class="state" id="showTableDevice" style="display:none">
+    <table class="table table-striped" id="gunTag_OffLine_table">
+        <caption class="text-center">警员离线列表</caption>
+        <thead>
+        <tr style="color: #b9b9b9">
+            <th class="text-center">警员编号</th>
+            <th class="text-center">姓名</th>
+            <th class="text-center">电话</th>
+            <!-- <th class="text-center">状态</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div  style="margin-top: 70px; margin-left: -220px">
 
-<script src="js/holder.min.js"></script>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/ie10-viewport-bug-workaround.js"></script>
-<script type="text/javascript"
-        src="js/ditu/MarkerClusterer.js"></script>
-<script type="text/javascript"
-        src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
-<script type="text/javascript" src="js/mq/stomp.min.js"></script>
-<script type="text/javascript" src="js/mq/sockjs.min.js"></script>
-<script type="text/javascript" src="js/mq/customer.js"></script>
-<script>
-    $(function () {
-        deviceLocation(null);
-        deviceDislocation();
-        gunDislocation();
-    })
-</script>
+        <!--分页文字信息 -->
+        <div class="col-md-6 ">
+        </div>
+        <!-- 分页条-->
+        <div class="col-md-6" id="page_nav_area">
+        </div>
+    </div>
+<div/>
+    <script src="layui/layui.all.js" type="text/javascript"></script>
+    <script src="js/holder.min.js"></script>
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript" src="js/ditu/MarkerClusterer.js"></script>
+    <script type="text/javascript"
+            src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+    <script type="text/javascript" src="js/mq/stomp.min.js"></script>
+    <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
+    <script type="text/javascript" src="js/mq/customer.js"></script>
+    <script>
+        var differentindex;
+        $(function () {
+            //隐藏或者显示列表
+            $(".dislocations").hover(function () {
+                gunOffNormal();
+                $("#showTableGun").toggle();
+                $("#showTableDevice").hide();
+            }, function () {
+                layer.close(differentindex);
+            });
+            $(".offlines").hover(function () {
+                gunOffLine();
+                $("#showTableDevice").toggle();
+                $("#showTableGun").hide();
+            }, function () {
+                layer.close(differentindex);
+            });
+
+            //枪支离位列表
+            deviceLocation(null);
+            deviceDislocation();
+            gunDislocation();
+        })
+    </script>
 </body>
 </html>
 <script type="text/javascript">
@@ -124,10 +208,6 @@
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(114.034656, 22.616798);
     map.centerAndZoom(point, 5);
-
-    /*   var label = new BMap.Label("",{offset:new BMap.Size(20,-10)});
-       marker.setLabel(label);
-       map.size(20,-10);*/
     //1、设置地图的样式
     //map.setMapStyle({style:'midnight'});
     //2、设置地图默认的鼠标指针样式
@@ -146,13 +226,13 @@
     }, 2000);
     //设置地图
     map.addControl(new BMap.MapTypeControl({
-        mapTypes: [
-            BMAP_HYBRID_MAP,
-            BMAP_NORMAL_MAP
-            //BMAP_SATELLITE_MAP//卫星地图
-        ]
+        mapTypes: BMAP_HYBRID_MAP
+        /* [
+         BMAP_HYBRID_MAP,
+         BMAP_NORMAL_MAP
+         //BMAP_SATELLITE_MAP//卫星地图
+     ]*/
     }));
-
     //6、 添加带有定位的导航控件
     var navigationControl = new BMap.NavigationControl({
         // 靠左上角位置
@@ -163,6 +243,7 @@
         enableGeolocation: true
     });
     map.addControl(navigationControl);
+
     // 添加定位控件
     var geolocationControl = new BMap.GeolocationControl();
     geolocationControl.addEventListener("locationSuccess", function (e) {
@@ -173,34 +254,13 @@
         address += e.addressComponent.district;
         address += e.addressComponent.street;
         address += e.addressComponent.streetNumber;
-        alert("当前定位地址为：" + address);
+        layer.alert("当前定位地址为：" + address);
     });
     geolocationControl.addEventListener("locationError", function (e) {
         // 定位失败事件
         layer.alert(e.message);
     });
     map.addControl(geolocationControl);
-
-    /*   //7、添加标注
-        //var pt = new BMap.Point(116.383752,39.91334);
-        var json_data = [[116.404,39.915],[116.383752,39.91334],[116.384502,39.932241]];
-        var pointArray = new Array();
-        for(var i=0;i<json_data.length;i++){
-            //var marker = new BMap.Marker(new BMap.Point(json_data[i][0], json_data[i][1])); // 创建点
-            var myIcon = new BMap.Icon('img/zaixian.gif',new BMap.Size(58,58));//这里先不用第三个参数IconOptions
-            var marker = new BMap.Marker(new BMap.Point(json_data[i][0], json_data[i][1]),{icon:myIcon});//这就是对象的字面量形式
-            map.addOverlay(marker);  //将标注添加到地图中
-            pointArray[i] = new BMap.Point(json_data[i][0], json_data[i][1]);
-            marker.addEventListener("click",attribute);
-        }
-        //让所有点在视野范围内
-        map.setViewport(pointArray);
-
-        //获取覆盖物位置
-        function attribute(e){
-            var p = e.target;
-            //alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
-        }*/
 
 
     //7、添加标注
@@ -220,34 +280,56 @@
                     label[i] = p.deviceLocationLongitude;
                     value[i] = p.deviceLocationLatirude;
                     // 7.1:创建点
-                    var myIcon = new BMap.Icon('img/qiang.png', new BMap.Size(58, 58));//这里先不用第三个参数IconOptions
+                    var myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
                     //这就是对象的字面量形式
                     var marker = new BMap.Marker(new BMap.Point(label[i], value[i]), {icon: myIcon});
-                   //将标注添加到地图中
+                    //将标注添加到地图中
                     map.addOverlay(marker);
+                    addClickHandler(marker);
+
                     //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-                    var sContent =
-                        "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>天安门</h4>" +
-                        "<img style='float:right;margin:4px' id='imgDemo' src='../img/tianAnMen.jpg' width='139' height='104' title='天安门'/>" +
-                        "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>天安门坐落在中国北京市中心,故宫的南侧,与天安门广场隔长安街相望,是清朝皇城的大门...</p>" +
-                        "</div>";
-                    //7.2 添加字体
-                    var labela = new BMap.Label("警员编号：" + p.deviceNo + "</br>"
-                                                + "枪号：" + p.gunTag + "</br>"
-                                                + "枪号状态：" + ((p.gunState)==0?'随行':(p.gunState)                                                     ==1?'未使用':'离位') + "</br>"
-                                                + "设备状态：" + ((p.deviceState)==0?'在线':(p                                                    .deviceState)==1?'未使用': (p.deviceState)==2 ? '离线':'协助中')
-                        ,
-                        {offset: new BMap.Size(25, 10)});
-                    labela.setStyle({
-                        color : "#ff2217",
-                        width : "100%",
-                        height : "100%",
-                        fontSize : "14px",
-                        //backgroundColor :"#ffc659",
-                        //border :"-1",
-                       // fontWeight :"bold"
+                    function addClickHandler(marker) {
+                        marker.addEventListener("click", function (e) {
+                                alert("1");
+                            }
+                        );
+                    }
+
+                    <!--框-->
+                    var gunOffNormal = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离位</span>';
+                    var unused = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">未使用</span>';
+                    var accompany = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">随行</span>';
+                    var onLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">在线</span>';
+                    var offLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">离线</span>';
+                    var assist = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">协助</span>';
+
+                    var tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:120px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
+                        + "警员编号：" + p.deviceNo + "</br>"
+                        + "枪号：" + p.gunTag + "</br>"
+                        + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                        + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
+                        "<button type='button' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
+                    ;
+
+                    //创建标注的hover事件
+                    marker.addEventListener("mouseover", function (e) {
+                        //7.2 添加字体
+                        var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -130)});
+                        labela.setStyle({
+                            color: "#302e18",
+                            width: "100%",
+                            height: "100%",
+                            fontSize: "14px",
+                        });
+                        marker.setLabel(labela);
                     });
-                    marker.setLabel(labela);
+                    marker.addEventListener("mouseout", function (e) {
+                        var label = this.getLabel();
+                        setTimeout(function () {
+                            label.setContent("");//设置标签内容为空
+                            label.setStyle({border: "none", width: "0px", padding: "0px"});//设置标签边框宽度为0
+                        }, 2000);
+                    });
 
                     //7.4 将经纬坐标划入地图
                     label[i] = new BMap.Point(label[i], value[i]);
@@ -289,7 +371,8 @@
             }
         })
     }
-   //设备离位数
+
+    //设备离位数
     function gunDislocation() {
         $.ajax({
             url: "../deviceGun/statisticsGunDislocation",
@@ -299,11 +382,241 @@
             }
         })
     }
+
     //回车查询事件
-    $(document).keyup(function(event) {
+    $(document).keyup(function (event) {
         if (event.keyCode == 13) {
             deviceLocation($("#deviceNos").val())
         }
     });
+
+    //***********************************  离位枪支列表  *************************************
+    //定义全局变量，保存总记录数
+    var totalRecord, currentPage;
+    function gunOffNormal(pn) {
+        $.ajax({
+            url: "../gun/inquireGunOffNormal",
+            type: "POST",
+            data: {"pn": pn},
+            success: function (result) {
+                //1、解析屏显示枪支数据、
+                build_gun_table(result);
+                build_page_gun(result);
+            }
+        })
+    }
+
+    //遍历列表
+    //1、解析屏显示员工数据、
+    function build_gun_table(result) {
+//清空( empty() )tabel表格
+        $("#gunTag_OffNormal_table tbody").empty();
+//extend中有个方法pageInfo中一个list：所有的员工信息
+        var emps = result.extend.pageInfo.list;
+        $.each(emps, function (index, item) {
+            var deviceNo = $("<td></td>").append(item.gunTag).addClass("text-center");
+            var gunTaMmodel = $("<td></td>").append(item.gunTag).addClass("text-center");
+            var gunTag = $("<td></td>").append(item.gunTag).addClass("text-center");
+            var gunState = $("<td></td>").append((item.state) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
+
+            //edit_btn添加上的class标识
+            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+                    .append("查询"));
+            //查询按钮添加最新枪支轨道的Id
+            selectBtn.attr("device-location-id", item.deviceLocationId);
+
+            //将两个按钮追加到一个按钮中
+            var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
+
+            //append（追加）方法执行完成以后还是放回原来的元素
+            $("<tr></tr>")
+            //.append(deviceLocationId)
+                .append(deviceNo)
+                .append(gunTaMmodel)
+                .append(gunTag)
+                /*.append(gunState)*/
+                .appendTo("#gunTag_OffNormal_table tbody");
+        });
+    }
+    //4、枪支解析显示分页条
+    function build_page_gun(result) {
+//清空分页条信息
+        $("#page_nav_gun").empty();
+        var ul = $("<ul></ul>").addClass("pagination");
+
+//构建元素
+        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+        if (result.extend.pageInfo.hasPreviousPage == false) {
+            firstPageLi.addClass("disabled");
+            prePageLi.addClass("disabled");
+        } else {
+//为元素，添加点击翻页的事件
+//第一页
+            firstPageLi.click(function () {
+                gunOffNormal(1);
+            });
+//前一页
+            prePageLi.click(function () {
+                gunOffNormal(result.extend.pageInfo.pageNum - 1);
+            });
+        }
+
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
+
+        if (result.extend.pageInfo.hasNextPage == false) {
+            nextPageLi.addClass("disabled");
+            lastPageLi.addClass("disabled");
+        } else {
+            //下一页
+            nextPageLi.click(function () {
+                gunOffNormal(result.extend.pageInfo.pageNum + 1);
+            });
+            //末页
+            lastPageLi.click(function () {
+                gunOffNormal(result.extend.pageInfo.pages);
+            });
+        }
+//添加首页和前一页的提示
+        ul.append(firstPageLi).append(prePageLi).append(nextPageLi).append(lastPageLi);
+//遍历给ul中添加页码提示,12345
+        $.each(result.extend.pageInfo.navigatepageNums,
+            function (index, item) {
+
+                var numLi = $("<li></li>").append($("<a></a>").append(item));
+                if (result.extend.pageInfo.pageNum == item) {
+                    numLi.addClass("active");
+                }
+                //绑定单击事件
+                numLi.click(function () {
+                    gunOffNormal(item);
+                });
+                ul.append(numLi);
+            });
+//添加下一页和末页的提示
+        ul.append(nextPageLi).append(lastPageLi);
+//ul加入到nav元素中
+        var navEle = $("<nav></nav>").append(ul);
+        navEle.appendTo("#page_nav_gun");
+    }
+
+
+ //***********************************  离线警员列表  *****************************************
+    function gunOffLine(pn) {
+        $.ajax({
+            url: "../device/inquireDeviceOffLine",
+            type: "POST",
+            data: {"pn": pn},
+            success: function (result) {
+                //1、解析屏显示枪支数据、
+                build_device_table(result);
+                build_page_nac(result);
+            }
+        })
+    }
+
+    //遍历列表
+    //1、解析屏显示员工数据、
+    function build_device_table(result) {
+//清空( empty() )tabel表格
+        $("#gunTag_OffLine_table tbody").empty();
+//extend中有个方法pageInfo中一个list：所有的员工信息
+        var emps = result.extend.pageInfo.list;
+        $.each(emps, function (index, item) {
+            var deviceNo = $("<td></td>").append(item.deviceNo).addClass("text-center");
+            var deviceName = $("<td></td>").append(item.deviceName).addClass("text-center");
+            var phone = $("<td></td>").append(item.phone).addClass("text-center");
+            var gunState = $("<td></td>").append((item.state) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
+
+            //edit_btn添加上的class标识
+            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+                    .append("查询"));
+            //查询按钮添加最新枪支轨道的Id
+            selectBtn.attr("device-location-id", item.deviceLocationId);
+
+            //将两个按钮追加到一个按钮中
+            var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
+
+            //append（追加）方法执行完成以后还是放回原来的元素
+            $("<tr></tr>")
+            //.append(deviceLocationId)
+                .append(deviceNo)
+                .append(deviceName)
+                .append(phone)
+                /*.append(gunState)*/
+                .appendTo("#gunTag_OffLine_table tbody");
+        });
+    }
+
+
+    //3、设备解析显示分页条
+    function build_page_nac(result) {
+//清空分页条信息
+        $("#page_nav_area").empty();
+        var ul = $("<ul></ul>").addClass("pagination");
+
+//构建元素
+        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+        if (result.extend.pageInfo.hasPreviousPage == false) {
+            firstPageLi.addClass("disabled");
+            prePageLi.addClass("disabled");
+        } else {
+//为元素，添加点击翻页的事件
+//第一页
+            firstPageLi.click(function () {
+                gunOffLine(1);
+            });
+//前一页
+            prePageLi.click(function () {
+                gunOffLine(result.extend.pageInfo.pageNum - 1);
+            });
+        }
+
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
+
+        if (result.extend.pageInfo.hasNextPage == false) {
+            nextPageLi.addClass("disabled");
+            lastPageLi.addClass("disabled");
+        } else {
+            //下一页
+            nextPageLi.click(function () {
+                gunOffLine(result.extend.pageInfo.pageNum + 1);
+            });
+            //末页
+            lastPageLi.click(function () {
+                gunOffLine(result.extend.pageInfo.pages);
+            });
+        }
+
+
+//添加首页和前一页的提示
+        ul.append(firstPageLi).append(prePageLi).append(nextPageLi).append(lastPageLi);
+//遍历给ul中添加页码提示,12345
+        $.each(result.extend.pageInfo.navigatepageNums,
+            function (index, item) {
+
+                var numLi = $("<li></li>").append($("<a></a>").append(item));
+                if (result.extend.pageInfo.pageNum == item) {
+                    numLi.addClass("active");
+                }
+                //绑定单击事件
+                numLi.click(function () {
+                    gunOffLine(item);
+                });
+                ul.append(numLi);
+            });
+//添加下一页和末页的提示
+        ul.append(nextPageLi).append(lastPageLi);
+//ul加入到nav元素中
+        var navEle = $("<nav></nav>").append(ul);
+        navEle.appendTo("#page_nav_area");
+    }
+
+
 
 </script>

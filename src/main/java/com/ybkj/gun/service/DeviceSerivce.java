@@ -2,6 +2,7 @@ package com.ybkj.gun.service;
 
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.Device;
+import com.ybkj.gun.model.Gun;
 
 import java.util.List;
 @SuppressWarnings("all")
@@ -22,4 +23,6 @@ public interface DeviceSerivce {
     BaseModel selectDeviceName(String deviceName);
     //查询设备编码
     BaseModel selectDeviceNo(String deviceNo);
+    //设备离线统计
+    List<Gun> findDeviceOffLine();
 }

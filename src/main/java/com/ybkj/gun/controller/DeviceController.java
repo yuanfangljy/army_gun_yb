@@ -1,8 +1,11 @@
 package com.ybkj.gun.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.Device;
+import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.service.impl.DeviceServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -138,6 +141,23 @@ public class DeviceController {
                 baseModel.setErrorMessage("注册失败！");
             }
         }
+        return baseModel;
+    }
+
+
+    /**
+     * 统计枪支离位信息
+     * @return
+     */
+    @RequestMapping(value = "/inquireDeviceOffLine",method = RequestMethod.POST)
+    public BaseModel inquireDeviceOffLine(@RequestParam(value="pn",defaultValue="1") Integer pn) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        PageHelper.startPage(pn,4);
+        //startPage后面紧跟着的这个查询就是一个分页查询
+        List<Gun> guns=deviceSerivce.findDeviceOffLine();
+        PageInfo<Gun> page = new PageInfo<Gun>(guns,1);
+        baseModel.setErrorMessage("统计成功");
+        baseModel.add("pageInfo",page);
         return baseModel;
     }
 

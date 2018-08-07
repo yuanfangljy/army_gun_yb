@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ybkj.gun.model.DeviceLocation;
+import com.ybkj.gun.model.Gun;
 import org.apache.ibatis.annotations.Param;
 
 public interface DeviceMapper {
@@ -42,5 +43,6 @@ public interface DeviceMapper {
     Device selectDeviceName(String deviceName);
 
     Device selectDeviceNo(String deviceNo);
-
+    //设备离线统计
+    List<Gun> selectDeviceOffLine();
 }

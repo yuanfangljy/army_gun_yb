@@ -14,7 +14,7 @@
     <!--[if lt IE 9]>
     <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/ie-emulation-modes-warning.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -52,24 +52,14 @@
     <div class="row">
         <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
             <ul class="nav nav-sidebar">
-                <li><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
-                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
-                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
-                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png"
-                                                                                                 style="padding-right:20px;">枪支轨迹</a>
-                </li>
-                <li><a href="Library.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png"
-                                                                                                 style="padding-right:20px;">枪支调库</a>
-                </li>
-                <li><a href="#" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png"
-                                                                                                 style="padding-right:20px;">库室管理</a>
-                </li>
-                <li class="activb"><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png"
-                                                                                                 style="padding-right:20px;">警告信息</a>
-                </li>
+                <li><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+                <li><a href="index.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支列表</a></li>
+                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+                <li><a href="llibrary.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+                <li class="activb"><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
+            </ul>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-left:13%; width:87%;">
@@ -82,7 +72,7 @@
                         <th class="text-center">警员编号</th>
                         <th class="text-center">告警位置</th>
                         <th class="text-center">告警时间</th>
-                        <th class="text-center">状态</th>
+                        <th class="text-center warning">状态</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -114,9 +104,10 @@
         to_page(1, null);
     });
 
-    var likePhone="";
+    var likePhone = "";
     //定义全局变量，保存总记录数
-    var totalRecord,currentPage;
+    var totalRecord, currentPage;
+
     //请求数据
     function to_page(pn, deviceNo) {
         $.ajax({
@@ -127,12 +118,12 @@
             success: function (result) {
 
                 var ii = layer.load(1, {
-                    shade: [0.2,'#ffc659'] //0.1透明度的白色背景
+                    shade: [0.2, '#ffc659'] //0.1透明度的白色背景
                 });
                 //此处用setTimeout演示ajax的回调
                 setTimeout(function () {
                     layer.close(ii);
-                    if(result.extend.pageInfo.list!=""){
+                    if (result.extend.pageInfo.list != "") {
                         //1、解析屏显示枪支地点数据、
                         build_location_table(result);
                         //2、解析并显示分页信息
@@ -140,14 +131,14 @@
                         //3、解析显示分页条
                         build_page_nac(result);
                         //4.伸长选择页码跳转div
-                        $(".pagination").width($(".pagination").width()+500);
+                        $(".pagination").width($(".pagination").width() + 500);
                     }
 
                 }, 200);
 
-            }, error:function(result){
-                if(result.responseText=="IsAjax"){
-                    window.location.href="login.html";
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
                     return false;
                 }
             }
@@ -159,34 +150,49 @@
     function build_location_table(result) {
         $("#sosMassage_table tbody").empty();
         var emps = result.extend.pageInfo.list;
-        var sosLocatoin=result.extend.location.split("@");
-        var sosGunTag=result.extend.gunTag.split("@");
+        var sosLocatoin = result.extend.location.split("@");
+        var sosGunTag = result.extend.gunTag.split("@");
         $.each(emps, function (index, item) {
-            // var id=$("<td></td>").append(item.id);
-            var gunTag = $("<td></td>").append(sosGunTag[index]).addClass("text-center");
-            var deviceNo = $("<td></td>").append(item.deviceNo).addClass("text-center");
-            var location = $("<td></td>").append(sosLocatoin[index]).addClass("text-center");
-            var sosTime = $("<td></td>").append(new Date(item.sosTime).format("yyyy-MM-dd hh:mm:ss")).addClass("text-center");
-            var state = $("<td></td>").append((item.state) == 1 ? "未处理" : (item.gunState) == 0 ? "已处理" : "离位").addClass("text-center");
-            //edit_btn添加上的class标识
-            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-                .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
-                    .append("查询"));
-            //查询按钮添加最新枪支轨道的Id
-            selectBtn.attr("device-location-id", item.deviceLocationId);
-            //将两个按钮追加到一个按钮中
-            var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
+                // var id=$("<td></td>").append(item.id);
+                var gunTag = $("<td></td>").append(sosGunTag[index]).addClass("text-center");
+                var deviceNo = $("<td></td>").append(item.deviceNo).addClass("text-center");
+                var location = $("<td></td>").append(sosLocatoin[index]).addClass("text-center");
+                var sosTime = $("<td></td>").append(new Date(item.sosTime).format("yyyy-MM-dd hh:mm:ss")).addClass("text-center");
+                var state = $("<td></td>").append((item.state) == 1 ? "<p style='color: #ff2217'>未处理</p>" : (item.gunState) == 0 ? "已处理" : "离位").addClass("text-center");
 
-            //append（追加）方法执行完成以后还是放回原来的元素
-            $("<tr></tr>")
-            //.append(id)
-                .append(gunTag)
-                .append(deviceNo)
-                .append(location)
-                .append(sosTime)
-                .append(state)
-                .appendTo("#sosMassage_table tbody");
-        });
+                //edit_btn添加上的class标识
+                var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                    .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+                        .append("查询"));
+                //查询按钮添加最新枪支轨道的Id
+                selectBtn.attr("device-location-id", item.deviceLocationId);
+                //将两个按钮追加到一个按钮中
+                var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
+
+                //append（追加）方法执行完成以后还是放回原来的元素
+                if (item.state == 1) {
+                    $("<tr></tr>")
+                    //.append(id)
+                        .append(gunTag)
+                        .append(deviceNo)
+                        .append(location)
+                        .append(sosTime)
+                        .append(state).addClass("warning")
+                        .appendTo("#sosMassage_table tbody");
+
+                } else {
+                    $("<tr></tr>")
+                    //.append(id)
+                        .append(gunTag)
+                        .append(deviceNo)
+                        .append(location)
+                        .append(sosTime)
+                        .append(state).addClass("success")
+                        .appendTo("#sosMassage_table tbody");
+                }
+            }
+        );
+
     }
 
     //2、解析并显示分页信息,点击分页要进到下一页。。。。。。

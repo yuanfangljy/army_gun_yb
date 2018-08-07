@@ -1,31 +1,26 @@
 package com.ybkj.gun.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
 
 public class Gun {
     private Integer id;
 
-    @Getter
-    @Setter
     private Integer webId;
 
     private String gunTag;
+
+    private String gunModel;
 
     private String bluetoothMac;
 
     private String warehouseName;
 
-    private Integer bulletNumber;
-
     private Integer warehouseId;
+
+    private Integer bulletNumber;
 
     private Integer state;
 
-    @Getter
-    @Setter
     private Integer realTimeState;
 
     private Date createTime;
@@ -42,12 +37,28 @@ public class Gun {
         this.id = id;
     }
 
+    public Integer getWebId() {
+        return webId;
+    }
+
+    public void setWebId(Integer webId) {
+        this.webId = webId;
+    }
+
     public String getGunTag() {
         return gunTag;
     }
 
     public void setGunTag(String gunTag) {
         this.gunTag = gunTag == null ? null : gunTag.trim();
+    }
+
+    public String getGunModel() {
+        return gunModel;
+    }
+
+    public void setGunModel(String gunModel) {
+        this.gunModel = gunModel == null ? null : gunModel.trim();
     }
 
     public String getBluetoothMac() {
@@ -74,12 +85,28 @@ public class Gun {
         this.warehouseId = warehouseId;
     }
 
+    public Integer getBulletNumber() {
+        return bulletNumber;
+    }
+
+    public void setBulletNumber(Integer bulletNumber) {
+        this.bulletNumber = bulletNumber;
+    }
+
     public Integer getState() {
         return state;
     }
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getRealTimeState() {
+        return realTimeState;
+    }
+
+    public void setRealTimeState(Integer realTimeState) {
+        this.realTimeState = realTimeState;
     }
 
     public Date getCreateTime() {
@@ -102,16 +129,7 @@ public class Gun {
         return version;
     }
 
-
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public Integer getBulletNumber() {
-        return bulletNumber;
-    }
-
-    public void setBulletNumber(Integer bulletNumber) {
-        this.bulletNumber = bulletNumber;
     }
 }

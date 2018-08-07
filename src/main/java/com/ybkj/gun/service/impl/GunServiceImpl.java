@@ -141,6 +141,16 @@ public class GunServiceImpl implements GunSerivce {
         return baseModel;
     }
 
+    /**
+     * 统计枪支离位信息
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<Gun> findGunOffNormal() throws Exception {
+        return gunMapper.selectGunOffNormal();
+    }
+
     @Override
     public int insertGun(Gun gun) throws Exception {
         return 0;

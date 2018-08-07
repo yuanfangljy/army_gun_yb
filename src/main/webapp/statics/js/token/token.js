@@ -1,7 +1,7 @@
 function Token() {
     //创建token
     $.ajax({
-        url: "../gun/saveToken",
+        url: "../token/saveToken",
         type: "POST",
         cache: false,
         success: function (result) {

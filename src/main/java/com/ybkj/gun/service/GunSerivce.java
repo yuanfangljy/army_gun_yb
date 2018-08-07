@@ -25,4 +25,6 @@ public interface GunSerivce {
     BaseModel selectGunTag(String gunTag);
     //推送mq,gun的启动状态
     BaseModel updategunStartAndStop(String state, String gunMac) throws ParseException;
+    //统计枪支离位信息
+    List<Gun> findGunOffNormal() throws  Exception;
 }
