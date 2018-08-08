@@ -129,7 +129,7 @@
         <tbody>
         </tbody>
     </table>
-    <div  style="margin-top: 70px; margin-left: -220px">
+    <div  style="margin-top: -10px; margin-left: -220px">
 
         <!--分页文字信息 -->
         <div class="col-md-6 ">
@@ -159,7 +159,7 @@
         <tbody>
         </tbody>
     </table>
-    <div  style="margin-top: 70px; margin-left: -220px">
+    <div  style="margin-top: -10px; margin-left: -220px">
 
         <!--分页文字信息 -->
         <div class="col-md-6 ">
@@ -308,26 +308,40 @@
                     function addClickHandler(marker) {
                         marker.addEventListener("click", function (e) {
                             var markers = new BMap.Point(113.213676, 29.373501);
-                            alert("1");
+                            deviceLocation(p.deviceNo);
                             }
                         );
                     }
 
                     <!--框-->
                     var gunOffNormal = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离位</span>';
-                    var unused = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">未使用</span>';
-                    var accompany = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">随行</span>';
-                    var onLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">在线</span>';
-                    var offLine = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">离线</span>';
-                    var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">协助</span>';
+                    var unused = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">未使用</span>';
+                    var accompany = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px" >随行</span>';
+                    var onLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">在线</span>';
+                    var offLine = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离线</span>';
+                    var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">协助</span>';
 
-                    var tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:120px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
-                        + "警员编号：" + p.deviceNo + "</br>"
-                        + "枪号：" + p.gunTag + "</br>"
-                        + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
-                        + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
-                        "<button type='button' onclick='FindAssist()' id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
-                    ;
+                    var tag;//标签
+                    if(p.gunState==0 && p.deviceState==0){
+                         tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:120px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
+                            + "警员编号：" + p.deviceNo + "</br>"
+                            + "枪号：" + p.gunTag + "</br>"
+                            + "枪支：" + p.gunModel + "</br>"
+                            + "电话：" + p.mobile + "</br>"
+                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>"+"</div>";
+                    }else{
+                         tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:120px; border:1px solid #ff7f34; position:relative; border-radius:8px; background-color:#ff7f34;'>"
+                            + "警员编号：" + p.deviceNo + "</br>"
+                            + "枪号：" + p.gunTag + "</br>"
+                            + "枪支：" + p.gunModel + "</br>"
+                            + "电话：" + p.mobile + "</br>"
+                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>"+"</div>";
+                    }
+
+                       /* " +<button type='button' onclick='FindAssist()' id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button>"*/ +
+
 
                     //创建标注的hover事件
                     marker.addEventListener("mouseover", function (e) {

@@ -12,5 +12,6 @@ public class ServerOffLocationSearchBody {
 	private String lostDeviceNo;//丢失警员编号
 	private String lostphone;//丢失电话
 	private String lostTime;//丢失时间
+	private String lostGunTag;//枪支编号
 		
 }

@@ -52,6 +52,7 @@ public class DeviceGunController {
     public BaseModel statisticsDeviceOffLine() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer deviceDislocation=deviceGunService.findDeviceOffLine();
+        baseModel.setErrorMessage("==================统计设备离线数==================");
         baseModel.add("deviceDislocation",deviceDislocation);
         return baseModel;
     }
@@ -65,6 +66,7 @@ public class DeviceGunController {
     public BaseModel statisticsGunDislocation() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer gunDislocation=deviceGunService.findGunDislocation();
+        baseModel.setErrorMessage("==================统计枪支离位数==================");
         baseModel.add("gunDislocation",gunDislocation);
         return baseModel;
     }
@@ -81,6 +83,7 @@ public class DeviceGunController {
         BaseModel baseModel=new BaseModel();
         List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation(deviceNo);
         System.out.println("---------@@@@@@@@@-----------"+deviceNo);
+        baseModel.setErrorMessage("==================全部以领装备的士兵实时状态==================");
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.add("devices",devices);
         return baseModel;
@@ -108,11 +111,24 @@ public class DeviceGunController {
         //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
         //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
         PageInfo<DeviceGun> page = new PageInfo<DeviceGun>(guns,5);
+        baseModel.setErrorMessage("==================分页查询枪支实时位置信息==================");
         baseModel.add("pageInfo",page).add("deviceNo", deviceNo);
         baseModel.add("location", location);
         return baseModel;
     }
 
+    /**
+     * 查询所有在线的警员和枪支
+     * @return
+     */
+    @RequestMapping(value = "/inquireDeviceAndGunOnline",method = RequestMethod.POST)
+    public BaseModel inquireDeviceAndGunOnline(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        List<DeviceGun> onLine = deviceGunService.findGunAndDeviceLocationAllOnLine(deviceNo);
+        baseModel.setErrorMessage("==================查询所有在线的警员和枪支==================");
+        baseModel.add("onLine", onLine);
+        return baseModel;
+    }
 
     /**
      * 枪支出库

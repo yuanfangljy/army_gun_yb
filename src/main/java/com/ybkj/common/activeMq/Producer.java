@@ -142,21 +142,22 @@ public class Producer {
      * @param body
      * @return
      */
-    public BaseModel sendMessageMinistrantFind(String body) throws ParseException {
+    public BaseModel sendMessageMinistrantFind(net.sf.json.JSONObject body) throws Exception {
         BaseModel baseModel = new BaseModel();
         ServerOffLocationSearchMessage serverMessageBody = new ServerOffLocationSearchMessage();
         ServerOffLocationSearchBody messageBody = new ServerOffLocationSearchBody();
-        String[] split = body.split(",");
+    //   String[] split = body.split(",");
         for (int i = 0; i < 1; i++) {
             //报文体
             try {
-                messageBody.setAssDeviceNo(split[0]);
-                messageBody.setBluetoothMac(split[1]);
-                messageBody.setLo(split[2]);
-                messageBody.setLa(split[3]);
-                messageBody.setLostDeviceNo(split[4]);
-                messageBody.setLostphone(split[5]);
-                messageBody.setLostTime(split[6]);
+                messageBody.setAssDeviceNo(body.getString("assDeviceNo"));
+                messageBody.setBluetoothMac(body.getString("bluetoothMac"));
+                messageBody.setLo(body.getString("lo"));
+                messageBody.setLa(body.getString("la"));
+                messageBody.setLostDeviceNo(body.getString("lostDeviceNo"));
+                messageBody.setLostphone(body.getString("lostphone"));
+                messageBody.setLostTime(body.getString("lostTime"));
+                messageBody.setLostGunTag(body.getString("lostGunTag"));
             } catch (Exception e) {
                 e.printStackTrace();
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
@@ -223,5 +224,7 @@ public class Producer {
         }
         return baseModel;
     }
+
+
 }
 

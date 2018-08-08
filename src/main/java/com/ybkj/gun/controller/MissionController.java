@@ -7,9 +7,8 @@ import com.ybkj.gun.service.MissionSerivce;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *1、在创建协助信息的时候，要判断该协助人员的状态是不是在线（或者不是正在执行任务中，在missionz中查找状态）
@@ -32,17 +31,31 @@ public class MissionController {
     @Autowired
     MissionSerivce missionSerivce;
 
-    @ApiOperation(value = "离位报警协助功能",notes = "协助", httpMethod = "PUT")
-    @RequestMapping(value = "/findMinistrantAndLoseMatching",method = RequestMethod.PUT)
-    public BaseModel findMinistrantAndLoseMatching(Mission mission) throws Exception {
+
+    /**
+     * 离位报警协助功能
+     * @param assistDeviceNo  协助查找警员编号
+     * @param lostDeviceNo    丢失警员编号
+     * @param lostGunTag         丢失枪号
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "离位报警协助功能",notes = "协助", httpMethod = "POST")
+    @RequestMapping(value = "/findMinistrantAndLoseMatching/{assistDeviceNo}/{lostDeviceNo}/{lostGunTag}",method = RequestMethod.GET)
+    public BaseModel findMinistrantAndLoseMatching(@PathVariable(value = "assistDeviceNo",required = true)String assistDeviceNo,@PathVariable(value = "lostDeviceNo",required = true) String lostDeviceNo,@PathVariable(value = "lostGunTag",required = true)String lostGunTag) throws Exception {
         BaseModel baseModel=new BaseModel();
-        BaseModel missions = missionSerivce.insertMission(mission);
-        if(missions.getStatus()== StatusCodeEnum.SUCCESS.getStatusCode()){
-            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
-            baseModel.setErrorMessage(missions.getErrorMessage());
-        }else{
+        if(assistDeviceNo==null && lostDeviceNo==null && lostGunTag==null){
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-            baseModel.setErrorMessage(missions.getErrorMessage());
+            baseModel.setErrorMessage("请不要暴力使用");
+        }else {
+            BaseModel missions = missionSerivce.insertMission(assistDeviceNo,lostDeviceNo,lostGunTag);
+            if(missions.getStatus()== StatusCodeEnum.SUCCESS.getStatusCode()){
+                baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+                baseModel.setErrorMessage(missions.getErrorMessage());
+            }else{
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                baseModel.setErrorMessage(missions.getErrorMessage());
+            }
         }
         return baseModel;
     }

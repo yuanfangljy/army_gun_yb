@@ -37,4 +37,5 @@ public interface GunMapper {
     Gun selectGunByBluetoothMac(String bluetoothMac);
     //统计枪支离位信息
     List<Gun> selectGunOffNormal();
+
 }

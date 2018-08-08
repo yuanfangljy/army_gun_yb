@@ -79,4 +79,6 @@ public  interface DeviceGunSerivce {
     Integer findGunDislocation() throws Exception;
     //统计设备离线
     Integer findDeviceOffLine() throws Exception;
+    //查询所有在线警员和枪支:根据设备号
+    List<DeviceGun> findGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception;
 }

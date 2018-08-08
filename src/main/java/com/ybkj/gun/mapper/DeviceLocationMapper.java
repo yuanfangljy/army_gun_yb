@@ -33,4 +33,6 @@ public interface DeviceLocationMapper {
     int updateByPrimaryKey(DeviceLocation record);
     //根据时间枪支查询枪支的轨迹
     List<DeviceLocation> selectDeviceLocationByTimeAndGunTag(Map<String, Object> map);
+    //根据警员编号，查询出最新警员地址
+    DeviceLocation selectDeviceLocationByDeviceNoNewest(String deviceNo) throws Exception;
 }

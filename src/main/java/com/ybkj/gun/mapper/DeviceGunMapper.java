@@ -42,4 +42,8 @@ public interface DeviceGunMapper {
     Integer selectGunDislocation() throws Exception;
     //通过蓝牙mac和状态查询设备号
      DeviceGun selectDeviceGunByMacAndState(@Param(value="bluetoothMac")String bluetoothMac, @Param(value = "state") Integer state) throws Exception;
+    //通过警员编号和状态查询警员有没有出库
+    DeviceGun selectDeviceGunByDeviceNoAndState(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
+    //查询所有在线警员和枪支
+    List<DeviceGun> selectGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception;
 }

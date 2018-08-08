@@ -65,8 +65,9 @@ public class DeviceGun {
     @Getter
     @Setter
     private String mobile;
-
-
+    @Getter
+    @Setter
+    private String gunModel;
 
 
     public Integer getId() {

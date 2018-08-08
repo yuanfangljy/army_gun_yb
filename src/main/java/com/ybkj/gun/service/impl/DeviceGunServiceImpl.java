@@ -86,7 +86,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
 
                     deviceGunMapper.updateByPrimaryKeySelective(deviceGun1);
                     baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
-                    baseModel.setErrorMessage("入库成功!");
+                    baseModel.setErrorMessage("正在入库中...");
 
                 } else {
                     baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
@@ -105,7 +105,6 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
 
     /**
      * 枪支出库
-     *
      * @param deviceGun
      * @param status
      * @return
@@ -124,10 +123,12 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
                     baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                     baseModel.setErrorMessage("该警员正在使用此枪");
                 } else {
+                    //判断设备是否在在使用，通过设备号和状态是否为O
+                    DeviceGun deviceGun2 = deviceGunMapper.selectDeviceGunByDeviceNoAndState(deviceGun.getDeviceNo(), status);
                     Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
-                    //System.out.println(device.getPhone());
-                    if (device != null || device.getState()==null) {
-                        if (device.getState() == 0) {
+                    /*System.out.println(device.getPhone()+"--"+device);*/
+                    if (device != null && device.getState()!=null) {
+                        if (deviceGun2!=null) {
                             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                             baseModel.setErrorMessage("该警员与枪正在连接中");
                         } else {
@@ -150,7 +151,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
                                 deviceGun.setGunMac(gun.getBluetoothMac());
                                 deviceGunMapper.insertSelective(deviceGun);
                                 baseModel.setStatus(StatusCodeEnum.GUN_OUTPUT.getStatusCode());
-                                baseModel.setErrorMessage("出库成功!");
+                                baseModel.setErrorMessage("正在出库中...");
                             }else{
                                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                                 baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
@@ -216,6 +217,16 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
     @Override
     public Integer findDeviceOffLine() throws Exception {
         return deviceGunMapper.selectDeviceOffLine();
+    }
+
+    /**
+     * 查询所有在线警员和枪支
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<DeviceGun> findGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception {
+        return deviceGunMapper.selectGunAndDeviceLocationAllOnLine(deviceNo);
     }
 
 

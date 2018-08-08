@@ -211,7 +211,7 @@
                 var deviceState = $("<td></td>").append((item.deviceState) == 1 ? "离线" : "在线").addClass("text-center");
                 //edit_btn添加上的class标识
                 var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-                    .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+                    .append($("<span></span>")/*.addClass("glyphicon glyphicon-pencil  ")*/
                         .append("查询"));
                 //查询按钮添加最新枪支轨道的Id
                 selectBtn.attr("device-location-id", item.deviceLocationId);

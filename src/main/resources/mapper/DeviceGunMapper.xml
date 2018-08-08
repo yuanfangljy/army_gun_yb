@@ -22,7 +22,7 @@
     <result column="deviceState" jdbcType="INTEGER" property="deviceState"/>
     <result column="locationEndTime" jdbcType="TIMESTAMP" property="locationEndTime"/>
     <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-
+    <result column="gunModel" jdbcType="VARCHAR" property="gunModel"/>
 
 
     <!--关联枪支信息表-->
@@ -346,7 +346,7 @@
   </select>
   <!-- 枪支实时列表管理:根据警员编号-->
   <select id="selectGunAndDeviceLocation" resultType="java.lang.String"  resultMap="BaseResultMap">
-    SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState ,c.create_time as locationEndTime ,c.phone as mobile ,a.gun_mac
+    SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState ,c.create_time as locationEndTime ,c.phone as mobile ,a.gun_mac,b.gun_model as gunModel
     FROM device_gun a,gun b,device c,device_location d
     WHERE a.device_no=c.device_no
     AND a.gun_mac=b.bluetooth_mac
@@ -391,4 +391,22 @@
   <select id="selectDeviceGunByMacAndState" resultMap="BaseResultMap">
     select device_no from device_gun where gun_mac= #{bluetoothMac,jdbcType=VARCHAR} and state= #{state,jdbcType=INTEGER}
   </select>
+  <!--查询所有在线的警员和枪支-->
+  <select id="selectGunAndDeviceLocationAllOnLine" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState,c.phone as mobile,b.gun_model as gunModel
+    FROM device_gun a,gun b,device c,device_location d
+    WHERE a.device_no=c.device_no
+    AND a.gun_mac=b.bluetooth_mac
+    AND d.device_no=c.device_no
+    AND a.state=0
+    AND b.real_time_state=0
+    AND c.state=0
+    AND a.device_no like '%' #{deviceNo} '%'
+    GROUP BY gunTag,a.device_no
+  </select>
+ <!-- 通过警员编号和状态查询警员有没有出库-->
+  <select id="selectDeviceGunByDeviceNoAndState" resultMap="BaseResultMap">
+    select * from device_gun where device_no= #{deviceNo,jdbcType=VARCHAR} and state= #{state,jdbcType=INTEGER}
+  </select>
+
 </mapper>
