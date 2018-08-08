@@ -33,8 +33,6 @@
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet" type="text/css"/>
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]>
     <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="js/jquery.js"></script>
     <script src="js/ie-emulation-modes-warning.js"></script>
@@ -117,12 +115,14 @@
 <!--枪支离位列表-->
 <div class="state" id="showTableGun" style="display:none">
     <table class="table table-striped" id="gunTag_OffNormal_table">
-        <caption class="text-center">枪支离位列表</caption>
+        <button type="button" id="close2" class="close" data-dismiss="model" aria-hidden="true">&times</button>
+        <h4 class="modal-title text-center">枪支离位列表</h4>
         <thead>
-        <tr style="color: #b9b9b9">
+        <tr style="color: #6e6e6e">
             <th class="text-center">警员编号</th>
             <th class="text-center">枪支</th>
             <th class="text-center">枪号</th>
+            <th class="text-center">操作</th>
             <!--<th class="text-center">状态</th>-->
         </tr>
         </thead>
@@ -142,14 +142,17 @@
 
 
 <!--设备离线列表-->
-<div class="state" id="showTableDevice" style="display:none">
+<div class="state" id="showTableDevice" style="display:none" aria-labelledby="myModalLabel">
     <table class="table table-striped" id="gunTag_OffLine_table">
-        <caption class="text-center">警员离线列表</caption>
+        <button type="button" id="close1" class="close" data-dismiss="state" aria-hidden="true">&times</button>
+        <h4 class="modal-title text-center" id="myModalLabel">警员离线列表</h4>
+        <!--<span style="position: absolute;right: 0px;">×</span>-->
         <thead>
-        <tr style="color: #b9b9b9">
+        <tr style="color: #616161">
             <th class="text-center">警员编号</th>
             <th class="text-center">姓名</th>
             <th class="text-center">电话</th>
+            <th class="text-center">操作</th>
             <!-- <th class="text-center">状态</th>-->
         </tr>
         </thead>
@@ -166,6 +169,9 @@
         </div>
     </div>
 <div/>
+
+
+
     <script src="layui/layui.all.js" type="text/javascript"></script>
     <script src="js/holder.min.js"></script>
     <script src="js/jquery-1.11.1.min.js"></script>
@@ -176,7 +182,7 @@
     <script type="text/javascript" src="js/mq/stomp.min.js"></script>
     <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
     <script type="text/javascript" src="js/mq/customer.js"></script>
-    <script>
+    <script type="application/javascript">
         var differentindex;
         $(function () {
             //隐藏或者显示列表
@@ -194,7 +200,11 @@
             }, function () {
                 layer.close(differentindex);
             });
-
+           /* $("div").not("div.state *").click(function(){
+                // 点击body时 隐藏 div
+                $("#showTableGun").hide();
+                $("#showTableDevice").hide();
+            });*/
             //枪支离位列表
             deviceLocation(null);
             deviceDislocation();
@@ -275,12 +285,19 @@
             type: "GET",
             data: {"deviceNo": deviceNos},
             dataType: "json",
+            asynec:true,
             success: function (result) {
                 $.each(result.extend.devices, function (i, p) {
                     label[i] = p.deviceLocationLongitude;
                     value[i] = p.deviceLocationLatirude;
                     // 7.1:创建点
-                    var myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+                    var myIcon;
+                    if(p.gunState==0 && p.deviceState==0){
+                         myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+                    }else{
+                         myIcon = new BMap.Icon('img/offNormalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+                    }
+
                     //这就是对象的字面量形式
                     var marker = new BMap.Marker(new BMap.Point(label[i], value[i]), {icon: myIcon});
                     //将标注添加到地图中
@@ -290,7 +307,8 @@
                     //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
                     function addClickHandler(marker) {
                         marker.addEventListener("click", function (e) {
-                                alert("1");
+                            var markers = new BMap.Point(113.213676, 29.373501);
+                            alert("1");
                             }
                         );
                     }
@@ -300,15 +318,15 @@
                     var unused = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">未使用</span>';
                     var accompany = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">随行</span>';
                     var onLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">在线</span>';
-                    var offLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">离线</span>';
-                    var assist = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">协助</span>';
+                    var offLine = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">离线</span>';
+                    var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px;">协助</span>';
 
                     var tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:120px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
                         + "警员编号：" + p.deviceNo + "</br>"
                         + "枪号：" + p.gunTag + "</br>"
                         + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                         + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
-                        "<button type='button' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
+                        "<button type='button' onclick='FindAssist()' id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
                     ;
 
                     //创建标注的hover事件
@@ -366,8 +384,15 @@
         $.ajax({
             url: "../deviceGun/statisticsDeviceOffLine",
             type: "POST",
+            asynec:true,
+            dataType: "json",
             success: function (result) {
                 $("#offline").text(result.extend.deviceDislocation);
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
             }
         })
     }
@@ -377,8 +402,15 @@
         $.ajax({
             url: "../deviceGun/statisticsGunDislocation",
             type: "POST",
+            asynec:true,
+            dataType: "json",
             success: function (result) {
                 $("#dislocation").text(result.extend.gunDislocation);
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
             }
         })
     }
@@ -398,33 +430,47 @@
             url: "../gun/inquireGunOffNormal",
             type: "POST",
             data: {"pn": pn},
+            asynec:true,
+            dataType: "json",
             success: function (result) {
-                //1、解析屏显示枪支数据、
-                build_gun_table(result);
-                build_page_gun(result);
+
+                if(result.extend.pageInfo.pages>="2") {
+                    //1、解析屏显示枪支数据、
+                    build_gun_table(result);
+                    build_page_gun(result);
+                }else {
+                    //1、解析屏显示枪支数据、
+                    build_gun_table(result);
+                }
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
             }
         })
     }
 
     //遍历列表
-    //1、解析屏显示员工数据、
+    //1、解析屏显示枪支数据、
     function build_gun_table(result) {
 //清空( empty() )tabel表格
         $("#gunTag_OffNormal_table tbody").empty();
 //extend中有个方法pageInfo中一个list：所有的员工信息
         var emps = result.extend.pageInfo.list;
+        var deivceNoGun=result.extend.deivceNoGun.split("@");
         $.each(emps, function (index, item) {
-            var deviceNo = $("<td></td>").append(item.gunTag).addClass("text-center");
-            var gunTaMmodel = $("<td></td>").append(item.gunTag).addClass("text-center");
+            var deviceNo = $("<td></td>").append(deivceNoGun[index]).addClass("text-center");
+            var gunTaMmodel = $("<td></td>").append(item.gunModel).addClass("text-center");
             var gunTag = $("<td></td>").append(item.gunTag).addClass("text-center");
             var gunState = $("<td></td>").append((item.state) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
 
             //edit_btn添加上的class标识
-            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-                .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm gun_btn")
+                .append($("<span></span>")/*.addClass("glyphicon glyphicon-pencil  ")*/
                     .append("查询"));
             //查询按钮添加最新枪支轨道的Id
-            selectBtn.attr("device-location-id", item.deviceLocationId);
+            selectBtn.attr("gun-location-id",deivceNoGun[index]);
 
             //将两个按钮追加到一个按钮中
             var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
@@ -435,6 +481,7 @@
                 .append(deviceNo)
                 .append(gunTaMmodel)
                 .append(gunTag)
+                .append(selectBtn)
                 /*.append(gunState)*/
                 .appendTo("#gunTag_OffNormal_table tbody");
         });
@@ -509,16 +556,27 @@
             url: "../device/inquireDeviceOffLine",
             type: "POST",
             data: {"pn": pn},
+            asynec:true,
+            dataType: "json",
             success: function (result) {
-                //1、解析屏显示枪支数据、
-                build_device_table(result);
-                build_page_nac(result);
+                if(result.extend.pageInfo.pages>="2") {
+                    //1、解析屏显示枪支数据、
+                    build_device_table(result);
+                    build_page_nac(result);
+                }else {
+                    build_device_table(result);
+                }
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
             }
         })
     }
 
     //遍历列表
-    //1、解析屏显示员工数据、
+    //1、解析屏显示警员数据、
     function build_device_table(result) {
 //清空( empty() )tabel表格
         $("#gunTag_OffLine_table tbody").empty();
@@ -531,11 +589,11 @@
             var gunState = $("<td></td>").append((item.state) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
 
             //edit_btn添加上的class标识
-            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
-                .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn text-center")
+                .append($("<span></span>")/*.addClass("glyphicon glyphicon-pencil  ")*/
                     .append("查询"));
             //查询按钮添加最新枪支轨道的Id
-            selectBtn.attr("device-location-id", item.deviceLocationId);
+            selectBtn.attr("device-location-id", item.deviceNo);
 
             //将两个按钮追加到一个按钮中
             var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
@@ -546,6 +604,7 @@
                 .append(deviceNo)
                 .append(deviceName)
                 .append(phone)
+                .append(selectBtn)
                 /*.append(gunState)*/
                 .appendTo("#gunTag_OffLine_table tbody");
         });
@@ -617,6 +676,35 @@
         navEle.appendTo("#page_nav_area");
     }
 
+//关闭列表
+   $("#close1").click(function(){
+        $("#showTableDevice").hide();
+    })
+    $("#close2").click(function(){
+        $("#showTableGun").hide();
+    })
+
+    //地图模态框
+    function FindAssist() {
+        alert("11");
+        $("#findGun").modal({
+            backdrop:"static"
+        });
+    }
+
+    //点击设备查询按钮
+    $(document).on("click",".edit_btn",function () {
+        //表示当前被点击的按钮
+        var deviceNoId=$(this).attr("device-location-id");
+        deviceLocation(deviceNoId);
+    })
+
+    //点击枪支查询按钮
+    $(document).on("click",".gun_btn",function () {
+        //表示当前被点击的按钮
+        var deviceNoId=$(this).attr("gun-location-id");
+        deviceLocation(deviceNoId);
+    })
 
 
 </script>

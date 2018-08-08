@@ -6,7 +6,9 @@ import com.github.pagehelper.PageInfo;
 import com.ybkj.common.annotation.Token;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
+import com.ybkj.gun.mapper.DeviceGunMapper;
 import com.ybkj.gun.mapper.WebUserMapper;
+import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.model.WebUser;
 import com.ybkj.gun.service.impl.GunServiceImpl;
@@ -36,6 +38,8 @@ public class GunController {
     GunServiceImpl gunService;
     @Autowired
     WebUserMapper webUserMapper;
+    @Autowired
+    DeviceGunMapper deviceGunMapper;
 
 
     /**
@@ -172,10 +176,15 @@ public class GunController {
         BaseModel baseModel=new BaseModel();
         PageHelper.startPage(pn, 4);
         //startPage后面紧跟着的这个查询就是一个分页查询
+        String deivceNoGun="";
         List<Gun> guns=gunService.findGunOffNormal();
+        for (Gun gun : guns) {
+            DeviceGun deviceGun = deviceGunMapper.selectDeviceGunByMacAndState(gun.getBluetoothMac(), 0);
+            deivceNoGun+=deviceGun.getDeviceNo()+"@";
+        }
         PageInfo<Gun> page = new PageInfo<Gun>(guns,1);
         baseModel.setErrorMessage("统计成功");
-        baseModel.add("pageInfo",page);
+        baseModel.add("pageInfo",page).add("deivceNoGun",deivceNoGun);
         return baseModel;
     }
 }

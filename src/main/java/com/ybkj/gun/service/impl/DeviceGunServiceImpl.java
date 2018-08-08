@@ -126,7 +126,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
                 } else {
                     Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
                     //System.out.println(device.getPhone());
-                    if (device != null) {
+                    if (device != null || device.getState()==null) {
                         if (device.getState() == 0) {
                             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                             baseModel.setErrorMessage("该警员与枪正在连接中");
