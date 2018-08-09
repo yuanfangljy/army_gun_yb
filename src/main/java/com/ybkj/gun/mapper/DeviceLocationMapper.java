@@ -35,4 +35,6 @@ public interface DeviceLocationMapper {
     List<DeviceLocation> selectDeviceLocationByTimeAndGunTag(Map<String, Object> map);
     //根据警员编号，查询出最新警员地址
     DeviceLocation selectDeviceLocationByDeviceNoNewest(String deviceNo) throws Exception;
+    List<DeviceLocation> selectRoundOnline(Map<String, Object> map) throws Exception;
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,20 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce{
     public List<DeviceLocation> selectDeviceLocationTrajectory(Map<String, Object> map) {
 
         return deviceLocationMapper.selectDeviceLocationByTimeAndGunTag(map);
+    }
+
+    /**
+     *  计算传入的经纬度，周围的最近的经纬度
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<DeviceLocation> findRoundOnline(String deviceNo,String lng,String lag) throws Exception {
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("deviceNo",deviceNo);
+        map.put("lng",Double.parseDouble(lng));
+        map.put("lag",Double.parseDouble(lag));
+        return deviceLocationMapper.selectRoundOnline(map);
     }
 
 

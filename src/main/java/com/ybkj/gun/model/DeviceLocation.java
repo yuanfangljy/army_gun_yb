@@ -21,6 +21,42 @@ public class DeviceLocation {
 
     private Integer version;
 
+    @Getter
+    @Setter
+    private Integer juli;
+
+    //关联属性
+    @Getter
+    @Setter
+    private Gun guns;
+    @Getter
+    @Setter
+    private Device device;
+    @Getter
+    @Setter
+    private DeviceGun deviceGun;
+
+
+    //查询出来的值，重新取别名
+
+    @Getter
+    @Setter
+    private Integer gunState;
+    @Getter
+    @Setter
+    private Integer deviceState;
+    @Getter
+    @Setter
+    private String gunTag;
+    @Getter
+    @Setter
+    private String  gunWarehouseName;
+    @Getter
+    @Setter
+    private String mobile;
+    @Getter
+    @Setter
+    private String gunModel;
   /*  @Getter
     @Setter
     private Date beginTime;

@@ -1,5 +1,6 @@
 package com.ybkj.gun.controller;
 
+import com.ybkj.common.baiduMap.BaiDuUtil;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.DataTool;
@@ -14,6 +15,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
@@ -71,6 +73,39 @@ public class DeviceLocationController {
         List<DeviceLocation> deviceLocations=deviceLocationSerivce.selectDeviceLocationTrajectory(map);
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.add("deviceLocations",deviceLocations);
+        return baseModel;
+    }
+
+    @RequestMapping(value = "/roundOnline",method = RequestMethod.POST)
+    public BaseModel roundOnline(@RequestParam(value="deviceNo",required=false)String deviceNo, @RequestParam(value="lng",required=false)String lng, @RequestParam(value="lag",required=false)String lag) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        String location="";
+        String[] split = lng.split(",");
+        System.out.println("------------------"+deviceNo);
+        if(split[0]!="" && split[1]!="" && lag!="" && lng!="" && deviceNo==""){
+            DeviceGun deviceGuns = deviceGunMapper.selectGunAndDeviceLocationOne(split[1]);
+            DeviceLocation deviceLocation=new DeviceLocation();
+            deviceLocation.setLongitude(split[0]);
+            deviceLocation.setLatitude(lag);
+            deviceLocation.setDeviceNo(split[1]);
+            deviceLocation.setGunModel(deviceGuns.getGunModel());
+            deviceLocation.setGunTag(deviceGuns.getGunTag());
+            deviceLocation.setMobile(deviceGuns.getMobile());
+            deviceLocation.setDeviceState(deviceGuns.getDeviceState());
+            deviceLocation.setGunState(deviceGuns.getGunState());
+            List<DeviceLocation> deviceLocations=deviceLocationSerivce.findRoundOnline(deviceNo,split[0],lag);
+            deviceLocations.add(deviceLocation);
+
+            for (DeviceLocation location1 : deviceLocations) {
+                location+= BaiDuUtil.getAddress(location1.getLongitude(),location1.getLatitude())+"@";
+            }
+            baseModel.setErrorMessage("==================查询所有在线的警员和枪支==================");
+            baseModel.add("onLine", deviceLocations);
+            baseModel.add("number",deviceLocations.size()).add("location",location);
+        }else {
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("请不要暴力修改数据!");
+        }
         return baseModel;
     }
 }

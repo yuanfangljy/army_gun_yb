@@ -307,7 +307,7 @@
                     //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
                     function addClickHandler(marker) {
                         marker.addEventListener("click", function (e) {
-                            var markers = new BMap.Point(113.213676, 29.373501);
+                            //var markers = new BMap.Point(113.213676, 29.373501);
                             deviceLocation(p.deviceNo);
                             }
                         );
@@ -331,7 +331,7 @@
                             + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                             + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>"+"</div>";
                     }else{
-                         tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:120px; border:1px solid #ff7f34; position:relative; border-radius:8px; background-color:#ff7f34;'>"
+                         tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:120px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                             + "警员编号：" + p.deviceNo + "</br>"
                             + "枪号：" + p.gunTag + "</br>"
                             + "枪支：" + p.gunModel + "</br>"

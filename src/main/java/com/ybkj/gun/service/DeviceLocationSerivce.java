@@ -26,4 +26,6 @@ public interface DeviceLocationSerivce {
 
     //根据时间查询枪支的轨迹
     List<DeviceLocation> selectDeviceLocationTrajectory(Map<String, Object> map);
+
+    List<DeviceLocation> findRoundOnline(String deviceNo,String lng,String lag) throws Exception;
 }

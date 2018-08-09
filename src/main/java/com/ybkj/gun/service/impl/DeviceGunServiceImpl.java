@@ -6,12 +6,10 @@ import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.DataTool;
 import com.ybkj.common.util.RandomNumber;
 import com.ybkj.gun.mapper.DeviceGunMapper;
+import com.ybkj.gun.mapper.DeviceLocationMapper;
 import com.ybkj.gun.mapper.DeviceMapper;
 import com.ybkj.gun.mapper.GunMapper;
-import com.ybkj.gun.model.Device;
-import com.ybkj.gun.model.DeviceGun;
-import com.ybkj.gun.model.DeviceGunExample;
-import com.ybkj.gun.model.Gun;
+import com.ybkj.gun.model.*;
 import com.ybkj.gun.service.DeviceGunSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Description: 功能描述（枪支领取信息业务表）
@@ -42,6 +42,8 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
     DeviceGunMapper deviceGunMapper;
     @Autowired
     DeviceMapper deviceMapper;
+    @Autowired
+    DeviceLocationMapper deviceLocationMapper;
     @Autowired
     GunMapper gunMapper;
     @Autowired
@@ -226,6 +228,12 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
      */
     @Override
     public List<DeviceGun> findGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception {
+       /* DeviceLocation deviceLocation = deviceLocationMapper.selectDeviceLocationByDeviceNoNewest(deviceNo);
+        System.out.println("deviceLocation---------"+deviceNo+"="+deviceLocation.getLongitude()+"--"+deviceLocation.getLatitude());*/
+        /*Map<String,Object> map=new HashMap<String,Object>();
+        map.put("deviceNo",deviceNo);
+        map.put("lng",Double.parseDouble(lng));
+        map.put("lag",Double.parseDouble(lag));*/
         return deviceGunMapper.selectGunAndDeviceLocationAllOnLine(deviceNo);
     }
 

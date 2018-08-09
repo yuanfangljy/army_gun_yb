@@ -150,5 +150,32 @@ public class DeviceGun {
         this.version = version;
     }
 
-
+    @Override
+    public String toString() {
+        return "DeviceGun{" +
+                "id=" + id +
+                ", deviceNo='" + deviceNo + '\'' +
+                ", gunMac='" + gunMac + '\'' +
+                ", outWarehouseTime=" + outWarehouseTime +
+                ", inWarehouseTime=" + inWarehouseTime +
+                ", state=" + state +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", temperanceTime=" + temperanceTime +
+                ", version=" + version +
+                ", guns=" + guns +
+                ", device=" + device +
+                ", deviceLocation=" + deviceLocation +
+                ", deviceLocationId=" + deviceLocationId +
+                ", deviceLocationLatirude='" + deviceLocationLatirude + '\'' +
+                ", deviceLocationLongitude='" + deviceLocationLongitude + '\'' +
+                ", gunState=" + gunState +
+                ", deviceState=" + deviceState +
+                ", gunTag='" + gunTag + '\'' +
+                ", gunWarehouseName='" + gunWarehouseName + '\'' +
+                ", locationEndTime=" + locationEndTime +
+                ", mobile='" + mobile + '\'' +
+                ", gunModel='" + gunModel + '\'' +
+                '}';
+    }
 }

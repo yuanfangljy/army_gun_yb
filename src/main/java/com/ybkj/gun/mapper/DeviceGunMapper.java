@@ -3,6 +3,8 @@ package com.ybkj.gun.mapper;
 import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceGunExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import sun.awt.SunHints;
 
@@ -33,6 +35,7 @@ public interface DeviceGunMapper {
     DeviceGun selectDeviceGunByStatus(@Param(value = "deviceNo") String deviceNo,@Param(value = "gunMac")String gunMac,@Param(value = "state") Integer state) throws Exception;
     // 枪支实时列表管理:根据警员编号
     List<DeviceGun> selectGunAndDeviceLocation(String deviceNo) throws Exception ;
+    DeviceGun selectGunAndDeviceLocationOne(String deviceNo) throws Exception ;
     // 枪支实时列表管理:根据警员编号
     List<DeviceGun> selectGunAndDeviceLocationAll() throws Exception ;
     List<DeviceGun> selectDeviceGun(DeviceGun deviceGun) throws Exception;

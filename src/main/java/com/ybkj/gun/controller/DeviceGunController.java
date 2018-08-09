@@ -82,7 +82,7 @@ public class DeviceGunController {
     public BaseModel realTimeDeviceAndGun(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
         BaseModel baseModel=new BaseModel();
         List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation(deviceNo);
-        System.out.println("---------@@@@@@@@@-----------"+deviceNo);
+        //System.out.println("---------@@@@@@@@@-----------"+deviceNo);
         baseModel.setErrorMessage("==================全部以领装备的士兵实时状态==================");
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.add("devices",devices);
@@ -122,9 +122,13 @@ public class DeviceGunController {
      * @return
      */
     @RequestMapping(value = "/inquireDeviceAndGunOnline",method = RequestMethod.POST)
-    public BaseModel inquireDeviceAndGunOnline(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+    public BaseModel inquireDeviceAndGunOnline(@RequestParam(value="deviceNo",required=false)String deviceNo,@RequestParam(value="lng",required=false)String lng,@RequestParam(value="lag",required=false)String lag) throws Exception {
+        System.out.println("========="+deviceNo+"--"+lng+"--"+lag);
         BaseModel baseModel=new BaseModel();
         List<DeviceGun> onLine = deviceGunService.findGunAndDeviceLocationAllOnLine(deviceNo);
+        for (DeviceGun deviceGun : onLine) {
+            System.out.println("-------"+deviceGun);
+        }
         baseModel.setErrorMessage("==================查询所有在线的警员和枪支==================");
         baseModel.add("onLine", onLine);
         return baseModel;

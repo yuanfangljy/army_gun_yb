@@ -131,10 +131,11 @@
                         skin: 'layer-ext-moon'
                     });
                 }else if (result.status == "15") {
-                    layer.alert(result.errorMessage, {
+                   layer.msg(result.errorMessage);
+                    /*layer.alert(result.errorMessage, {
                         icon: 1,
                         skin: 'layer-ext-moon'
-                    });
+                    });*/
                 }
             },error:function(result){
                 if(result.responseText=="IsAjax"){
