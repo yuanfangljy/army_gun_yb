@@ -364,13 +364,15 @@
         }, 2000);
         //设置地图
         map.addControl(new BMap.MapTypeControl({
-            mapTypes:
-                [
-                    BMAP_HYBRID_MAP,
-                    BMAP_NORMAL_MAP
-                    //BMAP_SATELLITE_MAP//卫星地图
-                ]
+            mapTypes: BMAP_HYBRID_MAP
+            /* [
+             BMAP_HYBRID_MAP,
+             BMAP_NORMAL_MAP
+             //BMAP_SATELLITE_MAP//卫星地图
+         ]*/
         }));
+        //设置地图：使用混合地图
+        map.setMapType(BMAP_SATELLITE_MAP);
         //6、 添加带有定位的导航控件
         var navigationControl = new BMap.NavigationControl({
             // 靠左上角位置
@@ -399,6 +401,9 @@
             layer.alert(e.message);
         });
         map.addControl(geolocationControl);
+        //6、左下角地图查看空间
+        var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:true});
+        map.addControl(overviewControl);
 
 //7、添加标注
         function deviceLocation(deviceNos, lng, lag) {

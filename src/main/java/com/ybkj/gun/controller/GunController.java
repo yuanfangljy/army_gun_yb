@@ -81,7 +81,7 @@ public class GunController {
         //表示枪支存在
         if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
             baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
-            baseModel.setErrorMessage("该枪支存在！");//表示存在
+            baseModel.setErrorMessage("该枪支已存在！");//表示存在
         }else{
             baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
             baseModel.setErrorMessage("该枪支不存在！");

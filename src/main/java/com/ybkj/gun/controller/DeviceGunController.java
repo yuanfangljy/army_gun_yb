@@ -82,7 +82,7 @@ public class DeviceGunController {
     public BaseModel realTimeDeviceAndGun(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
         BaseModel baseModel=new BaseModel();
         List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation(deviceNo);
-        //System.out.println("---------@@@@@@@@@-----------"+deviceNo);
+        System.out.println("---------@@@@@@@@@-----------"+deviceNo);
         baseModel.setErrorMessage("==================全部以领装备的士兵实时状态==================");
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.add("devices",devices);

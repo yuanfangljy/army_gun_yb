@@ -435,6 +435,23 @@
     });
 
 
+    //判断枪支是否存在
+    $('#gunTag').bind('input propertychange', function() {
+        var gunTag = $("#gunTag").val();
+        $.ajax({
+            url:"../gun/isInquireGuntag",
+            type:"POST",
+            data:{"gunTag":gunTag},
+            success: function (result) {
+                if (result.status==1){
+                    show_validate_msg("#gunTag", "error", result.errorMessage);
+                    return false;
+                }else{
+                    show_validate_msg("#gunTag", "success", "校验成功");
+                }
+            }
+        })
+    });
     //校验表单数据
     function validete_add_form() {
         //枪支校验

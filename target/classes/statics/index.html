@@ -208,7 +208,7 @@
                 var deviceLocationLatirude = $("<td></td>").append(location[index]).addClass("text-center");
                 var gunWarehouseName = $("<td></td>").append(item.gunWarehouseName).addClass("text-center");
                 var gunState = $("<td></td>").append((item.gunState) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
-                var deviceState = $("<td></td>").append((item.deviceState) == 1 ? "离线" : "在线").addClass("text-center");
+                var deviceState = $("<td></td>").append((item.deviceState) == 2 ? "离线" :(item.deviceState)==0 ? "在线":(item.deviceState)==3?"协助中":"未使用").addClass("text-center");
                 //edit_btn添加上的class标识
                 var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
                     .append($("<span></span>")/*.addClass("glyphicon glyphicon-pencil  ")*/
@@ -220,7 +220,7 @@
                 var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
 
                 //append（追加）方法执行完成以后还是放回原来的元素
-            if(item.gunState==0 && item.deviceState==0){
+            if((item.gunState==0 && item.deviceState==0)|| (item.gunState==0 && item.deviceState==3)){
                 $("<tr></tr>")
                 //.append(deviceLocationId)
                     .append(gunTag)
