@@ -1,6 +1,6 @@
 package com.ybkj.common.activeMq;
 
-import net.sf.json.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
@@ -31,7 +31,7 @@ public class MQProducer {
                 map.put("deviceNo", "22222");
                 map.put("gunTag","11111");
                 map.put("state", "1");
-                JSONObject json = JSONObject.fromObject(map);
+                JSONObject json = (JSONObject) JSONObject.toJSON(map);
                 for(int i=0;i<1;i++){
                     //发送消息
                     producer.send(session.createTextMessage(json.toString()));

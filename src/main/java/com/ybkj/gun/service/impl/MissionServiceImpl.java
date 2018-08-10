@@ -1,5 +1,6 @@
 package com.ybkj.gun.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ybkj.common.activeMq.Producer;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.error.ResultEnum;
@@ -8,7 +9,6 @@ import com.ybkj.common.util.DataTool;
 import com.ybkj.gun.mapper.*;
 import com.ybkj.gun.model.*;
 import com.ybkj.gun.service.MissionSerivce;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -88,7 +88,7 @@ public class MissionServiceImpl implements MissionSerivce {
         map.put("lostphone", lostdevice.getPhone());
         map.put("lostTime", DataTool.dateToString(deviceLocation.getCreateTime()));
         map.put("lostGunTag",lostGunTag);
-        JSONObject json = JSONObject.fromObject(map);
+        JSONObject json = (JSONObject) JSONObject.toJSON(map);
         //5、新增mission数据
         Mission mission=new Mission();
         //在创建协助任务是，判断该警员是不是在协助查找中

@@ -81,7 +81,7 @@ public class DeviceLocationController {
         BaseModel baseModel=new BaseModel();
         String location="";
         String[] split = lng.split(",");
-        System.out.println("------------------"+deviceNo);
+        System.out.println("------------------"+deviceNo+",,"+split[0]+".."+split[1]);
         if(split[0]!="" && split[1]!="" && lag!="" && lng!="" && deviceNo==""){
             DeviceGun deviceGuns = deviceGunMapper.selectGunAndDeviceLocationOne(split[1]);
             DeviceLocation deviceLocation=new DeviceLocation();

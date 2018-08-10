@@ -336,9 +336,21 @@
         }
     });
 
-    //====================================   地图模态框    =================================================
+    //====================================   地图模态框    =========================================
     function FindAssist(deiceNos, lostGun, lng, lag) {
-        deviceLocation(null, lng+","+deiceNos, lag);
+        //iframe窗
+        layer.open({
+            type: 2,
+            title: '协助查询',
+            shadeClose: true,
+            shade: false,
+            maxmin: true, //开启最大化最小化按钮
+            area: ['893px', '600px'],
+            content: 'assist.html?deviceNos='+deiceNos+"&"+'lostGun='+lostGun+"&"+'lng='+lng+"&"+'lag='+lag
+        });
+
+
+      /*  deviceLocation(null, lng + "," + deiceNos, lag);
         $("#findGun").modal({
             backdrop: "static"
         });
@@ -365,11 +377,11 @@
         //设置地图
         map.addControl(new BMap.MapTypeControl({
             mapTypes: BMAP_HYBRID_MAP
-            /* [
+            /!* [
              BMAP_HYBRID_MAP,
              BMAP_NORMAL_MAP
              //BMAP_SATELLITE_MAP//卫星地图
-         ]*/
+         ]*!/
         }));
         //设置地图：使用混合地图
         map.setMapType(BMAP_SATELLITE_MAP);
@@ -402,7 +414,7 @@
         });
         map.addControl(geolocationControl);
         //6、左下角地图查看空间
-        var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:true});
+        var overviewControl = new BMap.OverviewMapControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, isOpen: true});
         map.addControl(overviewControl);
 
 //7、添加标注
@@ -412,7 +424,7 @@
             var markers = [];//点聚合参数
             var markerClusterer = null;//点聚合参数
             var recentlyDeivce;//最近设备
-            var location="";
+            var location = "";
             //设备实时状态显示
             $.ajax({
                 url: "../deviceLocation/roundOnline",
@@ -421,11 +433,11 @@
                 dataType: "json",
                 asynec: false,
                 success: function (result) {
-                    if(result.status==200){
+                    if (result.status == 200) {
                         layer.alert(result.errorMessage);
                         return false;
                     }
-                    location=result.extend.location.split("@");
+                    location = result.extend.location.split("@");
                     $.each(result.extend.onLine, function (i, p) {
                         label[i] = p.longitude;
                         value[i] = p.latitude;
@@ -446,7 +458,7 @@
                         //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
                         function addClickHandler(marker) {
                             marker.addEventListener("click", function (e) {
-                                     layer.alert(location[i]);
+                                    layer.alert(location[i]);
                                     //alert(p.deviceNo + "--" + p.longitude + "--" + p.latitude);
                                     //deviceLocation(p.deviceNo, p.longitude, p.latitude);
                                 }
@@ -462,38 +474,38 @@
                         var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">协助</span>';
 
                         var tag;//浮框
-                        if(result.extend.number - 2 == i){
-                             recentlyDeivce=p.deviceNo;
-                             tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:173px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
+                        if (result.extend.number - 2 == i) {
+                            recentlyDeivce = p.deviceNo;
+                            tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:173px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
                                 + "警员编号：" + recentlyDeivce + "</br>"
                                 + "枪号：" + p.gunTag + "</br>"
                                 + "枪支：" + p.gunModel + "</br>"
                                 + "电话：" + p.mobile + "</br>"
-                                +"<span style='color: #ff2217'>最近距离：" + p.juli + "</br></span>"
-                                +((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                                + "<span style='color: #ff2217'>最近距离：" + p.juli + "," + (result.extend.number - i - 1) + "</br></span>"
+                                + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
                                 "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
                             ;
-                        }else{
-                            if(result.extend.number - 1 == i){
+                        } else {
+                            if (result.extend.number - 1 == i) {
                                 tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:150px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                                     + "警员编号：" + p.deviceNo + "</br>"
                                     + "枪号：" + p.gunTag + "</br>"
                                     + "枪支：" + p.gunModel + "</br>"
                                     + "电话：" + p.mobile + "</br>"
-                                    +"<span style='color: #ff2589'>最近警员：" + recentlyDeivce + "</br></span>"
-                                    +((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                                    + "<span style='color: #ff2589'>最近警员：" + recentlyDeivce + "</br></span>"
+                                    + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                     + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
                                     "</div>"
                                 ;
-                            }else{
+                            } else {
                                 tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:173px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
                                     + "警员编号：" + p.deviceNo + "</br>"
                                     + "枪号：" + p.gunTag + "</br>"
                                     + "枪支：" + p.gunModel + "</br>"
                                     + "电话：" + p.mobile + "</br>"
-                                    +"<span style='color: #ff2217'>距离：" + p.juli + "</br></span>"
-                                    +((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                                    + "<span style='color: #ff2217'>距离：" + p.juli + "," + (result.extend.number - 1 - i) + "</br></span>"
+                                    + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                     + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
                                     "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
                                 ;
@@ -502,27 +514,26 @@
                         }
 
 
-
-                       /* if (result.extend.number - 2 == i) {
-                            //7.2 添加字体
-                            var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -185)});
-                            labela.setStyle({
-                                color: "#302e18",
-                                width: "100%",
-                                height: "100%",
-                                fontSize: "14px",
-                            });
-                            marker.setLabel(labela);
-                        }*/
+                        /!* if (result.extend.number - 2 == i) {
+                             //7.2 添加字体
+                             var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -185)});
+                             labela.setStyle({
+                                 color: "#302e18",
+                                 width: "100%",
+                                 height: "100%",
+                                 fontSize: "14px",
+                             });
+                             marker.setLabel(labela);
+                         }*!/
 
                         //创建标注的hover事件
                         marker.addEventListener("mouseover", function (e) {
                             //7.2 添加字体
                             var labela;
-                            if(result.extend.number - 1 == i){
-                                 labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -160)});
-                            }else {
-                                 labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -185)});
+                            if (result.extend.number - 1 == i) {
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -160)});
+                            } else {
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -185)});
                             }
                             labela.setStyle({
                                 color: "#302e18",
@@ -567,7 +578,7 @@
                     }
                 }
             });
-        }
+        }*/
     }
 
     //================================   请求协助查询   ==============================

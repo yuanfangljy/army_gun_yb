@@ -3,10 +3,8 @@ package com.ybkj.gun.mapper;
 import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceGunExample;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import sun.awt.SunHints;
 
 public interface DeviceGunMapper {
     long countByExample(DeviceGunExample example);

@@ -64,11 +64,11 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
        <!--<table tableName="device" domainObjectName="Device"></table>-->
-        <table tableName="device_gun" domainObjectName="DeviceGun"></table>
+      <!--  <table tableName="device_gun" domainObjectName="DeviceGun"></table>-->
         <!--<table tableName="device_location" domainObjectName="DeviceLocation"></table>-->
-        <!--<table tableName="gun" domainObjectName="Gun"></table>-->
+        <table tableName="gun" domainObjectName="Gun"></table>
         <!--<table tableName="mission" domainObjectName="Mission"></table>-->
-       <!-- <table tableName="sos_massage" domainObjectName="SosMassage"></table>-->
+        <!--<table tableName="sos_message" domainObjectName="SosMessage"></table>-->
       <!--<table tableName="web_user" domainObjectName="WebUser"></table>-->
     </context>
 </generatorConfiguration>

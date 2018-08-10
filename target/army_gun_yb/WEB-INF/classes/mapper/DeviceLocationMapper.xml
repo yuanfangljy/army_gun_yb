@@ -9,6 +9,61 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="juli" jdbcType="INTEGER" property="juli"/>
+    <!--查询出来的值，重新取别名-->
+    <result column="gunWarehouseName" jdbcType="VARCHAR" property="gunWarehouseName"/>
+    <result column="gunTag" jdbcType="VARCHAR" property="gunTag"/>
+    <result column="gunState" jdbcType="INTEGER" property="gunState"/>
+    <result column="deviceState" jdbcType="INTEGER" property="deviceState"/>
+    <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+    <result column="gunModel" jdbcType="VARCHAR" property="gunModel"/>
+
+    <!--关联设备枪支出库表-->
+    <association property="deviceGun" javaType="com.ybkj.gun.model.DeviceGun">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
+      <result column="gun_mac" jdbcType="VARCHAR" property="gunMac"/>
+      <result column="out_warehouse_time" jdbcType="TIMESTAMP" property="outWarehouseTime"/>
+      <result column="in_warehouse_time" jdbcType="TIMESTAMP" property="inWarehouseTime"/>
+      <result column="state" jdbcType="INTEGER" property="state"/>
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+      <result column="temperance_time" jdbcType="TIMESTAMP" property="temperanceTime"/>
+      <result column="version" jdbcType="INTEGER" property="version"/>
+    </association>
+    <!--关联枪支信息表-->
+    <association property="guns" javaType="com.ybkj.gun.model.Gun">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <id column="web_id" jdbcType="INTEGER" property="webId"/>
+      <result column="gun_tag" jdbcType="VARCHAR" property="gunTag"/>
+      <result column="gun_model" jdbcType="VARCHAR" property="gunModel"/>
+      <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac"/>
+      <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
+      <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber"/>
+      <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
+      <result column="state" jdbcType="INTEGER" property="state"/>
+      <result column="real_time_state" jdbcType="INTEGER" property="realTimeState"/>
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+      <result column="version" jdbcType="INTEGER" property="version"/>
+    </association>
+    <!--关联设备信息表-->
+    <association property="device" javaType="com.ybkj.gun.model.Device">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
+      <result column="device_name" jdbcType="VARCHAR" property="deviceName"/>
+      <result column="password" jdbcType="VARCHAR" property="password"/>
+      <result column="phone" jdbcType="VARCHAR" property="phone"/>
+      <result column="email" jdbcType="VARCHAR" property="email"/>
+      <result column="state" jdbcType="INTEGER" property="state"/>
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+      <result column="version" jdbcType="INTEGER" property="version"/>
+    </association>
+   <!-- &lt;!&ndash;开始时间和结束时间&ndash;&gt;
+    <result column="beginTime" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="endTimes" jdbcType="TIMESTAMP" property="endTimes" />-->
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -267,4 +322,37 @@
       version = #{version,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--根据时间和枪支查询枪支的轨迹-->
+  <select id="selectDeviceLocationByTimeAndGunTag" resultType="java.util.Map" parameterType="com.ybkj.gun.model.DeviceLocation">
+     select latitude,longitude from device_location as l LEFT JOIN device_gun as g ON l.device_no=g.device_no and g.state=0 WHERE l.device_no= #{DeviceNo ,jdbcType=VARCHAR} and l.create_time between  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+  </select>
+  <!--根据警员编号，查询出最新警员地址-->
+  <select id="selectDeviceLocationByDeviceNoNewest" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select id ,longitude,latitude,create_time from device_location where  device_no = #{deviceNo,jdbcType=VARCHAR} ORDER BY id DESC LIMIT 1
+  </select>
+
+  <!--计算传入的经纬度，周围的最近的经纬度-->
+  <select id="selectRoundOnline" parameterType="java.util.Map" resultMap="BaseResultMap">
+ SELECT d.id,d.latitude,d.longitude,d.device_no,
+        b.gun_tag AS gunTag ,b.warehouse_name AS gunWarehouseName ,
+        b.real_time_state AS gunState,c.state AS deviceState,
+        c.phone AS mobile,b.gun_model AS gunModel,
+  ROUND(6378.138*2*ASIN(SQRT(POW(SIN((${lag}*PI()/180-d.latitude *PI()/180)/2),2)+
+  COS(${lag}*PI()/180) *COS(d.latitude *PI()/180)*POW(SIN((${lng}*PI()/180-d.longitude *PI()/180)/2),2)))*1000)
+  AS juli
+  FROM device_gun a,gun b,device c,device_location d
+    WHERE a.device_no=c.device_no
+    AND a.gun_mac=b.bluetooth_mac
+    AND d.device_no=c.device_no
+    AND a.state=0
+    AND b.real_time_state=0
+    AND c.state=0
+    AND d.device_no like '%' #{deviceNo} '%'
+    HAVING juli > 500
+    ORDER BY juli DESC
+    LIMIT 5
+
+  </select>
+
 </mapper>

@@ -142,7 +142,7 @@ public class Producer {
      * @param body
      * @return
      */
-    public BaseModel sendMessageMinistrantFind(net.sf.json.JSONObject body) throws Exception {
+    public BaseModel sendMessageMinistrantFind(JSONObject body) throws Exception {
         BaseModel baseModel = new BaseModel();
         ServerOffLocationSearchMessage serverMessageBody = new ServerOffLocationSearchMessage();
         ServerOffLocationSearchBody messageBody = new ServerOffLocationSearchBody();
