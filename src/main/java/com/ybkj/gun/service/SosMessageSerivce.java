@@ -1,5 +1,6 @@
 package com.ybkj.gun.service;
 
+import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.SosMessage;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface SosMessageSerivce {
     public SosMessage findSosMassage(Integer sosMassageId) throws Exception;
     //根据警员编号查询报警信息
     List<SosMessage> selectSosMassageByDeviceNo(String deviceNo);
+    //根据id修改信息
+    BaseModel updateSosMassageById(Integer id);
 }

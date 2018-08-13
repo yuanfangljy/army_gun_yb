@@ -150,16 +150,38 @@ public class DeviceController {
      * @return
      */
     @RequestMapping(value = "/inquireDeviceOffLine",method = RequestMethod.POST)
-    public BaseModel inquireDeviceOffLine(@RequestParam(value="pn",defaultValue="1") Integer pn) throws Exception {
+    public BaseModel inquireDeviceOffLine(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value = "state",required = true)Integer state) throws Exception {
         BaseModel baseModel=new BaseModel();
         PageHelper.startPage(pn,4);
         //startPage后面紧跟着的这个查询就是一个分页查询
-        List<Gun> guns=deviceSerivce.findDeviceOffLine();
+        List<Gun> guns=null;
+        if(state==0){
+             guns=deviceSerivce.findDeviceOffLine(0);
+        }else if(state==2){
+             guns=deviceSerivce.findDeviceOffLine(2);
+        }else{
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("请不要暴力篡改数据");
+        }
         PageInfo<Gun> page = new PageInfo<Gun>(guns,1);
         baseModel.setErrorMessage("统计成功");
         baseModel.add("pageInfo",page);
         return baseModel;
     }
+
+    /**
+     * 统计在线设备
+     * @return
+     */
+    @ApiOperation(value = "设备在线人数", notes = "在线数")
+    @RequestMapping(value = "/statisticsOnlineDeivce",method = RequestMethod.POST)
+    public BaseModel statisticsOnlineDeivce() throws Exception {
+        BaseModel baseModel=new BaseModel();
+        Integer number=deviceSerivce.findDeviceOnLine();
+        baseModel.add("number",number);
+        return baseModel;
+    }
+
 
     public static void main(String[] args) {
         int a=0;

@@ -1,5 +1,6 @@
 <html>
 <head>
+    <!--<meta http-equiv="refresh" content="3">-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
     <style type="text/css">
@@ -208,7 +209,7 @@
     <script type="text/javascript" src="js/mq/stomp.min.js"></script>
     <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
     <script type="text/javascript" src="js/mq/customer.js"></script>
-    <script type="application/javascript">
+    <script >
         var differentindex;
         $(function () {
             //隐藏或者显示列表
@@ -232,14 +233,24 @@
                 $("#showTableDevice").hide();
             });*/
             //枪支离位列表
+            /*deviceLocation(null);
+            deviceDislocation();
+            gunDislocation();*/
+        })
+        function dingshi(){
+//枪支离位列表
             deviceLocation(null);
             deviceDislocation();
             gunDislocation();
-        })
+           // gunOffNormal(1) ;
+           // gunOffLine(1);
+        }
+       setInterval(dingshi, 1000);
     </script>
 </body>
 </html>
 <script type="text/javascript">
+
     // 百度地图API功能
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(114.034656, 22.616798);
@@ -401,8 +412,8 @@
                     markers.push(marker);
                     //marker.addEventListener("click", attribute);
 
-                    //7.5 让所有点在视野范围内
-                    map.setViewport(label);
+                    //7.5 让所有点在视野范围内(**在做页面实时刷新的时候，不要加上这个，不然页面会一直跳**)
+                    //map.setViewport(label);
 
                 });
                 //7.3 最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
@@ -423,6 +434,8 @@
         });
     }
 
+
+    
 
     //枪支离线数
     function deviceDislocation() {
@@ -600,10 +613,11 @@
         $.ajax({
             url: "../device/inquireDeviceOffLine",
             type: "POST",
-            data: {"pn": pn},
-            asynec:true,
+            data: {"pn": pn,"state":2},
+            asynec:false,
             dataType: "json",
             success: function (result) {
+
                 if(result.extend.pageInfo.pages>="2") {
                     //1、解析屏显示枪支数据、
                     build_device_table(result);

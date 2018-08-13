@@ -136,6 +136,8 @@
 <script type="text/javascript" src="js/mq/customer.js"></script>
 <script type="text/javascript" src="js/dateTransition/datejs.js"></script>
 <script>
+
+
     $(function () {
         to_page(1, null);
     });
@@ -194,7 +196,7 @@
                 var deviceNo = $("<td></td>").append(item.deviceNo).addClass("text-center");
                 var location = $("<td></td>").append(sosLocatoin[index]).addClass("text-center");
                 var sosTime = $("<td></td>").append(new Date(item.sosTime).format("yyyy-MM-dd hh:mm:ss")).addClass("text-center");
-                var state = $("<td></td>").append((item.state) == 1 ? "<a href='javascript:void()' onclick=FindAssist('" + item.deviceNo + "','" + sosGunTag[index] + "','" + item.longitude + "','" + item.latitude + "')  style='color: #ff2217'>未处理</a>" : (item.gunState) == 0 ? "已处理" : "离位").addClass("text-center findAssist");
+                var state = $("<td></td>").append((item.state) == 1 ? "<a href='javascript:void()' onclick=FindAssist('" +item.id+ "','" + item.deviceNo + "','" + sosGunTag[index] + "','" + item.longitude + "','" + item.latitude + "')  style='color: #ff2217'>未处理</a>" : (item.state) == 0 ? "已处理" : "离位").addClass("text-center findAssist");
 
                 //edit_btn添加上的class标识
                 var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
@@ -335,9 +337,13 @@
             to_page(1, $("#deviceNos").val());
         }
     });
-
+    function Openljy() {
+        //alert("");
+    }
     //====================================   地图模态框    =========================================
-    function FindAssist(deiceNos, lostGun, lng, lag) {
+    function FindAssist(sosId,deiceNos, lostGun, lng, lag) {
+        ModifierSosMessage(sosId);
+
         //iframe窗
         layer.open({
             type: 2,
@@ -614,6 +620,23 @@
                         icon: 1
                     });
                 }
+            },error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
+            }
+        })
+    }
+    //修改
+    function ModifierSosMessage(id) {
+        $.ajax({
+            url:"../sosMission/modifierSosMessageState/"+id,
+            type:"PUT",
+            success:function (result) {
+              /*  if(result.status==){
+
+                }*/
             }
         })
     }

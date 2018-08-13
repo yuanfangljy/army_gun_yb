@@ -135,17 +135,17 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
                             baseModel.setErrorMessage("该警员与枪正在连接中");
                         } else {
                             //send Delivery message to Netty
-                            BaseModel sendMessageDelivery = producer.sendMessageDelivery(gun.getBluetoothMac(), deviceGun.getGunTag(), dataTool.dateToString(), dataTool.dateToString(deviceGun.getTemperanceTime()), deviceGun.getDeviceNo());
+                            BaseModel sendMessageDelivery = producer.sendMessageDelivery(gun.getBluetoothMac(), gun.getGunTag(), dataTool.dateToString(), dataTool.dateToString(deviceGun.getTemperanceTime()), deviceGun.getDeviceNo());
                             System.out.println("-----&&&&&------" + sendMessageDelivery);
                             if (sendMessageDelivery.getStatus()!=StatusCodeEnum.Fail.getStatusCode()) {
                                 //进行出库操作
                                 //修改设备的状态，根据警员编号
                                 device.setState(1);
-                                deviceMapper.updateByPrimaryKeySelective(device);
+                                //deviceMapper.updateByPrimaryKeySelective(device);
                                 //修改枪支的状态
                                 gun.setState(1);
                                 gun.setRealTimeState(1);
-                                gunMapper.updateByPrimaryKeySelective(gun);
+                                //gunMapper.updateByPrimaryKeySelective(gun);
                                 //device_gun：修改
                                 deviceGun.setCreateTime(new Date());
                                 deviceGun.setOutWarehouseTime(new Date());

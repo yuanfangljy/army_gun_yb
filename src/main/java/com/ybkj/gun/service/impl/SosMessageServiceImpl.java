@@ -1,5 +1,7 @@
 package com.ybkj.gun.service.impl;
 
+import com.ybkj.common.error.ResultEnum;
+import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.mapper.SosMessageMapper;
 import com.ybkj.gun.model.SosMessage;
 import com.ybkj.gun.service.SosMessageSerivce;
@@ -35,6 +37,33 @@ public class SosMessageServiceImpl implements SosMessageSerivce {
 
         return sosMassageMapper.selectSosMassageByDeviceNo(deviceNo);
     }
+
+    /**
+     * 修改警告信息
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseModel updateSosMassageById(Integer id) {
+        BaseModel baseModel=new BaseModel();
+        SosMessage sosMessage = sosMassageMapper.selectByPrimaryKey(id);
+        if(sosMessage!=null){
+            sosMessage.setState(0);
+            int i = sosMassageMapper.updateByPrimaryKeySelective(sosMessage);
+            if(i!=1){
+                baseModel.setStatus(ResultEnum.ERROR.getCode());
+                baseModel.setErrorMessage("修改失败");
+            }else {
+                baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+                baseModel.setErrorMessage("修改成功");
+            }
+        }else {
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+            baseModel.setErrorMessage("该警告信息不存在");
+        }
+        return baseModel;
+    }
+
     @Override
     public int insertSosMassage(SosMessage sosMassage) throws Exception {
         return 0;

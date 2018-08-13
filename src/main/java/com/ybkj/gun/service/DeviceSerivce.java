@@ -14,15 +14,17 @@ public interface DeviceSerivce {
     public List<Device> findDevices(Device devices) throws Exception;
     public Device findDevice(Integer deviceId) throws Exception;
     //添加设备信息
-    BaseModel insertDevices(Device device);
+    BaseModel insertDevices(Device device) throws Exception;
     //查询手机号
-    BaseModel selectMobile(String mobile);
+    BaseModel selectMobile(String mobile) throws Exception;
     //查询邮箱
-    BaseModel selectEmail(String email);
+    BaseModel selectEmail(String email) throws Exception;
     //查询设备名
-    BaseModel selectDeviceName(String deviceName);
+    BaseModel selectDeviceName(String deviceName) throws Exception ;
     //查询设备编码
-    BaseModel selectDeviceNo(String deviceNo);
+    BaseModel selectDeviceNo(String deviceNo)throws Exception;
     //设备离线统计
-    List<Gun> findDeviceOffLine();
+    List<Gun> findDeviceOffLine(Integer state) throws Exception;
+    //统计在线设备
+    Integer findDeviceOnLine() throws Exception;
 }

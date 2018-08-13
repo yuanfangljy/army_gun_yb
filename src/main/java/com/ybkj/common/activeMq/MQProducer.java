@@ -1,11 +1,13 @@
 package com.ybkj.common.activeMq;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 import java.util.*;
 
+@Slf4j
 public class MQProducer {
 
     private static final String USERNAME = "admin"; //用户名
@@ -28,10 +30,20 @@ public class MQProducer {
                 producer = session.createProducer(destination);
                 producer.setDeliveryMode(DeliveryMode.PERSISTENT);
                 Map map = new HashMap();
-                map.put("deviceNo", "22222");
-                map.put("gunTag","11111");
-                map.put("state", "1");
+                Map map1 = new HashMap();
+                map.put("serviceType","BTOFFPOSITIONALARM");
+                map.put("formatVersion","1.0");
+                map.put("deviceType","1");
+                map.put("serialNumber","201807222222221222");
+                map.put("messageType","08");
+                map.put("sendTime","20180722222222");
+                map.put("sessionToken","sfdsfwet347284129");
+                map1.put("deviceNo", "22222");
+                map1.put("gunTag","11111");
+                map1.put("state", "1");
+                map.put("messageBody",map1);
                 JSONObject json = (JSONObject) JSONObject.toJSON(map);
+                log.info("----"+json.toJSONString());
                 for(int i=0;i<1;i++){
                     //发送消息
                     producer.send(session.createTextMessage(json.toString()));

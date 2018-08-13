@@ -38,7 +38,7 @@ public class DeviceServiceImpl implements DeviceSerivce{
      * @return
      */
     @Override
-    public BaseModel insertDevices(Device device) {
+    public BaseModel insertDevices(Device device) throws Exception{
         BaseModel baseModel=new BaseModel();
         Object passWord= MD5.Md5(device.getPhone(), device.getPassword());
         device.setPassword(passWord.toString());
@@ -58,7 +58,7 @@ public class DeviceServiceImpl implements DeviceSerivce{
      * @return
      */
     @Override
-    public BaseModel selectMobile(String mobile) {
+    public BaseModel selectMobile(String mobile) throws Exception{
         BaseModel baseModel=new BaseModel();
         Device device = deviceMapper.selectMobile(mobile);
         if(device==null){
@@ -75,7 +75,7 @@ public class DeviceServiceImpl implements DeviceSerivce{
      * @return
      */
     @Override
-    public BaseModel selectEmail(String email) {
+    public BaseModel selectEmail(String email) throws Exception{
         BaseModel baseModel=new BaseModel();
         Device  device = deviceMapper.selectEmail(email);
         if(device==null){
@@ -92,7 +92,7 @@ public class DeviceServiceImpl implements DeviceSerivce{
      * @return
      */
     @Override
-    public BaseModel selectDeviceName(String deviceName) {
+    public BaseModel selectDeviceName(String deviceName) throws Exception{
         BaseModel baseModel=new BaseModel();
         Device  device = deviceMapper.selectDeviceName(deviceName);
         if(device==null){
@@ -108,7 +108,7 @@ public class DeviceServiceImpl implements DeviceSerivce{
      * @return
      */
     @Override
-    public BaseModel selectDeviceNo(String deviceNo) {
+    public BaseModel selectDeviceNo(String deviceNo) throws Exception{
         BaseModel baseModel=new BaseModel();
         Device  device = deviceMapper.selectDeviceNo(deviceNo);
         if(device==null){
@@ -124,8 +124,18 @@ public class DeviceServiceImpl implements DeviceSerivce{
      * @return
      */
     @Override
-    public List<Gun> findDeviceOffLine() {
-        return deviceMapper.selectDeviceOffLine();
+    public List<Gun> findDeviceOffLine(Integer state) throws Exception{
+        return deviceMapper.selectDeviceOffLine(state);
+    }
+
+    /**
+     * 统计在线设备
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer findDeviceOnLine() throws Exception {
+        return deviceMapper.selectDeviceOnLine();
     }
 
 
