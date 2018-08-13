@@ -62,7 +62,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
-            <ul class="nav nav-sidebar">
+            <ul class="nav nav-sidebar" id="wanav">
                 <li><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
                         src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
                 <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
@@ -77,7 +77,10 @@
                         src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
                 <li class="activb"><a href="warning.html"
                                       style=" border-bottom:1px solid #053e78; line-height:38px;"><img
-                        src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
+                        src="img/jingao.png" style="padding-right:20px;" id="waNumber">警告信息</a>
+                    <span></span>
+
+                </li>
             </ul>
             </ul>
         </div>
@@ -135,6 +138,7 @@
 <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
 <script type="text/javascript" src="js/mq/customer.js"></script>
 <script type="text/javascript" src="js/dateTransition/datejs.js"></script>
+<script type="text/javascript" src="js/warning/warningNumber.js"></script>
 <script>
 
 
@@ -158,6 +162,7 @@
                 });
                 //此处用setTimeout演示ajax的回调
                 setTimeout(function () {
+
                     layer.close(ii);
                     if (result.extend.pageInfo.pages >= "2") {
                         //1、解析屏显示枪支地点数据、

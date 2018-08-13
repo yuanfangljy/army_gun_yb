@@ -11,6 +11,7 @@ import com.ybkj.gun.model.SosMessage;
 import com.ybkj.gun.service.SosMessageSerivce;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import java.util.List;
 */
 @Api(value = "/",description = "告警消息功能")
 @SuppressWarnings("all")
+@Slf4j
 @RestController
 @RequestMapping("/sosMission")
 public class SosMessageController {
@@ -76,7 +78,7 @@ public class SosMessageController {
      * @return
      */
     @RequestMapping(value = "/modifierSosMessageState/{id}",method = RequestMethod.PUT)
-    public BaseModel modifierSosMessageState(@PathVariable(value = "id", required = true) Integer id){
+    public BaseModel modifierSosMessageState(@PathVariable(value = "id", required = true) Integer id) throws Exception {
         BaseModel baseModel=new BaseModel();
         BaseModel sosMessage=sosMessageSerivce.updateSosMassageById(id);
         if(sosMessage.getStatus()== StatusCodeEnum.SUCCESS.getStatusCode()){
@@ -86,6 +88,19 @@ public class SosMessageController {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage(sosMessage.getErrorMessage());
         }
+        return baseModel;
+    }
+
+    /**
+     * 统计警告数
+     * @return
+     */
+    @RequestMapping(value = "/statisticsWarningNumber",method = RequestMethod.POST)
+    public BaseModel statisticsWarningNumber() throws Exception {
+        BaseModel baseModel=new BaseModel();
+        Integer  warningNumber=sosMessageSerivce.findWarningNumber(1);
+        log.info("****************统计警告数****************"+warningNumber);
+        baseModel.add("warningNumber",warningNumber);
         return baseModel;
     }
 

@@ -64,6 +64,16 @@ public class SosMessageServiceImpl implements SosMessageSerivce {
         return baseModel;
     }
 
+    /**
+     * 统计警告数
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Integer findWarningNumber(Integer state) throws Exception {
+        return sosMassageMapper.selectWarningNumber();
+    }
+
     @Override
     public int insertSosMassage(SosMessage sosMassage) throws Exception {
         return 0;

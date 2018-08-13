@@ -349,44 +349,64 @@
   </select>
     <!-- 枪支实时列表管理:根据警员编号-->
     <select id="selectGunAndDeviceLocation" resultType="java.lang.String" resultMap="BaseResultMap">
-        SELECT DISTINCT MAX(d.id) as deviceLocationId, b.gun_tag as gunTag ,a.device_no ,d.latitude as
-        deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as
-        deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState ,c.create_time as locationEndTime
-        ,c.phone as mobile ,a.gun_mac,b.gun_model as gunModel
-        FROM device_gun a,gun b,device c,device_location d
+        SELECT d.id AS deviceLocationId,a.device_no,
+        d.longitude AS deviceLocationLongitude,d.latitude AS deviceLocationLatirude,
+        d.create_time AS locationEndTime,
+        b.warehouse_name AS gunWarehouseName,
+        b.real_time_state AS gunState,c.state AS deviceState,b.gun_tag as gunTag
+        ,c.phone AS mobile ,a.gun_mac,b.gun_model AS gunModel FROM
+        (SELECT id, device_no,latitude,longitude,create_time FROM device_location WHERE id IN
+        (SELECT MAX(id) AS ids FROM device_location GROUP BY device_no)) AS d,device_gun a,gun b,device c
         WHERE a.device_no=c.device_no
         AND a.gun_mac=b.bluetooth_mac
         AND d.device_no=c.device_no
         AND a.state=0
         AND a.device_no like '%' #{deviceNo} '%'
-        GROUP BY gunTag,a.device_no
+        GROUP BY a.device_no
         <!---->
     </select>
     <!-- 枪支实时列表管理:根据警员编号-->
     <select id="selectGunAndDeviceLocationOne" resultType="java.lang.String" resultMap="BaseResultMap">
-        SELECT DISTINCT MAX(d.id) as deviceLocationId, b.gun_tag as gunTag ,a.device_no ,d.latitude as
-        deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as
-        deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState ,c.create_time as locationEndTime
-        ,c.phone as mobile ,a.gun_mac,b.gun_model as gunModel
-        FROM device_gun a,gun b,device c,device_location d
+        SELECT d.id AS deviceLocationId,a.device_no,
+        d.longitude AS deviceLocationLongitude,d.latitude AS deviceLocationLatirude,
+        d.create_time AS locationEndTime,
+        b.warehouse_name AS gunWarehouseName,
+        b.real_time_state AS gunState,c.state AS deviceState,b.gun_tag as gunTag
+        ,c.phone AS mobile ,a.gun_mac,b.gun_model AS gunModel FROM
+        (SELECT id, device_no,latitude,longitude,create_time FROM device_location WHERE id IN
+        (SELECT MAX(id) AS ids FROM device_location GROUP BY device_no)) AS d,device_gun a,gun b,device c
         WHERE a.device_no=c.device_no
         AND a.gun_mac=b.bluetooth_mac
         AND d.device_no=c.device_no
         AND a.state=0
         AND a.device_no = #{deviceNo}
-        GROUP BY gunTag,a.device_no
+        GROUP BY a.device_no
         <!---->
     </select>
 
     <select id="selectGunAndDeviceLocationAll" resultMap="BaseResultMap">
+  SELECT d.id AS deviceLocationId,a.device_no,
+        d.longitude AS deviceLocationLongitude,d.latitude AS deviceLocationLatirude,
+        d.create_time AS locationEndTime,
+        b.warehouse_name AS gunWarehouseName,b.gun_tag as gunTag,
+        b.real_time_state AS gunState,c.state AS deviceState
+         FROM
+        (SELECT id, device_no,latitude,longitude,create_time FROM device_location WHERE id IN
+        (SELECT MAX(id) AS ids FROM device_location GROUP BY device_no)) AS d,device_gun a,gun b,device c
+        WHERE a.device_no=c.device_no
+        AND a.gun_mac=b.bluetooth_mac
+        AND d.device_no=c.device_no
+        AND a.state=0
+        GROUP BY a.device_no
+/*
     SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState
     FROM device_gun a,gun b,device c,device_location d
     WHERE a.device_no=c.device_no
     AND a.gun_mac=b.bluetooth_mac
     AND d.device_no=c.device_no
     AND a.state=0
-    GROUP BY gunTag,a.device_no
-  </select>
+    GROUP BY gunTag,a.device_no*/
+ </select>
     <!-- 统计设备离线-->
     <select id="selectDeviceOffLine" parameterType="com.ybkj.gun.model.DeviceGun" resultType="java.lang.Integer">
  SELECT COUNT(DISTINCT b.gun_tag) &amp; COUNT(DISTINCT a.device_no)  AS deviceState
@@ -415,8 +435,14 @@
   </select>
     <!--查询所有在线的警员和枪支-->
     <select id="selectGunAndDeviceLocationAllOnLine" resultType="java.lang.String" resultMap="BaseResultMap">
-        SELECT DISTINCT MAX(d.id) as deviceLocationId,  b.gun_tag as gunTag  ,a.device_no ,d.latitude as deviceLocationLatirude,b.warehouse_name as gunWarehouseName ,d.longitude as deviceLocationLongitude,b.real_time_state as gunState,c.state as deviceState,c.phone as mobile,b.gun_model as gunModel
-        FROM device_gun a,gun b,device c,device_location d
+  SELECT d.id AS deviceLocationId,a.device_no,
+        d.longitude AS deviceLocationLongitude,d.latitude AS deviceLocationLatirude,
+        d.create_time AS locationEndTime,
+        b.warehouse_name AS gunWarehouseName,
+        b.real_time_state AS gunState,c.state AS deviceState,b.gun_tag as gunTag
+        ,c.phone AS mobile ,a.gun_mac,b.gun_model AS gunModel FROM
+        (SELECT id, device_no,latitude,longitude,create_time FROM device_location WHERE id IN
+        (SELECT MAX(id) AS ids FROM device_location GROUP BY device_no)) AS d,device_gun a,gun b,device c
         WHERE a.device_no=c.device_no
         AND a.gun_mac=b.bluetooth_mac
         AND d.device_no=c.device_no

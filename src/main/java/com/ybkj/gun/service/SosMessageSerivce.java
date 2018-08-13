@@ -13,7 +13,9 @@ public interface SosMessageSerivce {
     public List<SosMessage> findSosMassages(SosMessage sosMassages) throws Exception;
     public SosMessage findSosMassage(Integer sosMassageId) throws Exception;
     //根据警员编号查询报警信息
-    List<SosMessage> selectSosMassageByDeviceNo(String deviceNo);
+    List<SosMessage> selectSosMassageByDeviceNo(String deviceNo) throws Exception;
     //根据id修改信息
-    BaseModel updateSosMassageById(Integer id);
+    BaseModel updateSosMassageById(Integer id) throws Exception;
+    //统计离线数
+    Integer findWarningNumber(Integer state) throws Exception;
 }

@@ -29,4 +29,6 @@ public interface SosMessageMapper {
     int updateByPrimaryKey(SosMessage record);
 
     List<SosMessage> selectSosMassageByDeviceNo(String deviceNo);
+    //统计警告数
+    Integer selectWarningNumber();
 }

@@ -1,12 +1,12 @@
 
 /*接收出入库mq显示*/
 //var url = "ws://120.76.156.120:61614/WebOutQueue";
-var url = "ws://127.0.0.1:61614/liujiayi";
+var url = "ws://120.76.156.120:61614/WebOutQueue";
 var login = "admin";
 var passcode = "admin";
 //监听的队列
 //需要和发送者的发送的队列名称一致否则无法接受到数据
-destination = "liujiayi";
+destination = "WebOutQueue";
 var client = Stomp.client(url);
 var onconnect = function (frame) {
     client.subscribe(destination, function (message) {

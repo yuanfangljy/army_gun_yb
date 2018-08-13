@@ -307,4 +307,9 @@
   <select id="selectSosMassageByDeviceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from sos_message where device_no LIKE '%' #{deviceNo,jdbcType=VARCHAR} '%'
   </select>
+  <!--统计警告数-->
+<select id="selectWarningNumber" parameterType="com.ybkj.gun.model.SosMessage" resultType="java.lang.Integer">
+  select count(*) from sos_message where state= 1
+</select>
+
 </mapper>
