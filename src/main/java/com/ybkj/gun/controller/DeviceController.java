@@ -146,13 +146,13 @@ public class DeviceController {
 
 
     /**
-     * 统计枪支离位信息
+     * 统计设备离位信息
      * @return
      */
     @RequestMapping(value = "/inquireDeviceOffLine",method = RequestMethod.POST)
     public BaseModel inquireDeviceOffLine(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value = "state",required = true)Integer state) throws Exception {
         BaseModel baseModel=new BaseModel();
-        PageHelper.startPage(pn,4);
+        PageHelper.startPage(pn,5);
         //startPage后面紧跟着的这个查询就是一个分页查询
         List<Gun> guns=null;
         if(state==0){

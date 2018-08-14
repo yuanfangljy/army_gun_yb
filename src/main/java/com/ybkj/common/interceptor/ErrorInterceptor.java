@@ -30,7 +30,7 @@ public class ErrorInterceptor extends HandlerInterceptorAdapter {
             if("XMLHttpRequest".equals(XRequested)){
                 response.getWriter().write("IsAjax");
             }else{
-                response.sendRedirect("/gun/statics/errorpage/500.html");
+                response.sendRedirect("/gun/static/errorpage/500.html");
             }
             return false;
         }
@@ -39,7 +39,7 @@ public class ErrorInterceptor extends HandlerInterceptorAdapter {
             if("XMLHttpRequest".equals(XRequested)){
                 response.getWriter().write("IsAjax");
             }else{
-                response.sendRedirect("/gun/statics/errorpage/500.html");
+                response.sendRedirect("/gun/static/errorpage/500.html");
             }
             return false;
         }
@@ -71,7 +71,7 @@ public class ErrorInterceptor extends HandlerInterceptorAdapter {
        //挤下线并跳到提示页面
        String path = request.getContextPath();
       LoginUtil.loginUserSessionIds.remove("userName");
-      response.sendRedirect(path+"/statics/errorpage/500.html");
+      response.sendRedirect(path+"/static/errorpage/500.html");
     }
 
         return true;// 只有返回true才会继续向下执行，返回false取消当前请求

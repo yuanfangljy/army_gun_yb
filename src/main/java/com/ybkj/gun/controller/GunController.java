@@ -174,7 +174,7 @@ public class GunController {
     @RequestMapping(value = "/inquireGunOffNormal",method = RequestMethod.POST)
     public BaseModel inquireGunOffNormal(@RequestParam(value="pn",defaultValue="1") Integer pn) throws Exception {
         BaseModel baseModel=new BaseModel();
-        PageHelper.startPage(pn, 4);
+        PageHelper.startPage(pn, 5);
         //startPage后面紧跟着的这个查询就是一个分页查询
         String deivceNoGun="";
         List<Gun> guns=gunService.findGunOffNormal();
