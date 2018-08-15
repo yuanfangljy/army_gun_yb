@@ -120,6 +120,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
         if (gun != null) {
             if (gun.getState() == null || gun.getState() == 1) {
                 //通过警员编号，枪支的mac地址和状态为0（已经出库）
+                System.out.println("========="+deviceGun.getDeviceNo()+"----"+gun.getBluetoothMac()+"----"+status);
                 DeviceGun deviceGun1 = deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(), gun.getBluetoothMac(), status);
                 if (deviceGun1 != null) {
                     baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());

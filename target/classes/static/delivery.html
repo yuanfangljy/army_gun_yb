@@ -133,8 +133,9 @@
                     });
                 }else if (result.status == "15") {
                    layer.msg(result.errorMessage);
-                   location.reload(true);
+                   //location.reload(true);
                    Clear();
+                   // location.href = "map.html";
                     /*layer.alert(result.errorMessage, {
                         icon: 1,
                         skin: 'layer-ext-moon'
@@ -159,6 +160,7 @@
         $("#temperanceTime").val("");
         $("#gunMac").val("");
         $("#deviceNo").val("");
+
     }
     $("#cancel").click(function(){
         Clear();
