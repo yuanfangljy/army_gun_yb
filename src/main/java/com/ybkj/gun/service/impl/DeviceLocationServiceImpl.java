@@ -31,12 +31,12 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce{
     DeviceLocationMapper deviceLocationMapper;
 
     /**
-     * 查询枪支的轨迹，根据时间
+     * 查询枪支的轨迹，根据时间枪支号
      * @param map
      * @return
      */
     @Override
-    public List<DeviceLocation> selectDeviceLocationTrajectory(Map<String, Object> map) {
+    public List<DeviceLocation> findDeviceLocationTrajectory(Map<String, Object> map) {
 
         return deviceLocationMapper.selectDeviceLocationByTimeAndGunTag(map);
     }

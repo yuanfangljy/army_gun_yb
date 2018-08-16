@@ -12,6 +12,9 @@ import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.service.DeviceLocationSerivce;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +36,7 @@ import java.util.Map;
  *@UpdateRemark: 修改内容
  *@Version:      1.0
 */
+@Slf4j
 @SuppressWarnings("all")
 @Api(value = "/",description = "设备地点")
 @RestController
@@ -70,7 +74,7 @@ public class DeviceLocationController {
             DeviceGun deviceGuns=deviceGunMapper.selectDeviceGunByMacAndState(gun.getBluetoothMac(),0);
             map.put("deviceNo",deviceGuns.getDeviceNo());
         }
-        List<DeviceLocation> deviceLocations=deviceLocationSerivce.selectDeviceLocationTrajectory(map);
+        List<DeviceLocation> deviceLocations=deviceLocationSerivce.findDeviceLocationTrajectory(map);
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.add("deviceLocations",deviceLocations);
         return baseModel;
@@ -106,6 +110,32 @@ public class DeviceLocationController {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage("请不要暴力修改数据!");
         }
+        return baseModel;
+    }
+
+    /**
+     * 查询时间段内的枪支轨迹
+     * @param deviceNo
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @ApiOperation(value = "查询时间段内的枪支轨迹",notes = "枪支轨迹", httpMethod = "POST")
+    @RequestMapping(value = "queryTheTrajectory",method = RequestMethod.POST)
+    public BaseModel queryTheTrajectory(@RequestParam(value = "deviceNo",required = false) String deviceNo,@RequestParam(value = "startTime",required = false)String startTime,@RequestParam(value = "endTime",required = false)String endTime) throws ParseException {
+        System.out.println(deviceNo+"------"+startTime +"----------"+endTime);
+        Map<String,Object> map=new HashMap<>();
+        map.put("deviceNo",deviceNo);
+        map.put("beginTime",DataTool.stringToDate(startTime));
+        map.put("endTime",DataTool.stringToDate(endTime));
+
+        BaseModel baseModel=new BaseModel();
+        List<DeviceLocation> deviceLocations=deviceLocationSerivce.findDeviceLocationTrajectory(map);
+        log.info("*************************** 查询时间段内的枪支轨迹  ******************************");
+        System.out.println("------------"+deviceLocations.get(0)+"==="+deviceLocations.get(deviceLocations.size()-1));
+        baseModel.add("deviceLocations",deviceLocations)
+                 .add("firstLocation",deviceLocations.get(0))
+                 .add("lastLocation",deviceLocations.get(deviceLocations.size()-1));
         return baseModel;
     }
 }

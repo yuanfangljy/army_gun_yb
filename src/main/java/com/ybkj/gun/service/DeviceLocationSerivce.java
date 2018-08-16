@@ -2,6 +2,7 @@ package com.ybkj.gun.service;
 
 import com.ybkj.gun.model.DeviceLocation;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,8 @@ public interface DeviceLocationSerivce {
     public DeviceLocation findDeviceLocation(Integer deviceLocationId) throws Exception;
 
     //根据时间查询枪支的轨迹
-    List<DeviceLocation> selectDeviceLocationTrajectory(Map<String, Object> map);
+    List<DeviceLocation> findDeviceLocationTrajectory(Map<String, Object> map);
 
     List<DeviceLocation> findRoundOnline(String deviceNo,String lng,String lag) throws Exception;
+
 }

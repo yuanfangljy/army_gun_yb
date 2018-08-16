@@ -241,17 +241,17 @@
                  $("#showTableDevice").hide();
              });*/
             //枪支离位列表
-            /*deviceLocation(null);
-            deviceDislocation();
-            gunDislocation();
-            deviceOnlineNumber();*/
-        })
-
-        function dingshi() {
             deviceLocation(null);
             deviceDislocation();
             gunDislocation();
             deviceOnlineNumber();
+        })
+
+        function dingshi() {
+            /*deviceLocation(null);
+            deviceDislocation();
+            gunDislocation();
+            deviceOnlineNumber();*/
         }
         setInterval(dingshi, 1000);
     </script>
@@ -642,12 +642,6 @@
         })
     }
 
-    //回车查询事件
-    $(document).keyup(function (event) {
-        if (event.keyCode == 13) {
-            deviceLocation2($("#deviceNos").val())
-        }
-    });
 
     //***********************************  离位枪支列表  *************************************
     //定义全局变量，保存总记录数
@@ -1090,5 +1084,11 @@
         deviceLocation2(deviceNoId);
     })
 
+    //回车查询事件
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            deviceLocation2($("#deviceNos").val())
+        }
+    });
 
 </script>

@@ -68,19 +68,19 @@
     </div>
 </div>
 <div style=" margin-top: 8px; padding-bottom: 8px; border-bottom: 1px solid #d7d7d7; margin-bottom: 15px ; margin-left:-28%">
-    <form class="form-inline">
+    <form class="form-inline" method="post">
         <div class="form-group ">
             <label for="exampleInputName2" style="font-size:14px">枪号</label>
-            <input type="text" class="form-control" id="exampleInputName2" placeholder="选择枪支">
+            <input type="text" class="form-control" id="gunTag" name="gunTag" placeholder="选择枪支">
         </div>
         <div class="col-md-4"></div>
         <div class="form-group">
             <label for="" style="font-size:14px; margin-left: 180px">开始时间</label>
-            <input type="text" class="form-control" id="time1" placeholder="开始时间">
+            <input type="text" class="form-control" id="startTime" name="startTime" placeholder="开始时间">
         </div>
         <div class="form-group">
             ~
-            <input type="text" class="form-control" id="time2" placeholder="结束时间">
+            <input type="text" class="form-control" id="endTime" name="endTime" placeholder="结束时间">
             <label for="" style="font-size:14px">结束时间</label>
         </div>
     </form>
@@ -133,33 +133,32 @@
 <script type="text/javascript">
 
 
-    $(function () {
-        //$('select').searchableSelect();
-        deviceLocation(null);
-        deviceDislocation();
-        gunDislocation();
-    })
+ /*   $(function () {
+        Trajectory("","","");
+    })*/
     //执行一个laydate实例
 
     laydate.render({
-        elem: '#time1' //指定元素
+        elem: '#startTime' //指定元素
     });
     laydate.render({
-        elem: '#time2' //指定元素
+        elem: '#endTime' //指定元素
     });
-
+ //回车查询事件
+ $(document).keyup(function (event) {
+     if (event.keyCode == 13) {
+         Trajectory($("#gunTag").val(),$("#startTime").val(),$("#endTime").val());
+     }
+ });
 </script>
 </body>
 </html>
 <script type="text/javascript">
-    // 百度地图API功能
+    // 百度地图API功能//加载地图
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(114.034656, 22.616798);
     map.centerAndZoom(point, 5);
 
-    /*   var label = new BMap.Label("",{offset:new BMap.Size(20,-10)});
-       marker.setLabel(label);
-       map.size(20,-10);*/
     //1、设置地图的样式
     //map.setMapStyle({style:'midnight'});
     //2、设置地图默认的鼠标指针样式
@@ -211,102 +210,93 @@
         layer.alert(e.message);
     });
     map.addControl(geolocationControl);
+    //7、============================   轨迹   =======================================
+    //定义集合用来存放沿线的坐标值
+    var chartData = [];
+    var walking=null;
+    var startpoint=null;
+    var endpoint=null;
+    function Trajectory(deviceNo,startTime,endTime) {
+    //通过setSearchCompleteCallback回调事件可以把步行间的坐标信息获取
+    //walking.setSearchCompleteCallback(function (rs) {
+      /*  var pts = walking.getResults().getPlan(0).getRoute(0).getPath();
+        for (var i = 0; i < pts.length; i++) {
+            chartData.push(new BMap.Point(pts[i].lat, pts[i].lng));
+        }*/
 
-    //7、添加标注
-    function deviceLocation(deviceNos) {
-        var label = [];//保存日期
-        var value = [];//数量
-        var markers = [];//点聚合参数
-        var markerClusterer = null;//点聚合参数
-        //设备实时状态显示
-        $.ajax({
-            url: "../deviceGun/realTimeDeviceAndGun",
-            type: "GET",
-            data: {"deviceNo": deviceNos},
-            dataType: "json",
-            success: function (result) {
-                $.each(result.extend.devices, function (i, p) {
-                    label[i] = p.deviceLocationLongitude;
-                    value[i] = p.deviceLocationLatirude;
-                    // 7.1:创建点
-                    var myIcon = new BMap.Icon('img/zaixian.gif', new BMap.Size(58, 58));//这里先不用第三个参数IconOptions
-                    //这就是对象的字面量形式
-                    var marker = new BMap.Marker(new BMap.Point(label[i], value[i]), {icon: myIcon});
-                    //将标注添加到地图中
-                    map.addOverlay(marker);
-                    //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        //---------------------       查询轨迹记录      -----------------------
+            $.ajax({
+                url:"../deviceLocation/queryTheTrajectory",
+                type:"POST",
+                data:{"deviceNo":deviceNo,"startTime":startTime,"endTime":endTime},
+                asynec:true,
+                success:function (result) {
+                    alert(result.extend.firstLocation.latitude+"-"+ result.extend.firstLocation.longitude
+                          +"--"+result.extend.lastLocation.latitude+"--"+result.extend.lastLocation.longitude);
+                    walking = new BMap.WalkingRoute(map, { renderOptions: { map: map, autoViewport: true} });
+                    startpoint = new BMap.Point(result.extend.firstLocation.longitude, result.extend.firstLocation.latitude);
+                    endpoint = new BMap.Point(result.extend.lastLocation.longitude, result.extend.lastLocation.latitude);
+//                     startpoint = new BMap.Point(118.112917, 24.435153);
+//                     endpoint = new BMap.Point(118.1086487, 24.439108);
+                    walking.search(startpoint, endpoint);
 
-                    //7.2 添加字体
-                    var labela = new BMap.Label("警员编号：" + p.deviceNo + "</br>" + "枪号：" + p.gunTag + "</br>" + "枪号状态：" + p.gunState + "</br>" + "设备状态：" + p.deviceState, {offset: new BMap.Size(25, 5)});
-                    labela.setStyle({
-                        color: "#ff3136",
-                        width: "150px",
-                        height: "48px",
-                        fontSize: "14px",
-                        backgroundColor: "#fff",
-                        border: "0",
-                        fontWeight: "bold"
-                    });
-                    marker.setLabel(labela);
-
-                    //7.4 将经纬坐标划入地图
-                    label[i] = new BMap.Point(label[i], value[i]);
-
-                    //7.3 将坐标放入到点聚合中
-                    markers.push(marker);
-                    //marker.addEventListener("click", attribute);
-
-                    //7.5 让所有点在视野范围内
-                    map.setViewport(label);
-
-                });
-                //7.3 最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-                markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
-
-
-                //获取覆盖物位置
-                function attribute(e) {
-                    var p = e.target;
-                    //layer.alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
+                    $.each(result.extend.deviceLocations,function (item, value) {
+                        chartData.push(new BMap.Point(value.latitude,value.longitude));
+                    })
                 }
-            }, error: function (result) {
-                if (result.responseText == "IsAjax") {
-                    window.location.href = "login.html";
-                    return false;
-                }
-            }
+            })
+   // });
+    }
+
+    //用来存放途经点的坐标
+    var viaRouteData = [];
+    viaRouteData.push(endpoint);
+
+    $(function () {
+        $("#btn_show").click(function () {
+            //这边故意让它晚一秒运行，因为上面获取坐标信息是比较慢又是异步
+            setTimeout(ShowRoute, 1000);
+        });
+    });
+
+    function ShowRoute() {
+        var firstPoint;
+        var endPoint;
+        var newChartData = [];
+        //对坐标点重新定义
+        $.each(chartData, function (item, value) {
+            alert(value.latitude+"----"+value.longitude);
+            newChartData.push(new BMap.Point(value.latitude, value.longitude));
+        });
+        //为了获得起点及终点的坐标值,方便对它进行文字处理
+        firstPoint = newChartData[0];
+        endPoint = newChartData[newChartData.length - 1];
+        //加载地图
+        //var maps = new BMap.Map("r-result");
+       // map.centerAndZoom(new BMap.Point(118.10000, 24.46667), 15);
+        //把步行线路的坐标集合转化成折线
+        var polyline = new BMap.Polyline(newChartData, { strokeColor: "red", strokeWeight: 6, strokeOpacity: 0.5 });
+        map.addOverlay(polyline);
+
+        //对起点、终点、途经点做一个简单的处理，泡泡跟文字提示
+        var m1 = new BMap.Marker(firstPoint);
+        var m2 = new BMap.Marker(endPoint);
+        map.addOverlay(m1);
+        map.addOverlay(m2);
+        var lab1 = new BMap.Label("起点", { position: firstPoint });
+        var lab2 = new BMap.Label("终点", { position: endPoint });
+        map.addOverlay(lab1);
+        map.addOverlay(lab2);
+
+        $.each(viaRouteData, function (item, value) {
+            var m = new BMap.Marker(value);
+            map.addOverlay(m);
+            var lab = new BMap.Label("途经点", { position: value });
+            map.addOverlay(lab);
         });
     }
 
 
-    //枪支离位数
-    function deviceDislocation() {
-        $.ajax({
-            url: "../deviceGun/statisticsDeviceOffLine",
-            type: "POST",
-            success: function (result) {
-                $("#offline").text(result.extend.deviceDislocation);
-            }
-        })
-    }
 
-    //设备离线数
-    function gunDislocation() {
-        $.ajax({
-            url: "../deviceGun/statisticsGunDislocation",
-            type: "POST",
-            success: function (result) {
-                $("#dislocation").text(result.extend.gunDislocation);
-            }
-        })
-    }
-
-   /* //回车查询事件
-    $(document).keyup(function (event) {
-        if (event.keyCode == 13) {
-            to_page(1, $("#deviceNos").val());
-            deviceLocation($("#deviceNos").val())
-        }
-    });*/
 
 </script>

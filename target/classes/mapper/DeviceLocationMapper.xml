@@ -325,7 +325,7 @@
 
   <!--根据时间和枪支查询枪支的轨迹-->
   <select id="selectDeviceLocationByTimeAndGunTag" resultType="java.util.Map" parameterType="com.ybkj.gun.model.DeviceLocation">
-     select latitude,longitude from device_location as l LEFT JOIN device_gun as g ON l.device_no=g.device_no and g.state=0 WHERE l.device_no= #{DeviceNo ,jdbcType=VARCHAR} and l.create_time between  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}
+     select latitude,longitude from device_location as l LEFT JOIN device_gun as g ON l.device_no=g.device_no and g.state=0 WHERE l.device_no= #{deviceNo ,jdbcType=VARCHAR} and l.create_time between  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP} ORDER BY l.create_time DESC
   </select>
   <!--根据警员编号，查询出最新警员地址-->
   <select id="selectDeviceLocationByDeviceNoNewest" parameterType="java.lang.String" resultMap="BaseResultMap">
