@@ -200,6 +200,7 @@
       <version>1.2.15</version>
     </dependency>
 
+
   </dependencies>
 
   <build>
@@ -235,4 +236,37 @@
 
 
   </build>
+
+  <repositories>
+    <repository>
+      <id>thirdparty</id>
+      <url>http://122.225.55.70:1081/nexus/content/repositories/thirdparty</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>thirdparty</id>
+      <url>http://122.225.55.70:1081/nexus/content/repositories/thirdparty</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+
+
+  <distributionManagement>
+    <repository>
+      <id>thirdparty</id>
+      <url>http://122.225.55.70:1081/nexus/content/repositories/thirdparty</url>
+    </repository>
+  </distributionManagement>
+
 </project>

@@ -1,7 +1,8 @@
 
 /*接收出入库mq显示*/
 //var url = "ws://120.76.156.120:61614/WebOutQueue";
-var url = "ws://127.0.0.1:61614/WebOutQueue";
+//var url = "ws://14.116.149.237:61614/WebOutQueue";
+var url = "ws://192.168.0.103:61614/WebOutQueue";
 var login = "admin";
 var passcode = "admin";
 //监听的队列

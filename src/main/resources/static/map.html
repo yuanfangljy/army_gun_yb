@@ -34,7 +34,6 @@
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet" type="text/css"/>
-    <script src="../../assets/js/ie8-responsive-file-warning.js"></script>
     <![endif]-->
     <script src="js/jquery.js"></script>
     <script src="js/ie-emulation-modes-warning.js"></script>
@@ -233,32 +232,38 @@
 
     <script>
 
-        $(function () {
-
+       $(function () {
+           dingshi(0);
             /* $("div").not("div.state *").click(function(){
                  // 点击body时 隐藏 div
                  $("#showTableGun").hide();
                  $("#showTableDevice").hide();
              });*/
             //枪支离位列表
-            deviceLocation(null);
-            deviceDislocation();
-            gunDislocation();
-            deviceOnlineNumber();
-        })
-
-        function dingshi() {
-            /*deviceLocation(null);
+         /*   deviceLocation(null);
             deviceDislocation();
             gunDislocation();
             deviceOnlineNumber();*/
-        }
-        setInterval(dingshi, 1000);
+        })
+
+
     </script>
 </body>
 </html>
 <script type="text/javascript">
-
+        var ka;
+        function dingshi(ljy) {
+            if(ljy==1){
+                window.clearInterval(ka);//清除定时
+            }else  if(ljy==0){
+                ka= setInterval(function jia() {
+                    deviceLocation(null);
+                    deviceDislocation();
+                    gunDislocation();
+                    deviceOnlineNumber();
+                },1000)
+            }
+    }
     // 百度地图API功能
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(114.034656, 22.616798);
@@ -407,6 +412,9 @@
 
                         //创建标注的hover事件
                         marker.addEventListener("mouseover", function (e) {
+                            dingshi(1);
+                           // alert(flag);
+                          //  clearInterval(timing);//清除定时
                             //7.2 添加字体
                             var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -130)});
                             labela.setStyle({
@@ -418,6 +426,7 @@
                             marker.setLabel(labela);
                         });
                     marker.addEventListener("mouseout", function (e) {
+                        dingshi(0);
                         var label = this.getLabel();
                         setTimeout(function () {
                             label.setContent("");//设置标签内容为空
@@ -456,6 +465,9 @@
             }
         });
     }
+
+
+//==============================================================================
 
 
 
@@ -537,6 +549,7 @@
 
                         //创建标注的hover事件
                         marker.addEventListener("mouseover", function (e) {
+                            dingshi(1);
                             //7.2 添加字体
                             var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -130)});
                             labela.setStyle({
@@ -548,6 +561,7 @@
                             marker.setLabel(labela);
                         });
                     marker.addEventListener("mouseout", function (e) {
+                        dingshi(0);
                         var label = this.getLabel();
                         setTimeout(function () {
                             label.setContent("");//设置标签内容为空

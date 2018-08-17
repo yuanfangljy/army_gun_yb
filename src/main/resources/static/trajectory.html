@@ -83,6 +83,8 @@
             <input type="text" class="form-control" id="endTime" name="endTime" placeholder="结束时间">
             <label for="" style="font-size:14px">结束时间</label>
         </div>
+        <!-- 标准的按钮 -->
+        <button type="button" class="btn btn-default" id="btn_show">默认按钮</button>
     </form>
 
 </div>
@@ -154,6 +156,12 @@
 </body>
 </html>
 <script type="text/javascript">
+
+    //定义集合用来存放沿线的坐标值
+    var chartData = [];
+    var walking=null;
+    var startpoint=null;
+    var endpoint=null;
     // 百度地图API功能//加载地图
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(114.034656, 22.616798);
@@ -177,11 +185,15 @@
     }, 2000);
     //设置地图
     map.addControl(new BMap.MapTypeControl({
-        mapTypes: [
-            BMAP_NORMAL_MAP,
-            BMAP_SATELLITE_MAP//卫星地图
-        ]
+        mapTypes: BMAP_HYBRID_MAP
+        /* [
+         BMAP_HYBRID_MAP,
+         BMAP_NORMAL_MAP
+         //BMAP_SATELLITE_MAP//卫星地图
+     ]*/
     }));
+    //设置地图：使用混合地图
+    map.setMapType(BMAP_SATELLITE_MAP);
 
     //6、 添加带有定位的导航控件
     var navigationControl = new BMap.NavigationControl({
@@ -211,11 +223,7 @@
     });
     map.addControl(geolocationControl);
     //7、============================   轨迹   =======================================
-    //定义集合用来存放沿线的坐标值
-    var chartData = [];
-    var walking=null;
-    var startpoint=null;
-    var endpoint=null;
+
     function Trajectory(deviceNo,startTime,endTime) {
     //通过setSearchCompleteCallback回调事件可以把步行间的坐标信息获取
     //walking.setSearchCompleteCallback(function (rs) {
@@ -225,75 +233,45 @@
         }*/
 
         //---------------------       查询轨迹记录      -----------------------
+        map.clearOverlays(); // 清除标注信息
+        var points = []; // 添加折线运动轨迹
             $.ajax({
                 url:"../deviceLocation/queryTheTrajectory",
                 type:"POST",
                 data:{"deviceNo":deviceNo,"startTime":startTime,"endTime":endTime},
-                asynec:true,
+                async:false,
                 success:function (result) {
-                    alert(result.extend.firstLocation.latitude+"-"+ result.extend.firstLocation.longitude
-                          +"--"+result.extend.lastLocation.latitude+"--"+result.extend.lastLocation.longitude);
-                    walking = new BMap.WalkingRoute(map, { renderOptions: { map: map, autoViewport: true} });
-                    startpoint = new BMap.Point(result.extend.firstLocation.longitude, result.extend.firstLocation.latitude);
-                    endpoint = new BMap.Point(result.extend.lastLocation.longitude, result.extend.lastLocation.latitude);
-//                     startpoint = new BMap.Point(118.112917, 24.435153);
-//                     endpoint = new BMap.Point(118.1086487, 24.439108);
-                    walking.search(startpoint, endpoint);
-
                     $.each(result.extend.deviceLocations,function (item, value) {
-                        chartData.push(new BMap.Point(value.latitude,value.longitude));
+                        var point = new BMap.Point(value.longitude,value.latitude); // 填充标注点
+
+                        var tips = item+1;
+                        addMarker(point, map, tips);
+                        points.push(point);
                     })
+                    /* 添加轨迹接口begin */
+                    var polyline = new BMap.Polyline(points, {
+                        strokeColor : "red",
+                        strokeWeight : 6,
+                        strokeOpacity : 0.5
+                    });
+                    map.addOverlay(polyline);
                 }
             })
-   // });
     }
 
-    //用来存放途经点的坐标
-    var viaRouteData = [];
-    viaRouteData.push(endpoint);
 
-    $(function () {
-        $("#btn_show").click(function () {
-            //这边故意让它晚一秒运行，因为上面获取坐标信息是比较慢又是异步
-            setTimeout(ShowRoute, 1000);
-        });
-    });
-
-    function ShowRoute() {
-        var firstPoint;
-        var endPoint;
-        var newChartData = [];
-        //对坐标点重新定义
-        $.each(chartData, function (item, value) {
-            alert(value.latitude+"----"+value.longitude);
-            newChartData.push(new BMap.Point(value.latitude, value.longitude));
-        });
-        //为了获得起点及终点的坐标值,方便对它进行文字处理
-        firstPoint = newChartData[0];
-        endPoint = newChartData[newChartData.length - 1];
-        //加载地图
-        //var maps = new BMap.Map("r-result");
-       // map.centerAndZoom(new BMap.Point(118.10000, 24.46667), 15);
-        //把步行线路的坐标集合转化成折线
-        var polyline = new BMap.Polyline(newChartData, { strokeColor: "red", strokeWeight: 6, strokeOpacity: 0.5 });
-        map.addOverlay(polyline);
-
-        //对起点、终点、途经点做一个简单的处理，泡泡跟文字提示
-        var m1 = new BMap.Marker(firstPoint);
-        var m2 = new BMap.Marker(endPoint);
-        map.addOverlay(m1);
-        map.addOverlay(m2);
-        var lab1 = new BMap.Label("起点", { position: firstPoint });
-        var lab2 = new BMap.Label("终点", { position: endPoint });
-        map.addOverlay(lab1);
-        map.addOverlay(lab2);
-
-        $.each(viaRouteData, function (item, value) {
-            var m = new BMap.Marker(value);
-            map.addOverlay(m);
-            var lab = new BMap.Label("途经点", { position: value });
-            map.addOverlay(lab);
-        });
+    //编写自定义函数,创建标注
+    function addMarker(point, map, tips)
+    {
+        var marker = new BMap.Marker(point);// 创建标注，为要查询的地方对应的经纬度
+        map.addOverlay(marker);//将标注添加到地图中
+        //为标注添加文字信息
+        var label = new BMap.Label(tips,{offset:new BMap.Size(20,-10)});
+        //offset:new BMap.Size(20,-10)
+        // 指定定位位置。
+        // 当标注显示在地图上时，其所指向的地理位置距离图标左上
+        // 角各偏移10像素和25像素。
+        marker.setLabel(label);
     }
 
 

@@ -132,10 +132,10 @@ public class DeviceLocationController {
         BaseModel baseModel=new BaseModel();
         List<DeviceLocation> deviceLocations=deviceLocationSerivce.findDeviceLocationTrajectory(map);
         log.info("*************************** 查询时间段内的枪支轨迹  ******************************");
-        System.out.println("------------"+deviceLocations.get(0)+"==="+deviceLocations.get(deviceLocations.size()-1));
-        baseModel.add("deviceLocations",deviceLocations)
-                 .add("firstLocation",deviceLocations.get(0))
-                 .add("lastLocation",deviceLocations.get(deviceLocations.size()-1));
+//        System.out.println("------------"+deviceLocations.get(0)+"==="+deviceLocations.get(deviceLocations.size()-1));
+        baseModel.add("deviceLocations",deviceLocations);
+               //  .add("firstLocation",deviceLocations.get(0))
+                // .add("lastLocation",deviceLocations.get(deviceLocations.size()-1));
         return baseModel;
     }
 }
