@@ -35,7 +35,7 @@ public class DeviceController {
      * @return
      */
     @ApiOperation(value ="判断手机号是否存在",notes = "手机号")
-    @RequestMapping(value = "/isInquireMobile",method = RequestMethod.POST)
+    @RequestMapping(value = "/isInquireMobile",method = RequestMethod.GET)
     public BaseModel isInquireMobile(@RequestParam(value = "mobile",required = true) String mobile) throws Exception {
         BaseModel baseModel = deviceSerivce.selectMobile(mobile);
         //表示手机号码不存在
@@ -56,7 +56,7 @@ public class DeviceController {
      * @return
      */
     @ApiOperation(value ="判断邮箱是否存在",notes = "邮箱")
-    @RequestMapping(value = "/isInquireEmail",method = RequestMethod.POST)
+    @RequestMapping(value = "/isInquireEmail",method = RequestMethod.GET)
     public BaseModel isInquireEmail(@RequestParam(value = "email",required = true) String email) throws Exception {
         BaseModel baseModel = deviceSerivce.selectEmail(email);
         //表示邮箱不存在
@@ -77,7 +77,7 @@ public class DeviceController {
      * @return
      */
     @ApiOperation(value ="判断设备名是否存在",notes = "设备名称")
-    @RequestMapping(value = "/isInquireDeviceName",method = RequestMethod.POST)
+    @RequestMapping(value = "/isInquireDeviceName",method = RequestMethod.GET)
     public BaseModel isInquireUserName(@RequestParam(value = "deviceName",required = true) String deviceName) throws Exception {
         BaseModel baseModel = deviceSerivce.selectDeviceName(deviceName);
         //表示设备名称不存在
@@ -98,7 +98,7 @@ public class DeviceController {
      * @return
      */
     @ApiOperation(value ="判断设备编码是否存在",notes = "设备编码")
-    @RequestMapping(value = "/isInquireDeviceNo",method = RequestMethod.POST)
+    @RequestMapping(value = "/isInquireDeviceNo",method = RequestMethod.GET)
     public BaseModel isInquireDeviceNo(@RequestParam(value = "deviceNo",required = true) String deviceNo) throws Exception {
         BaseModel baseModel = deviceSerivce.selectDeviceNo(deviceNo);
         //表示设备名称不存在
@@ -121,7 +121,7 @@ public class DeviceController {
      * @throws Exception
      */
     @ApiOperation(value = "添加设备信息", notes = "设备")
-    @RequestMapping(value = "/fortifyDevice",method = RequestMethod.PUT)
+    @RequestMapping(value = "/fortifyDevice",method = RequestMethod.POST)
     public BaseModel fortifyDevice(@Validated @RequestBody Device device, BindingResult result) throws Exception {
         BaseModel baseModel=new BaseModel();
         //校验字段是否正确
@@ -149,7 +149,7 @@ public class DeviceController {
      * 统计设备离位信息
      * @return
      */
-    @RequestMapping(value = "/inquireDeviceOffLine",method = RequestMethod.POST)
+    @RequestMapping(value = "/inquireDeviceOffLine",method = RequestMethod.GET)
     public BaseModel inquireDeviceOffLine(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value = "state",required = true)Integer state) throws Exception {
         BaseModel baseModel=new BaseModel();
         PageHelper.startPage(pn,5);
@@ -174,7 +174,7 @@ public class DeviceController {
      * @return
      */
     @ApiOperation(value = "设备在线人数", notes = "在线数")
-    @RequestMapping(value = "/statisticsOnlineDeivce",method = RequestMethod.POST)
+    @RequestMapping(value = "/statisticsOnlineDeivce",method = RequestMethod.GET)
     public BaseModel statisticsOnlineDeivce() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer number=deviceSerivce.findDeviceOnLine();

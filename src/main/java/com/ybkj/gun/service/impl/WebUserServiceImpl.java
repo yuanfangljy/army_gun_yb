@@ -37,6 +37,7 @@ public class WebUserServiceImpl implements WebUserSerivce {
     @Autowired
     private WebUserMapper webUserMapper;
 
+
     /**
      * Web用户登录
      *
@@ -58,8 +59,10 @@ public class WebUserServiceImpl implements WebUserSerivce {
             //用户存在
             if (password.endsWith(user.getPassword())) {
                 //处理登录限制处理，无论处理结果如何，对本次操作没有影响
-                LoginUtil.LoginUserSessionIds(userName, httpServletRequest);
-                //将用户信息保存到sessoin中
+                LoginUtil.LoginUserSessionIds(userName);
+                //登录成功后需将SessionId放在ServletContext中，做单点登录的seesion
+                httpServletRequest.getServletContext().setAttribute(userName,httpSession.getId());
+                //将用户信息保存到sessoin中，判断用户是否登录sessoin
                 httpSession.setAttribute("userName",userName);
                 //记录在日志中
                 log.info("用户登录处理：" + userName + "," + httpSession.getId());

@@ -93,7 +93,7 @@
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
-                <input type="text" id="gunTags" name="gunTags" class="form-control" placeholder="搜索">
+                <input type="text" id="gunTags" name="gunTags" class="form-control" placeholder="搜索枪号">
             </div>
         </div>
     </div>
@@ -404,7 +404,7 @@
         //3、serialize()对表单进行序列化，直接拿到name的属性名
         $.ajax({
             url: "../gun/fortifyGun",
-            type: "PUT",
+            type: "POST",
             data: $("#gunAddModal form").serialize(),
             success: function (result) {
                 //后台进行校验

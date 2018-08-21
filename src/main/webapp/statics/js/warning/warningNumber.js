@@ -1,5 +1,6 @@
+/*
 var g_intervalId;   // 这要定义成一个全局变量
-/*公共的警告数*/
+/!*公共的警告数*!/
 
 g_intervalId=window.setInterval(function WarningNumber() {
     $.ajax({
@@ -18,8 +19,8 @@ g_intervalId=window.setInterval(function WarningNumber() {
             }
         }
     })
-},1000)
+},900000000)
 
 //window.clearInterval(g_intervalId);
 //g_intervalId=window.setInterval(WarningNumber, 1000);   // 创建定时执行程序
-//    // 在跳转之前调用，以清除定时执行程序
+//    // 在跳转之前调用，以清除定时执行程序*/

@@ -62,7 +62,7 @@
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
-                <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索">
+                <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索警员">
             </div>
         </div>
     </div>
@@ -233,7 +233,11 @@
     <script>
 
        $(function () {
-           dingshi(0);
+          /* deviceLocation(null);
+           deviceDislocation();
+           gunDislocation();
+           deviceOnlineNumber();*/
+           //dingshi(0);
             /* $("div").not("div.state *").click(function(){
                  // 点击body时 隐藏 div
                  $("#showTableGun").hide();
@@ -261,7 +265,7 @@
                     deviceDislocation();
                     gunDislocation();
                     deviceOnlineNumber();
-                },1000)
+                },90000000000000000000000)
             }
     }
     // 百度地图API功能
@@ -407,7 +411,7 @@
                     }
 
                     /* " +<button type='button' onclick='FindAssist()' id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button>"*/
-                    +
+                   // +
 
 
                         //创建标注的hover事件
@@ -442,9 +446,7 @@
                     //marker.addEventListener("click", attribute);
 
                     //7.5 让所有点在视野范围内(**在做页面实时刷新的时候，不要加上这个，不然页面会一直跳**)
-                    // if(i==true){
                     //map.setViewport(label);
-                    //}
 
 
                 });
@@ -606,7 +608,7 @@
     function deviceDislocation() {
         $.ajax({
             url: "../deviceGun/statisticsDeviceOffLine",
-            type: "POST",
+            type: "GET",
             asynec: true,
             dataType: "json",
             success: function (result) {
@@ -624,7 +626,7 @@
     function deviceOnlineNumber() {
         $.ajax({
             url: "../device/statisticsOnlineDeivce",
-            type: "POST",
+            type: "GET",
             asynec: true,
             dataType: "json",
             success: function (result) {
@@ -642,7 +644,7 @@
     function gunDislocation() {
         $.ajax({
             url: "../deviceGun/statisticsGunDislocation",
-            type: "POST",
+            type: "GET",
             asynec: true,
             dataType: "json",
             success: function (result) {
@@ -664,7 +666,7 @@
     function gunOffNormals(pn) {
         $.ajax({
             url: "../gun/inquireGunOffNormal",
-            type: "POST",
+            type: "GET",
             data: {"pn": pn},
             asynec: true,
             dataType: "json",
@@ -790,7 +792,7 @@
     function deviceOffLine(pn) {
         $.ajax({
             url: "../device/inquireDeviceOffLine",
-            type: "POST",
+            type: "GET",
             data: {"pn": pn, "state": 2},
             asynec: false,
             dataType: "json",
@@ -917,7 +919,7 @@
     function deviceOnLine(pn) {
         $.ajax({
             url: "../device/inquireDeviceOffLine",
-            type: "POST",
+            type: "GET",
             data: {"pn": pn, "state": 0},
             asynec: false,
             dataType: "json",

@@ -40,7 +40,7 @@ public class WebUserController {
      * @return
      */
     @ApiOperation(value = "web用户列表",notes = "登录")
-    @RequestMapping(value = "/webUserLogin",method = RequestMethod.POST)
+    @RequestMapping(value = "/webUserLogin",method = RequestMethod.GET)
     @ResponseBody
     public BaseModel webUserLogin(@RequestParam String userName, @RequestParam String passWord, HttpServletRequest request, HttpSession session) throws Exception {
         BaseModel baseModel=new BaseModel();
@@ -62,7 +62,7 @@ public class WebUserController {
      * @return
      */
     @ApiOperation(value ="判断手机号是否存在",notes = "手机号")
-    @RequestMapping(value = "/isSelectMobile",method = RequestMethod.POST)
+    @RequestMapping(value = "/isSelectMobile",method = RequestMethod.GET)
     public BaseModel isSelectMobile(@RequestParam(value = "mobile",required = true) String mobile) throws Exception {
         BaseModel baseModel = webUserService.selectMobile(mobile);
         //表示手机号码不存在
@@ -84,7 +84,7 @@ public class WebUserController {
      * @return
      */
     @ApiOperation(value ="判断用户名是否存在",notes = "web用户名")
-    @RequestMapping(value = "/isSelectUserName",method = RequestMethod.POST)
+    @RequestMapping(value = "/isSelectUserName",method = RequestMethod.GET)
     public BaseModel isSelectUserName(@RequestParam(value = "userName",required = true) String userName) throws Exception {
         BaseModel baseModel = webUserService.selectUserName(userName);
         //表示用户名不存在
@@ -104,7 +104,7 @@ public class WebUserController {
      * @return
      */
     @ApiOperation(value ="web用户注册",notes = "注册")
-    @RequestMapping(value = "/registerWebUser",method = RequestMethod.PUT)
+    @RequestMapping(value = "/registerWebUser",method = RequestMethod.POST)
     public BaseModel registerWebUser(@Validated @RequestBody WebUser webUser, BindingResult result) throws Exception {
         BaseModel baseModel=new BaseModel();
         //校验字段是否正确

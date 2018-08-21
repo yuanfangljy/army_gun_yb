@@ -207,6 +207,21 @@
     <finalName>army_gun_yb</finalName>
     <!--发布-->
     <plugins>
+      <!-- mybatis generator 自动生成代码插件 -->
+      <plugin>
+        <groupId>org.mybatis.generator</groupId>
+        <artifactId>mybatis-generator-maven-plugin</artifactId>
+        <version>1.3.5</version>
+        <configuration>
+          <!--配置文件的位置-->
+          <configurationFile>src/main/resources/generator/generatorConfig.xml</configurationFile>
+          <!-- 允许移动生成的文件 -->
+          <overwrite>true</overwrite>
+          <!-- 是否覆盖 -->
+          <verbose>true</verbose>
+        </configuration>
+      </plugin>
+
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-compiler-plugin</artifactId>
@@ -232,41 +247,12 @@
     </plugins>
 
 
-
-
-
   </build>
 
-  <repositories>
-    <repository>
-      <id>thirdparty</id>
-      <url>http://122.225.55.70:1081/nexus/content/repositories/thirdparty</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>thirdparty</id>
-      <url>http://122.225.55.70:1081/nexus/content/repositories/thirdparty</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
 
 
-  <distributionManagement>
-    <repository>
-      <id>thirdparty</id>
-      <url>http://122.225.55.70:1081/nexus/content/repositories/thirdparty</url>
-    </repository>
-  </distributionManagement>
+
 
 </project>

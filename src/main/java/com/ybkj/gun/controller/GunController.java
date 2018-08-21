@@ -48,7 +48,7 @@ public class GunController {
      * @param gunMac
      * @return
      */
-    @RequestMapping(value = "/revampGunStartAndStop",method = RequestMethod.POST)
+    @RequestMapping(value = "/revampGunStartAndStop",method = RequestMethod.PUT)
     public BaseModel revampGunStartAndStop(@RequestParam(value = "state",required = true) String state,@RequestParam(value = "gunMac",required = true) String gunMac) throws ParseException {
         BaseModel baseModel=new BaseModel();
         if(state=="1" || state=="0") {
@@ -75,7 +75,7 @@ public class GunController {
      * @return
      */
     @ApiOperation(value ="判断枪支编号是否存在",notes = "枪支编号")
-    @RequestMapping(value = "/isInquireGuntag",method = RequestMethod.POST)
+    @RequestMapping(value = "/isInquireGuntag",method = RequestMethod.GET)
     public BaseModel isInquireGunTag(@RequestParam(value = "gunTag",required = true) String gunTag) throws Exception {
         BaseModel baseModel = gunService.selectGunTag(gunTag);
         //表示枪支存在
@@ -92,7 +92,7 @@ public class GunController {
 
     @Token(remove = true)
     @ApiOperation(value = "增添枪支",notes = "增加")
-    @RequestMapping(value = "/fortifyGun",method = RequestMethod.PUT)
+    @RequestMapping(value = "/fortifyGun",method = RequestMethod.POST)
     public BaseModel fortifyGun(@Valid Gun gun , BindingResult result, HttpSession session , HttpServletRequest request, HttpServletResponse response,String token) throws Exception {
         BaseModel baseModel=new BaseModel();
         if (result.hasErrors()){
@@ -144,7 +144,7 @@ public class GunController {
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "分页查询枪支",notes = "枪支", httpMethod = "POST")
+    @ApiOperation(value = "分页查询枪支",notes = "枪支", httpMethod = "GET")
     @RequestMapping(value = "/inquireGun",method = RequestMethod.GET)
     public BaseModel inquireGun(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="gunTag",required=false)String gunTag) throws Exception {
         BaseModel baseModel=new BaseModel();
@@ -171,7 +171,7 @@ public class GunController {
      * 统计枪支离位信息
      * @return
      */
-    @RequestMapping(value = "/inquireGunOffNormal",method = RequestMethod.POST)
+    @RequestMapping(value = "/inquireGunOffNormal",method = RequestMethod.GET)
     public BaseModel inquireGunOffNormal(@RequestParam(value="pn",defaultValue="1") Integer pn) throws Exception {
         BaseModel baseModel=new BaseModel();
         PageHelper.startPage(pn, 5);

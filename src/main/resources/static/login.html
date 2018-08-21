@@ -67,7 +67,7 @@
 
         $.ajax({
             url: "../webUser/webUserLogin",
-            type: "POST",
+            type: "GET",
             data: $("#login_form").serialize(),
             success: function (result) {
                 if (result.status == 1) {/*
@@ -88,12 +88,20 @@
                     $("input:userName").val("").focus();
                     $("input:passWord").val("").focus();
                 } else {
-                    layer.msg(result.errorMessage, {
-                        tips: [2, '#3595CC'],
-                        time: 1000,
-                        icon: 2,
-                        skin: 'layer-ext-moon'
-                    });
+                    if (result.status == 200) {
+                        $("#error").text(result.errorMessage);
+                        return false;
+                    } else {
+                        $("#error").text("");
+                    }
+
+                  /*  layer.msg(result.errorMessage, {
+                        icon: 2
+                        //tips: [2, '#3595CC'],
+                        //time: 1000
+
+                        //skin: 'layer-ext-moon'
+                    });*/
                 }
             }
         });

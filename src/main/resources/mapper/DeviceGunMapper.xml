@@ -457,4 +457,6 @@
     select * from device_gun where device_no= #{deviceNo,jdbcType=VARCHAR} and state= #{state,jdbcType=INTEGER}
   </select>
 
+
+
 </mapper>

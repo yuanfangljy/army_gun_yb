@@ -1,5 +1,8 @@
 package com.ybkj.common.filter;
 
+import com.ybkj.common.util.LoginUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,6 +27,7 @@ import java.util.Set;
  *@UpdateRemark: 修改内容
  *@Version:      1.0
 */
+@Slf4j
 @Component
 //说明这是一个web过滤器，它拦截的url为/customFilter，过滤器名字为blogsTest
 @WebFilter(filterName="customFilter",urlPatterns= {"/*"})
@@ -30,12 +35,14 @@ import java.util.Set;
 @Order(value = 1)
 public class CustomFilter implements Filter{
 
+
+
     //标示符：表示当前用户未登录(可根据自己项目需要改为json样式)
     String NO_LOGIN = "您还未登录";
 
     //不需要登录就可以访问的路径(比如:注册登录等)
     private static final Set<String> ALLOWED_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("/gun/static/login.html","/gun/static/css/bootstrap.min.css","/gun/static/css/loginForm.css","/gun/static/js/jquery-1.4.2.min.js","/gun/static/img/yonghu.png","/gun/static/img/pass.png","/gun/static/layui/layui.all.js","/gun/static/img/beijing.png","/gun/static/layui/laydate/laydate.js","/gun/webUser/webUserLogin")));
+            Arrays.asList("/gun/static/login.html","/gun/static/css/bootstrap.min.css","/gun/static/css/loginForm.css","/gun/static/js/jquery-1.4.2.min.js","/gun/static/img/yonghu.png","/gun/static/img/pass.png","/gun/static/layui/layui.all.js","/gun/static/img/beijing.png","/gun/webUser/webUserLogin","/gun/static/errorpage/500.html")));
 
     //不需要登录就可以访问的路径(比如:注册登录等)
     String[] includeUrls = new String[]{"/gun/static/login.html","/gun/static/css/*","/gun/static/js/*","/gun/static/img/*","/gun/static/layui/*"};
@@ -71,6 +78,25 @@ public class CustomFilter implements Filter{
         boolean needFilter = isNeedFilter(uri);
         if(!needFilter){//不需要过滤直接传给下一个过滤器
             filterChain.doFilter(servletRequest, servletResponse);
+        }else if(LoginUtil.loginUserSessionIds.contains(request.getSession().getId())){
+            //挤下线并跳到提示页面
+            String path = request.getContextPath();
+            LoginUtil.loginUserSessionIds.remove(request.getSession().getId());
+            session.removeAttribute("userName");
+            //输出到页面
+            response.setContentType("text/html; charset=UTF-8"); //转码
+            PrintWriter out=response.getWriter();
+            out.print("<script>");
+            out.print("alert('该账号已在异地登录，您当前被挤下，可重新登录');");
+            out.println("window.location.href='login.html'");
+            //out.println("history.back();");
+            out.print("</script>");
+            out.flush();
+            out.close();
+
+            log.info("----------不要意思您的账号已在异地登录，请及时修改密码---------");
+            return ;
+           // response.sendRedirect(path+"/static/errorpage/500.html");
         }else{//需要过滤器
             // session中包含user对象,则是登录状态
             if(session!=null&&session.getAttribute("userName")!= null){

@@ -47,8 +47,8 @@ public class DeviceGunController {
      * 统计设备离线数
      * @return
      */
-    @ApiOperation(value = "统计设备离线数",notes = "设备线位", httpMethod = "POST")
-    @RequestMapping(value = "/statisticsDeviceOffLine",method = RequestMethod.POST)
+    @ApiOperation(value = "统计设备离线数",notes = "设备线位", httpMethod = "GET")
+    @RequestMapping(value = "/statisticsDeviceOffLine",method = RequestMethod.GET)
     public BaseModel statisticsDeviceOffLine() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer deviceDislocation=deviceGunService.findDeviceOffLine();
@@ -61,8 +61,8 @@ public class DeviceGunController {
      * 统计：枪支离位数
      * @return
      */
-    @ApiOperation(value = "统计枪支离位数",notes = "枪支离位", httpMethod = "POST")
-    @RequestMapping(value = "/statisticsGunDislocation",method = RequestMethod.POST)
+    @ApiOperation(value = "统计枪支离位数",notes = "枪支离位", httpMethod = "GET")
+    @RequestMapping(value = "/statisticsGunDislocation",method = RequestMethod.GET)
     public BaseModel statisticsGunDislocation() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer gunDislocation=deviceGunService.findGunDislocation();
@@ -121,7 +121,7 @@ public class DeviceGunController {
      * 查询所有在线的警员和枪支
      * @return
      */
-    @RequestMapping(value = "/inquireDeviceAndGunOnline",method = RequestMethod.POST)
+    @RequestMapping(value = "/inquireDeviceAndGunOnline",method = RequestMethod.GET)
     public BaseModel inquireDeviceAndGunOnline(@RequestParam(value="deviceNo",required=false)String deviceNo,@RequestParam(value="lng",required=false)String lng,@RequestParam(value="lag",required=false)String lag) throws Exception {
         System.out.println("========="+deviceNo+"--"+lng+"--"+lag);
         BaseModel baseModel=new BaseModel();
@@ -169,7 +169,7 @@ public class DeviceGunController {
      * @param status
      * @return
      */
-    @RequestMapping(value = "/gunStorage/{status}",method = RequestMethod.POST)
+    @RequestMapping(value = "/gunStorage/{status}",method = RequestMethod.PUT)
     public BaseModel gunStorage(DeviceGun deviceGun,@PathVariable(value = "status",required = true) Integer status) throws Exception {
         BaseModel baseModel=new BaseModel();
         if(status==1) {

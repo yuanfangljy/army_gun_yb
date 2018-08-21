@@ -3,7 +3,9 @@ package com.ybkj.gun.mapper;
 import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceGunExample;
 import java.util.List;
+import java.util.Map;
 
+import com.ybkj.gun.model.DeviceLocation;
 import org.apache.ibatis.annotations.Param;
 
 public interface DeviceGunMapper {
@@ -47,4 +49,5 @@ public interface DeviceGunMapper {
     DeviceGun selectDeviceGunByDeviceNoAndState(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
     //查询所有在线警员和枪支
     List<DeviceGun> selectGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception;
+
 }

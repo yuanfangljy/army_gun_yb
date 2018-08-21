@@ -1,6 +1,8 @@
 package com.ybkj.gun.service.impl;
 
+import com.ybkj.gun.mapper.DeviceGunMapper;
 import com.ybkj.gun.mapper.DeviceLocationMapper;
+import com.ybkj.gun.mapper.DeviceMapper;
 import com.ybkj.gun.mapper.GunMapper;
 import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.DeviceLocationExample;
@@ -29,6 +31,8 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce{
 
     @Autowired
     DeviceLocationMapper deviceLocationMapper;
+    @Autowired
+    DeviceGunMapper deviceGunMapper;
 
     /**
      * 查询枪支的轨迹，根据时间枪支号

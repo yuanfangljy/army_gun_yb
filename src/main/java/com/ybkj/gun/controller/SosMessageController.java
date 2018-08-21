@@ -95,7 +95,7 @@ public class SosMessageController {
      * 统计警告数
      * @return
      */
-    @RequestMapping(value = "/statisticsWarningNumber",method = RequestMethod.POST)
+    @RequestMapping(value = "/statisticsWarningNumber",method = RequestMethod.GET)
     public BaseModel statisticsWarningNumber() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer  warningNumber=sosMessageSerivce.findWarningNumber(1);

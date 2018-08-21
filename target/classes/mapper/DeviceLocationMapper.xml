@@ -1,189 +1,191 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ybkj.gun.mapper.DeviceLocationMapper">
-  <resultMap id="BaseResultMap" type="com.ybkj.gun.model.DeviceLocation">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="device_no" jdbcType="VARCHAR" property="deviceNo" />
-    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
-    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="version" jdbcType="INTEGER" property="version" />
-    <result column="juli" jdbcType="INTEGER" property="juli"/>
-    <!--查询出来的值，重新取别名-->
-    <result column="gunWarehouseName" jdbcType="VARCHAR" property="gunWarehouseName"/>
-    <result column="gunTag" jdbcType="VARCHAR" property="gunTag"/>
-    <result column="gunState" jdbcType="INTEGER" property="gunState"/>
-    <result column="deviceState" jdbcType="INTEGER" property="deviceState"/>
-    <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
-    <result column="gunModel" jdbcType="VARCHAR" property="gunModel"/>
+    <resultMap id="BaseResultMap" type="com.ybkj.gun.model.DeviceLocation">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
+        <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
+        <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="juli" jdbcType="INTEGER" property="juli"/>
+        <!--查询出来的值，重新取别名-->
+        <result column="gunWarehouseName" jdbcType="VARCHAR" property="gunWarehouseName"/>
+        <result column="gunTag" jdbcType="VARCHAR" property="gunTag"/>
+        <result column="gunState" jdbcType="INTEGER" property="gunState"/>
+        <result column="deviceState" jdbcType="INTEGER" property="deviceState"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="gunModel" jdbcType="VARCHAR" property="gunModel"/>
 
-    <!--关联设备枪支出库表-->
-    <association property="deviceGun" javaType="com.ybkj.gun.model.DeviceGun">
-      <id column="id" jdbcType="INTEGER" property="id"/>
-      <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
-      <result column="gun_mac" jdbcType="VARCHAR" property="gunMac"/>
-      <result column="out_warehouse_time" jdbcType="TIMESTAMP" property="outWarehouseTime"/>
-      <result column="in_warehouse_time" jdbcType="TIMESTAMP" property="inWarehouseTime"/>
-      <result column="state" jdbcType="INTEGER" property="state"/>
-      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-      <result column="temperance_time" jdbcType="TIMESTAMP" property="temperanceTime"/>
-      <result column="version" jdbcType="INTEGER" property="version"/>
-    </association>
-    <!--关联枪支信息表-->
-    <association property="guns" javaType="com.ybkj.gun.model.Gun">
-      <id column="id" jdbcType="INTEGER" property="id"/>
-      <id column="web_id" jdbcType="INTEGER" property="webId"/>
-      <result column="gun_tag" jdbcType="VARCHAR" property="gunTag"/>
-      <result column="gun_model" jdbcType="VARCHAR" property="gunModel"/>
-      <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac"/>
-      <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
-      <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber"/>
-      <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
-      <result column="state" jdbcType="INTEGER" property="state"/>
-      <result column="real_time_state" jdbcType="INTEGER" property="realTimeState"/>
-      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-      <result column="version" jdbcType="INTEGER" property="version"/>
-    </association>
-    <!--关联设备信息表-->
-    <association property="device" javaType="com.ybkj.gun.model.Device">
-      <id column="id" jdbcType="INTEGER" property="id"/>
-      <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
-      <result column="device_name" jdbcType="VARCHAR" property="deviceName"/>
-      <result column="password" jdbcType="VARCHAR" property="password"/>
-      <result column="phone" jdbcType="VARCHAR" property="phone"/>
-      <result column="email" jdbcType="VARCHAR" property="email"/>
-      <result column="state" jdbcType="INTEGER" property="state"/>
-      <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-      <result column="version" jdbcType="INTEGER" property="version"/>
-    </association>
-   <!-- &lt;!&ndash;开始时间和结束时间&ndash;&gt;
-    <result column="beginTime" jdbcType="TIMESTAMP" property="beginTime" />
-    <result column="endTimes" jdbcType="TIMESTAMP" property="endTimes" />-->
+        <!--关联设备枪支出库表-->
+        <association property="deviceGun" javaType="com.ybkj.gun.model.DeviceGun">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
+            <result column="gun_mac" jdbcType="VARCHAR" property="gunMac"/>
+            <result column="out_warehouse_time" jdbcType="TIMESTAMP" property="outWarehouseTime"/>
+            <result column="in_warehouse_time" jdbcType="TIMESTAMP" property="inWarehouseTime"/>
+            <result column="state" jdbcType="INTEGER" property="state"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+            <result column="temperance_time" jdbcType="TIMESTAMP" property="temperanceTime"/>
+            <result column="version" jdbcType="INTEGER" property="version"/>
+        </association>
+        <!--关联枪支信息表-->
+        <association property="guns" javaType="com.ybkj.gun.model.Gun">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <id column="web_id" jdbcType="INTEGER" property="webId"/>
+            <result column="gun_tag" jdbcType="VARCHAR" property="gunTag"/>
+            <result column="gun_model" jdbcType="VARCHAR" property="gunModel"/>
+            <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac"/>
+            <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
+            <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber"/>
+            <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
+            <result column="state" jdbcType="INTEGER" property="state"/>
+            <result column="real_time_state" jdbcType="INTEGER" property="realTimeState"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+            <result column="version" jdbcType="INTEGER" property="version"/>
+        </association>
+        <!--关联设备信息表-->
+        <association property="device" javaType="com.ybkj.gun.model.Device">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
+            <result column="device_name" jdbcType="VARCHAR" property="deviceName"/>
+            <result column="password" jdbcType="VARCHAR" property="password"/>
+            <result column="phone" jdbcType="VARCHAR" property="phone"/>
+            <result column="email" jdbcType="VARCHAR" property="email"/>
+            <result column="state" jdbcType="INTEGER" property="state"/>
+            <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+            <result column="version" jdbcType="INTEGER" property="version"/>
+        </association>
+        <!-- &lt;!&ndash;开始时间和结束时间&ndash;&gt;
+         <result column="beginTime" jdbcType="TIMESTAMP" property="beginTime" />
+         <result column="endTimes" jdbcType="TIMESTAMP" property="endTimes" />-->
 
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     id, device_no, latitude, longitude, create_time, update_time, version
   </sql>
-  <select id="selectByExample" parameterType="com.ybkj.gun.model.DeviceLocationExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from device_location
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectDeviceLocation" parameterType="com.ybkj.gun.model.DeviceLocation" resultMap="BaseResultMap">
-    select * from device_location
-    <where>
-      <if test="id !=null">
-        and id=#{id}
-      </if>
-      <if test="deviceNo !=null">
-        and device_no=#{deviceNo}
-      </if>
-      <if test="latitude !=null">
-        and latitude=#{latitude}
-      </if>
-      <if test="longitude !=null">
-        and longitude=#{longitude}
-      </if>
-      <if test="createTime !=null">
-        and create_time ='%' #{createTime} '%'
-      </if>
-      <if test="updateTime !=null">
-        and update_time like '%' #{updateTime} '%'
-      </if>
-      <if test="version !=null">
-        and version=#{version}
-      </if>
-    </where>
-  </select>
+    <select id="selectByExample" parameterType="com.ybkj.gun.model.DeviceLocationExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from device_location
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectDeviceLocation" parameterType="com.ybkj.gun.model.DeviceLocation" resultMap="BaseResultMap">
+        select * from device_location
+        <where>
+            <if test="id !=null">
+                and id=#{id}
+            </if>
+            <if test="deviceNo !=null">
+                and device_no=#{deviceNo}
+            </if>
+            <if test="latitude !=null">
+                and latitude=#{latitude}
+            </if>
+            <if test="longitude !=null">
+                and longitude=#{longitude}
+            </if>
+            <if test="createTime !=null">
+                and create_time ='%' #{createTime} '%'
+            </if>
+            <if test="updateTime !=null">
+                and update_time like '%' #{updateTime} '%'
+            </if>
+            <if test="version !=null">
+                and version=#{version}
+            </if>
+        </where>
+    </select>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from device_location
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from device_location
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from device_location
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.ybkj.gun.model.DeviceLocationExample">
-    delete from device_location
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.ybkj.gun.model.DeviceLocation">
+    <delete id="deleteByExample" parameterType="com.ybkj.gun.model.DeviceLocationExample">
+        delete from device_location
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.ybkj.gun.model.DeviceLocation">
     insert into device_location (id, device_no, latitude, 
       longitude, create_time, update_time, 
       version)
@@ -191,128 +193,128 @@
       #{longitude,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{version,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.ybkj.gun.model.DeviceLocation">
-    insert into device_location
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="deviceNo != null">
-        device_no,
-      </if>
-      <if test="latitude != null">
-        latitude,
-      </if>
-      <if test="longitude != null">
-        longitude,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="version != null">
-        version,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="deviceNo != null">
-        #{deviceNo,jdbcType=VARCHAR},
-      </if>
-      <if test="latitude != null">
-        #{latitude,jdbcType=VARCHAR},
-      </if>
-      <if test="longitude != null">
-        #{longitude,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        #{version,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.ybkj.gun.model.DeviceLocationExample" resultType="java.lang.Long">
-    select count(*) from device_location
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update device_location
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.deviceNo != null">
+    <insert id="insertSelective" parameterType="com.ybkj.gun.model.DeviceLocation">
+        insert into device_location
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="deviceNo != null">
+                device_no,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="deviceNo != null">
+                #{deviceNo,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.ybkj.gun.model.DeviceLocationExample" resultType="java.lang.Long">
+        select count(*) from device_location
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update device_location
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.deviceNo != null">
+                device_no = #{record.deviceNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.latitude != null">
+                latitude = #{record.latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="record.longitude != null">
+                longitude = #{record.longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.version != null">
+                version = #{record.version,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update device_location
+        set id = #{record.id,jdbcType=INTEGER},
         device_no = #{record.deviceNo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.latitude != null">
         latitude = #{record.latitude,jdbcType=VARCHAR},
-      </if>
-      <if test="record.longitude != null">
         longitude = #{record.longitude,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.version != null">
-        version = #{record.version,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update device_location
-    set id = #{record.id,jdbcType=INTEGER},
-      device_no = #{record.deviceNo,jdbcType=VARCHAR},
-      latitude = #{record.latitude,jdbcType=VARCHAR},
-      longitude = #{record.longitude,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      version = #{record.version,jdbcType=INTEGER}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ybkj.gun.model.DeviceLocation">
-    update device_location
-    <set>
-      <if test="deviceNo != null">
-        device_no = #{deviceNo,jdbcType=VARCHAR},
-      </if>
-      <if test="latitude != null">
-        latitude = #{latitude,jdbcType=VARCHAR},
-      </if>
-      <if test="longitude != null">
-        longitude = #{longitude,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="version != null">
-        version = #{version,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.ybkj.gun.model.DeviceLocation">
+        version = #{record.version,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.ybkj.gun.model.DeviceLocation">
+        update device_location
+        <set>
+            <if test="deviceNo != null">
+                device_no = #{deviceNo,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.ybkj.gun.model.DeviceLocation">
     update device_location
     set device_no = #{deviceNo,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=VARCHAR},
@@ -323,17 +325,24 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--根据时间和枪支查询枪支的轨迹-->
-  <select id="selectDeviceLocationByTimeAndGunTag" resultType="java.util.Map" parameterType="com.ybkj.gun.model.DeviceLocation">
-     select latitude,longitude from device_location as l LEFT JOIN device_gun as g ON l.device_no=g.device_no and g.state=0 WHERE l.device_no= #{deviceNo ,jdbcType=VARCHAR} and l.create_time between  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP} ORDER BY l.create_time ASC
+    <!--根据时间和枪支查询枪支的轨迹-->
+    <select id="selectDeviceLocationByTimeAndGunTag" resultType="java.util.Map"
+            parameterType="com.ybkj.gun.model.DeviceLocation">
+       SELECT b.device_no,b.latitude,b.longitude ,b.create_time FROM
+   (SELECT DISTINCT e.device_no,e.gun_mac FROM device_gun e WHERE e.gun_mac IN
+   (SELECT d.bluetooth_mac FROM gun d WHERE  d.gun_tag= ${gunTag})) AS a,device_location AS b,gun AS c
+   WHERE  a.gun_mac=c.bluetooth_mac AND a.device_no =b.device_no
+   AND b.create_time BETWEEN  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}  ORDER BY b.create_time ASC
   </select>
-  <!--根据警员编号，查询出最新警员地址-->
-  <select id="selectDeviceLocationByDeviceNoNewest" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+
+    <!--根据警员编号，查询出最新警员地址-->
+    <select id="selectDeviceLocationByDeviceNoNewest" parameterType="java.lang.String" resultMap="BaseResultMap">
      select id ,longitude,latitude,create_time from device_location where  device_no = #{deviceNo,jdbcType=VARCHAR} ORDER BY id DESC LIMIT 1
   </select>
 
-  <!--计算传入的经纬度，周围的最近的经纬度-->
-  <select id="selectRoundOnline" parameterType="java.util.Map" resultMap="BaseResultMap">
+    <!--计算传入的经纬度，周围的最近的经纬度-->
+    <select id="selectRoundOnline" parameterType="java.util.Map" resultMap="BaseResultMap">
  SELECT d.id,d.latitude,d.longitude,d.device_no,
         b.gun_tag AS gunTag ,b.warehouse_name AS gunWarehouseName ,
         b.real_time_state AS gunState,c.state AS deviceState,
