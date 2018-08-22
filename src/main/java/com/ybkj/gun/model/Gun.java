@@ -19,6 +19,8 @@ public class Gun {
 
     private Integer bulletNumber;
 
+    private Integer totalBulletNumber;
+
     private Integer state;
 
     private Integer realTimeState;
@@ -91,6 +93,14 @@ public class Gun {
 
     public void setBulletNumber(Integer bulletNumber) {
         this.bulletNumber = bulletNumber;
+    }
+
+    public Integer getTotalBulletNumber() {
+        return totalBulletNumber;
+    }
+
+    public void setTotalBulletNumber(Integer totalBulletNumber) {
+        this.totalBulletNumber = totalBulletNumber;
     }
 
     public Integer getState() {

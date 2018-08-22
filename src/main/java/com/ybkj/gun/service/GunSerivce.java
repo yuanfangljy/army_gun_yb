@@ -2,6 +2,7 @@ package com.ybkj.gun.service;
 
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.Gun;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -27,4 +28,8 @@ public interface GunSerivce {
     BaseModel updategunStartAndStop(String state, String gunMac) throws ParseException;
     //统计枪支离位信息
     List<Gun> findGunOffNormal() throws  Exception;
+    //查询枪支射弹基数
+    BaseModel selectGunBulletNumber(BaseModel baseModel, String gunMac,@RequestParam(value="pn",defaultValue="1") Integer pn) throws  Exception;
+    //根据枪号查询gun
+    List<Gun> findGunByGunTags(String gunTag);
 }

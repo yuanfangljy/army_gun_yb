@@ -1,5 +1,8 @@
 package com.ybkj.gun.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.ybkj.common.activeMq.Consumer;
 import com.ybkj.common.activeMq.Producer;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.error.ResultEnum;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -38,6 +42,8 @@ public class GunServiceImpl implements GunSerivce {
     WebUserMapper webUserMapper;
     @Autowired
     Producer producer;
+    @Autowired
+    Consumer consumer;
 
     /**
      * 添加枪支信息
@@ -101,6 +107,15 @@ public class GunServiceImpl implements GunSerivce {
     public List<Gun> findGunsByDeviceNo(String deviceNo) throws Exception {
         return gunMapper.selectGunBydevice(deviceNo);
     }
+    /**
+     * 根据枪号查询枪支信息
+     * @param gunTag
+     * @return
+     */
+    @Override
+    public List<Gun> findGunByGunTags(String gunTag) {
+        return gunMapper.selectGunByGunTags(gunTag);
+    }
 
     /**
      * 根据枪支编码查询
@@ -150,6 +165,41 @@ public class GunServiceImpl implements GunSerivce {
     public List<Gun> findGunOffNormal() throws Exception {
         return gunMapper.selectGunOffNormal();
     }
+
+    /**
+     * 射弹基数查询
+     * @param baseModel
+     * @param gunMac
+     * @return
+     */
+    @Override
+    public BaseModel selectGunBulletNumber(BaseModel baseModel, String gunMac,@RequestParam(value="pn",defaultValue="1") Integer pn) throws Exception{
+        //1.发送射弹数生产者
+        BaseModel sendMessageBullet = producer.sendMessageBulletNumberApply(gunMac);
+        if (sendMessageBullet.getStatus()!=StatusCodeEnum.Fail.getStatusCode()) {
+            //2.是否响应报文
+            BaseModel consumerBulletNumber = consumer.manualBulletNumberApply();
+            if(consumerBulletNumber.getStatus()!=StatusCodeEnum.Fail.getStatusCode()){
+                //3、消费者射弹报文响应，查询数据库
+                PageHelper.startPage(pn, 5);
+                List<Gun> guns = gunMapper.selectGunOffNormal();
+                PageInfo<Gun> page = new PageInfo<Gun>(guns,1);
+                baseModel.setErrorMessage("统计成功");
+                baseModel.add("pageInfo",page);
+            }else{
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                baseModel.setErrorMessage("查询有误!");
+            }
+        }else{
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
+        }
+
+        return baseModel;
+    }
+
+
+
 
     @Override
     public int insertGun(Gun gun) throws Exception {

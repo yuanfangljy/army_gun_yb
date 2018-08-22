@@ -12,6 +12,12 @@
             margin: 0;
             font-family: "微软雅黑";
         }
+        .icon {
+            width: 1em; height: 1em;
+            vertical-align: -0.15em;
+            fill: currentColor;
+            overflow: hidden;
+        }
      </style>
     <meta name="description" content="">
     <meta name="author" content="">
@@ -21,6 +27,11 @@
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet" type="text/css"/>
+    <link href="ali/fontali/iconfont.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="ali/fontali/iconfont.js"></script>
+    <link href="ali/fond_symbol/iconfont.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="ali/fond_symbol/iconfont.js"></script>
+
     <script src="js/ie-emulation-modes-warning.js"></script>
     <script type="text/javascript"
             src="http://api.map.baidu.com/api?v=2.0&ak=txyCbKTm1TbFwqyT90iB1t9YLiUY9ZG6"></script>
@@ -61,6 +72,7 @@
                 <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
                 <li><a href="index.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/diaoku.png" style="padding-right:20px;">枪支列表</a></li>
               <li class="activb"><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+                <li><a href="count.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jishu.png" style="padding-right:20px;">射弹计数</a></li>
                 <li><a href="llibrary.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
                 <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;" id="waNumber">警告信息</a> <span></span></li>
             </ul>
@@ -84,7 +96,12 @@
             <label for="" style="font-size:14px">结束时间</label>
         </div>
         <!-- 标准的按钮 -->
-        <button type="button"  class="btn btn-info" id="btn_show"  style=" margin-left: 380px">轨迹查询</button>
+        <button type="button"  class="btn btn-primary" id="btn_show"  style=" margin-left: 380px">
+            <!--<svg class="icon" aria-hidden="true">
+                 <use xlink:href="&#xe603"></use>
+            </svg>-->
+            <i class="iconfont ">&#xe603;</i>
+            轨迹查询</button>
     </form>
 
 </div>

@@ -28,14 +28,13 @@ public interface GunMapper {
 
     int updateByPrimaryKey(Gun record);
 
-
     //根据警员编号
     List<Gun> selectGunBydevice(String gunTag);
+    List<Gun> selectGunByGunTags(String gunTag);
     //根据警员编号查询
     Gun selectGunByGunTag(String gunTag);
 
     Gun selectGunByBluetoothMac(String bluetoothMac);
     //统计枪支离位信息
     List<Gun> selectGunOffNormal();
-
 }

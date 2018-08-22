@@ -10,10 +10,11 @@ import java.util.*;
 @Slf4j
 public class MQProducer {
 
+    //"tcp://120.76.156.120:6160";   "tcp://120.76.156.120:6160";
     private static final String USERNAME = "admin"; //用户名
     private static final String PASSWORD = "admin";  //密码
-    private static final String BROKENURL = "tcp://120.76.156.120:6160";
-    private static final String Q_NAME = "WebOutQueue";  //消息队列
+    private static final String BROKENURL = "tcp://127.0.0.1:61616";
+    private static final String Q_NAME = "WebInQueue";  //消息队列
     
     public static void main(String[] args) {
             ConnectionFactory connectionFactory;

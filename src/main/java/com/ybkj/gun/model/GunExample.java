@@ -625,6 +625,66 @@ public class GunExample {
             return (Criteria) this;
         }
 
+        public Criteria andTotalBulletNumberIsNull() {
+            addCriterion("total_bullet_number is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberIsNotNull() {
+            addCriterion("total_bullet_number is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberEqualTo(Integer value) {
+            addCriterion("total_bullet_number =", value, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberNotEqualTo(Integer value) {
+            addCriterion("total_bullet_number <>", value, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberGreaterThan(Integer value) {
+            addCriterion("total_bullet_number >", value, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberGreaterThanOrEqualTo(Integer value) {
+            addCriterion("total_bullet_number >=", value, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberLessThan(Integer value) {
+            addCriterion("total_bullet_number <", value, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberLessThanOrEqualTo(Integer value) {
+            addCriterion("total_bullet_number <=", value, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberIn(List<Integer> values) {
+            addCriterion("total_bullet_number in", values, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberNotIn(List<Integer> values) {
+            addCriterion("total_bullet_number not in", values, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberBetween(Integer value1, Integer value2) {
+            addCriterion("total_bullet_number between", value1, value2, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalBulletNumberNotBetween(Integer value1, Integer value2) {
+            addCriterion("total_bullet_number not between", value1, value2, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
         public Criteria andStateIsNull() {
             addCriterion("state is null");
             return (Criteria) this;

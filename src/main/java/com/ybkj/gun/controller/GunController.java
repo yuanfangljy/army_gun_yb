@@ -138,7 +138,7 @@ public class GunController {
 
 
     /**
-     * 对枪支信息查询分页
+     * 对枪支信息查询分页,根据id排序
      * @param pn
      * @param deviceNo
      * @return
@@ -167,6 +167,32 @@ public class GunController {
         return baseModel;
     }
 
+
+    /**
+     * 对枪支信息查询分页,根据时间排序
+     * @param pn
+     * @param deviceNo
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "分页查询枪支根据时间排序",notes = "枪支", httpMethod = "GET")
+    @RequestMapping(value = "/inquireGuns",method = RequestMethod.GET)
+    public BaseModel inquireGuns(@RequestParam(value="pn",defaultValue="1") Integer pn,@RequestParam(value="gunTag",required=false)String gunTag) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        PageHelper.startPage(pn, 5);
+        //startPage后面紧跟着的这个查询就是一个分页查询
+        List<Gun> guns=gunService.findGunsByDeviceNo(gunTag);
+        //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
+        //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
+        PageInfo<Gun> page = new PageInfo<Gun>(guns,5);
+
+        baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+        baseModel.setErrorMessage("统计成功");
+        baseModel.add("pageInfo",page).add("gunTag", gunTag);
+        return baseModel;
+    }
+
+
     /**
      * 统计枪支离位信息
      * @return
@@ -185,6 +211,22 @@ public class GunController {
         PageInfo<Gun> page = new PageInfo<Gun>(guns,1);
         baseModel.setErrorMessage("统计成功");
         baseModel.add("pageInfo",page).add("deivceNoGun",deivceNoGun);
+        return baseModel;
+    }
+
+
+
+    /**
+     * 读取枪支的的射弹基数
+     * 1、先给服务器发送mq
+     * 2、消费者监听类型是否是射弹类型
+     * 3、再查询数据库
+     * @param gunMac
+     * @return
+     */
+    @RequestMapping(value = "/gunCountTheRefresh",method = RequestMethod.GET)
+    public BaseModel gunCountTheRefresh(BaseModel baseModel,String gunMac,@RequestParam(value="pn",defaultValue="1") Integer pn) throws Exception {
+        baseModel=gunService.selectGunBulletNumber(baseModel,gunMac,pn);
         return baseModel;
     }
 }

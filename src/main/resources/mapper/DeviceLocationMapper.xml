@@ -40,6 +40,7 @@
             <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac"/>
             <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
             <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber"/>
+            <result column="total_bullet_number" jdbcType="INTEGER" property="totalBulletNumber" />
             <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
             <result column="state" jdbcType="INTEGER" property="state"/>
             <result column="real_time_state" jdbcType="INTEGER" property="realTimeState"/>

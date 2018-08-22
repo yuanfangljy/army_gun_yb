@@ -10,6 +10,7 @@
     <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
     <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId" />
     <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber" />
+    <result column="total_bullet_number" jdbcType="INTEGER" property="totalBulletNumber" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="real_time_state" jdbcType="INTEGER" property="realTimeState" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, web_id, gun_tag, gun_model, bluetooth_mac, warehouse_name, warehouse_id, bullet_number, 
-    state, real_time_state, create_time, update_time, version
+    total_bullet_number, state, real_time_state, create_time, update_time, version
   </sql>
   <select id="selectByExample" parameterType="com.ybkj.gun.model.GunExample" resultMap="BaseResultMap">
     select
@@ -111,14 +112,14 @@
   <insert id="insert" parameterType="com.ybkj.gun.model.Gun">
     insert into gun (id, web_id, gun_tag, 
       gun_model, bluetooth_mac, warehouse_name, 
-      warehouse_id, bullet_number, state, 
-      real_time_state, create_time, update_time, 
-      version)
+      warehouse_id, bullet_number, total_bullet_number, 
+      state, real_time_state, create_time, 
+      update_time, version)
     values (#{id,jdbcType=INTEGER}, #{webId,jdbcType=INTEGER}, #{gunTag,jdbcType=VARCHAR}, 
       #{gunModel,jdbcType=VARCHAR}, #{bluetoothMac,jdbcType=VARCHAR}, #{warehouseName,jdbcType=VARCHAR}, 
-      #{warehouseId,jdbcType=INTEGER}, #{bulletNumber,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
-      #{realTimeState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=INTEGER})
+      #{warehouseId,jdbcType=INTEGER}, #{bulletNumber,jdbcType=INTEGER}, #{totalBulletNumber,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{realTimeState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ybkj.gun.model.Gun">
     insert into gun
@@ -146,6 +147,9 @@
       </if>
       <if test="bulletNumber != null">
         bullet_number,
+      </if>
+      <if test="totalBulletNumber != null">
+        total_bullet_number,
       </if>
       <if test="state != null">
         state,
@@ -187,6 +191,9 @@
       </if>
       <if test="bulletNumber != null">
         #{bulletNumber,jdbcType=INTEGER},
+      </if>
+      <if test="totalBulletNumber != null">
+        #{totalBulletNumber,jdbcType=INTEGER},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -238,6 +245,9 @@
       <if test="record.bulletNumber != null">
         bullet_number = #{record.bulletNumber,jdbcType=INTEGER},
       </if>
+      <if test="record.totalBulletNumber != null">
+        total_bullet_number = #{record.totalBulletNumber,jdbcType=INTEGER},
+      </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=INTEGER},
       </if>
@@ -268,6 +278,7 @@
       warehouse_name = #{record.warehouseName,jdbcType=VARCHAR},
       warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
       bullet_number = #{record.bulletNumber,jdbcType=INTEGER},
+      total_bullet_number = #{record.totalBulletNumber,jdbcType=INTEGER},
       state = #{record.state,jdbcType=INTEGER},
       real_time_state = #{record.realTimeState,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -301,6 +312,9 @@
       <if test="bulletNumber != null">
         bullet_number = #{bulletNumber,jdbcType=INTEGER},
       </if>
+      <if test="totalBulletNumber != null">
+        total_bullet_number = #{totalBulletNumber,jdbcType=INTEGER},
+      </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
       </if>
@@ -328,6 +342,7 @@
       warehouse_name = #{warehouseName,jdbcType=VARCHAR},
       warehouse_id = #{warehouseId,jdbcType=INTEGER},
       bullet_number = #{bulletNumber,jdbcType=INTEGER},
+      total_bullet_number = #{totalBulletNumber,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
       real_time_state = #{realTimeState,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -336,10 +351,13 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-
   <!--根据警员编号信息枪支信息-->
   <select id="selectGunBydevice" parameterType="java.lang.String" resultMap="BaseResultMap">
     select * from gun where gun_tag LIKE '%' #{gunTag,jdbcType=VARCHAR} '%' ORDER BY  id DESC
+  </select>
+  <!--根据警员编号信息枪支信息-->
+  <select id="selectGunByGunTags" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from gun where gun_tag LIKE '%' #{gunTag,jdbcType=VARCHAR} '%' ORDER BY  update_time DESC
   </select>
   <!--根据警员编号信息枪支信息-->
   <select id="selectGunByGunTag" parameterType="java.lang.String" resultMap="BaseResultMap">

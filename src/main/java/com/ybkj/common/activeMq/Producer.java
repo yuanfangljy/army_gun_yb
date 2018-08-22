@@ -187,7 +187,6 @@ public class Producer {
 
     /**
      * 离位报警启停操作
-     *
      * @param state        启停状态：[1/0（停止/重启）
      * @param bluetoothMac
      * @return
@@ -215,7 +214,7 @@ public class Producer {
             String jsonString = JSONObject.toJSONString(message);
             try {
                 jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
-                log.info("************报文信息**************：" + jsonString);
+                log.info("************离位报警启停报文信息**************：" + jsonString);
             } catch (Exception e) {
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                 e.printStackTrace();
@@ -225,6 +224,41 @@ public class Producer {
         return baseModel;
     }
 
+    /**
+     * 射弹数报文申请
+     * @param gunMac
+     * @return
+     */
+    public BaseModel sendMessageBulletNumberApply( String gunMac) throws Exception{
+        BaseModel baseModel = new BaseModel();
+        DeviceBulletNumGetBody messageBody=new DeviceBulletNumGetBody();
+        DeviceBulletNumGetMessage message=new DeviceBulletNumGetMessage();
+
+        for (int i = 0; i < 1; i++) {
+            //报文体
+            messageBody.setBluetoothMac(gunMac);
+            messageBody.setAuthCode(TokenUtils.getMemberToken());
+
+            message.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
+            message.setFormatVersion("1.0");//格式版本
+            message.setDeviceType(1);//设备类型：1.随行设备 2.离位报警器 3.腕表
+            message.setSerialNumber(dataTool.dateToString() + progressiveIncreaseNumber.getNumber(i));//交易流水号:yyyyMMddHHmmss+循环递增0-9999
+            message.setMessageType("25");//报文类型： 上报射弹计数器响应报文
+            message.setMessageBody(messageBody);//报文消息体
+            message.setSendTime(dataTool.dateToString());//发报时间：系统时间
+            message.setSessionToken(TokenUtils.getMemberToken());
+            String jsonString = JSONObject.toJSONString(message);
+            try {
+                jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
+                log.info("************射弹数报文信息**************：" + jsonString);
+            } catch (Exception e) {
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                e.printStackTrace();
+            }
+            return baseModel;
+        }
+        return baseModel;
+    }
 
 }
 
