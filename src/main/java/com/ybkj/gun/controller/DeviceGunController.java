@@ -11,6 +11,7 @@ import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.service.impl.DeviceGunServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,7 @@ import java.util.List;
  *@UpdateRemark: 修改内容
  *@Version:      1.0
 */
+@Slf4j
 @SuppressWarnings("all")
 @Api(value = "/",description = "设备和枪的状态")
 @RestController
@@ -52,7 +54,7 @@ public class DeviceGunController {
     public BaseModel statisticsDeviceOffLine() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer deviceDislocation=deviceGunService.findDeviceOffLine();
-        baseModel.setErrorMessage("==================统计设备离线数==================");
+        log.info("==================统计设备离线数==================");
         baseModel.add("deviceDislocation",deviceDislocation);
         return baseModel;
     }
@@ -66,14 +68,14 @@ public class DeviceGunController {
     public BaseModel statisticsGunDislocation() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer gunDislocation=deviceGunService.findGunDislocation();
-        baseModel.setErrorMessage("==================统计枪支离位数==================");
+        log.info("==================统计枪支离位数==================");
         baseModel.add("gunDislocation",gunDislocation);
         return baseModel;
     }
 
 
     /**
-     * 全部以领装备的士兵实时状态
+     * 全部已领装备的士兵实时状态
      * @param pn
      * @param deviceNo
      * @return
@@ -81,11 +83,15 @@ public class DeviceGunController {
     @RequestMapping(value = "/realTimeDeviceAndGun",method = RequestMethod.GET)
     public BaseModel realTimeDeviceAndGun(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
         BaseModel baseModel=new BaseModel();
+        String location="";
         List<DeviceGun> devices=deviceGunService.findGunAndDeviceLocation(deviceNo);
-        System.out.println("---------@@@@@@@@@-----------"+deviceNo);
-        baseModel.setErrorMessage("==================全部以领装备的士兵实时状态==================");
+        for (DeviceGun device : devices) {
+            location+=BaiDuUtil.getAddress(device.getDeviceLocationLongitude(),device.getDeviceLocationLatirude())+"@";
+        }
+        log.info("==================全部以领装备的士兵实时状态==================");
         baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
         baseModel.add("devices",devices);
+        baseModel.add("location", location);
         return baseModel;
     }
 
@@ -123,13 +129,13 @@ public class DeviceGunController {
      */
     @RequestMapping(value = "/inquireDeviceAndGunOnline",method = RequestMethod.GET)
     public BaseModel inquireDeviceAndGunOnline(@RequestParam(value="deviceNo",required=false)String deviceNo,@RequestParam(value="lng",required=false)String lng,@RequestParam(value="lag",required=false)String lag) throws Exception {
-        System.out.println("========="+deviceNo+"--"+lng+"--"+lag);
+        //System.out.println("========="+deviceNo+"--"+lng+"--"+lag);
         BaseModel baseModel=new BaseModel();
         List<DeviceGun> onLine = deviceGunService.findGunAndDeviceLocationAllOnLine(deviceNo);
         for (DeviceGun deviceGun : onLine) {
             System.out.println("-------"+deviceGun);
         }
-        baseModel.setErrorMessage("==================查询所有在线的警员和枪支==================");
+        log.info("==================查询所有在线的警员和枪支==================");
         baseModel.add("onLine", onLine);
         return baseModel;
     }

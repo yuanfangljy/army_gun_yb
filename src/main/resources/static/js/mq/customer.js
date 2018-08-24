@@ -51,6 +51,35 @@ var onconnect = function (frame) {
                 });
             }
         }
+        //***************************    离位警告信息    ************************
+
+        if (json.messageType == "15") {
+           // function WarningNumber() {
+                $.ajax({
+                    url:"../sosMission/statisticsWarningNumber",
+                    type:"GET",
+                    cache:false,
+                    async:true,
+                    success:function (result) {
+                        $("#wanav li span").empty();
+                        if(result.extend.warningNumber>=10){
+                            $("#wanav li span").append(" <img src='img/warningBig.png' style='position:absolute; left:130px; top:18px; z-index:2;'><span id='warningNumber' class='text-center' style='position:absolute; left:134px; top:16px; z-index:3; color:#fff; font-size:13px;'>"+result.extend.warningNumber+"</span>");
+                            //$("#waNumber").trigger("create");
+                        }else if(result.extend.warningNumber>=1){
+                            $("#wanav li span").append(" <img src='img/warningSmall.png' style='position:absolute; left:130px; top:18px; z-index:2;'><span id='warningNumber' class='text-center' style='position:absolute; left:134px; top:16px; z-index:3; color:#fff; font-size:13px;'>"+result.extend.warningNumber+"</span>");
+                            $("#waNumber").trigger("create");
+                        }else if(result.extend.warningNumber>=99){
+                            $("#wanav li span").append(" <img src='img/warningBig.png' style='position:absolute; left:130px; top:18px; z-index:2;'><span id='warningNumber' class='text-center' style='position:absolute; left:134px; top:16px; z-index:3; color:#fff; font-size:13px;'>"+99+"</span>");
+                            $("#waNumber").trigger("create");
+                        }
+                    }
+                })
+            }
+       // }
     });
 };
 client.connect(login, passcode, onconnect);
+
+
+
+

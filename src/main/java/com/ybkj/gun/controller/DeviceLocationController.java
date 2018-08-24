@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *@Description:  功能描述（设备实时地点：轨迹查询）
@@ -136,7 +133,8 @@ public class DeviceLocationController {
     public BaseModel queryTheTrajectory(@RequestParam(value = "deviceNo",required = false) String deviceNo,@RequestParam(value = "startTime",required = false)String startTime,@RequestParam(value = "endTime",required = false)String endTime) throws ParseException {
         BaseModel baseModel=new BaseModel();
         Map<String,Object> map=new HashMap<>();
-        System.out.println("startTime-"+startTime+"endTime-"+endTime+"deviceNo-"+deviceNo);
+        String location="";
+        //System.out.println("startTime-"+startTime+"endTime-"+endTime+"deviceNo-"+deviceNo);
         if(startTime.equals("") || endTime.equals("") || deviceNo.equals("")){
             map.put("gunTag",0);
             map.put("beginTime",new Date());
@@ -147,9 +145,18 @@ public class DeviceLocationController {
             map.put("endTime",DataTool.stringToDate(endTime));
         }
         List<DeviceLocation> deviceLocations=deviceLocationSerivce.findDeviceLocationTrajectory(map);
+        for (DeviceLocation deviceLocation : deviceLocations) {
+            location+=BaiDuUtil.getAddress(deviceLocation.getLongitude(),deviceLocation.getLatitude())+"@";
+            System.out.println("-----000----0000-----0000---"+deviceLocation.getDeviceNo());
+        }
+       /* Iterator<DeviceLocation> listIt = deviceLocations.iterator();
+        while (listIt.hasNext()) {
+            DeviceLocation next =  listIt.next();
+
+        }*/
         log.info("*************************** 查询时间段内的枪支轨迹  ******************************");
         if(deviceLocations.size()>0){
-            baseModel.add("deviceLocations",deviceLocations).add("numberLocations",deviceLocations.size());
+            baseModel.add("deviceLocations",deviceLocations).add("numberLocations",deviceLocations.size()).add("location",location);
         }else{
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage("暂无数据");

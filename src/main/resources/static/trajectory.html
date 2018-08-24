@@ -55,7 +55,7 @@
         </div>
         <div id="navba	r" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">设置</a></li>
+                <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
 
@@ -87,7 +87,7 @@
         </div>
         <div class="col-md-4"></div>
         <div class="form-group">
-            <label for="" style="font-size:14px; margin-left: 280px">开始时间</label>
+            <label for="" style="font-size:14px; margin-left: 180px">开始时间</label>
             <input type="text" class="form-control" id="startTime" name="startTime" placeholder="开始时间">
         </div>
         <div class="form-group">
@@ -96,7 +96,7 @@
             <label for="" style="font-size:14px">结束时间</label>
         </div>
         <!-- 标准的按钮 -->
-        <button type="button"  class="btn btn-primary" id="btn_show"  style=" margin-left: 380px">
+        <button type="button"  class="btn btn-primary" id="btn_show"  style="margin-left: 130px; position: absolute; margin-right: 50px;">
             <!--<svg class="icon" aria-hidden="true">
                  <use xlink:href="&#xe603"></use>
             </svg>-->
@@ -280,7 +280,7 @@
         var label = [];//经度
         var values=[];//纬度
         var myIcon;//图标点
-
+        var location;//详细地点
             $.ajax({
                 url:"../deviceLocation/queryTheTrajectory",
                 type:"GET",
@@ -291,6 +291,7 @@
                         layer.msg(result.errorMessage);
                         return false;
                     }
+                    location = result.extend.location.split("@");
                     $.each(result.extend.deviceLocations,function (item, value) {
                         label[item] = value.longitude;
                         values[item] = value.latitude;
@@ -306,27 +307,37 @@
                         var marker;//标注
                         marker = new BMap.Marker(point, {icon: myIcon});// 创建标注，为要查询的地方对应的经纬度
                         map.addOverlay(marker);
-
-
+                        RightClickHandler(marker);//右键单击marker出现右键菜单事件
+                        //右键单击marker出现右键菜单事件
+                        function RightClickHandler(marker) {
+                            marker.addEventListener("rightclick", function (e) {
+                                if(e.overlay){//判断右键单击的是否是marker
+                                    alert("12312");
+                                }else{
+                                    layer.alert(location[item]);
+                                }
+                            });
+                        };
                         //2、标注内容
                         var tips;//标注
+                        var line="<div style='height: 1px;border-bottom: 1px dashed rgba(255,255,255,0.5); width:120px; margin-bottom: -18px; margin-top: 2px;'></div>";//虚线
                         if(item==0){
-                            tips = "<div class='list-information' style='width:140px; height:80px; border:2px solid rgba(17,123,36,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.3); padding-top:6px; padding-left:10px;'>"
-                                + "开始："+ (item+Number(1)) + "</br>"
-                                +"警员编号："+value.device_no+"</br>"
-                                +"时间："+new Date(value.create_time).format('yyyy-MM-dd')+"</br>"
+                            tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(17,123,36,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px; padding-left:10px;'>"
+                                + "开始："+ (item+Number(1)) + line +"</br>"
+                                +"警员编号："+value.deviceNo+ line +"</br>"
+                                +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
                                 +"</div>";
                         }else if(item==result.extend.numberLocations-1){
-                            tips = "<div class='list-information' style='width:140px; height:80px; border:2px solid rgba(109,109,109,0.87); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.3); padding-top:6px;  padding-left:10px;'>"
-                                + "结束："+ (item+Number(1)) +"</br>"
-                                +"警员编号："+value.device_no+"</br>"
-                                +"时间："+new Date(value.create_time).format('yyyy-MM-dd')+"</br>"
+                            tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(109,109,109,0.87); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px;  padding-left:10px;'>"
+                                + "结束："+ (item+Number(1)) + line +"</br>"
+                                +"警员编号："+value.deviceNo + line+"</br>"
+                                +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
                                 +"</div>";
                         }else{
-                            tips = "<div class='list-information' style='width:140px; height:80px; border:2px solid rgba(249,0,15,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.3); padding-top:6px;  padding-left:10px;'>"
-                                +"位数："+ (item+Number(1)) +"</br>"
-                                +"警员编号："+value.device_no+"</br>"
-                                +"时间："+new Date(value.create_time).format('yyyy-MM-dd')+"</br>"
+                            tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(249,0,15,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px;  padding-left:10px;'>"
+                                +"位数："+ (item+Number(1)) + line+"</br>"
+                                +"警员编号："+value.deviceNo + line+"</br>"
+                                +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
                                 +"</div>";
                         }
 
@@ -339,7 +350,7 @@
                             }else if(item==result.extend.numberLocations-1){
                                 labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
                             }else{
-                                labela = new BMap.Label(tips,{offset:new BMap.Size(5,10)});
+                                labela = new BMap.Label(tips,{offset:new BMap.Size(-142,-75)});
                             }
                             labela.setStyle({
                                 color: "#eeeeee",
@@ -413,7 +424,10 @@
 
     }
 
-
+    //登出
+    function LogOut(){
+        LogOuts();
+    }
 
 
 </script>

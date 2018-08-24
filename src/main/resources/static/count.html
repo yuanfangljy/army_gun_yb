@@ -38,11 +38,12 @@
         </div>
         <div id="navba	r" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">设置</a></li>
+                <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
                 <input type="text" class="form-control" id="gunTag" placeholder="搜索枪号">
+                <img src="img/select.png" style="position:relative; left: -36px; z-index: 999999;">
             </div>
         </div>
     </div>
@@ -51,7 +52,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
-            <ul class="nav nav-sidebar">
+            <ul class="nav nav-sidebar" id="wanav">
                 <li><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
                 <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
                 <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
@@ -59,7 +60,7 @@
                 <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
                 <li class="activb"><a href="count.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jishu.png" style="padding-right:20px;">射弹计数</a></li>
                 <li><a href="llibrary.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
-                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;">警告信息</a></li>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;" id="waNumber">警告信息</a><span></span></li>
             </ul>
             </ul>
         </div>
@@ -101,6 +102,7 @@
 <script type="text/javascript" src="js/mq/stomp.min.js"></script>
 <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
 <script type="text/javascript" src="js/mq/customer.js"></script>
+<script type="text/javascript" src="js/warning/warningNumber.js"></script>
 <script type="text/javascript" src="js/dateTransition/datejs.js"></script>
 <script>
 
@@ -161,15 +163,15 @@
                 var bulletNumber=$("<td></td>").append(item.bulletNumber).addClass("text-center");
                 var totalBulletNumber;
                 if(item.totalBulletNumber<=2000){
-                    totalBulletNumber = $("<td></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("info");
+                    totalBulletNumber = $("<td style='background-color: #96ff0c'></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("info");
                 }else if(item.totalBulletNumber<=4000){
-                    totalBulletNumber = $("<td></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("success");
+                    totalBulletNumber = $("<td style='background-color: #4bd5ff'></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("success");
                 }else if(item.totalBulletNumber<=6000){
-                    totalBulletNumber = $("<td></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("warning");
+                    totalBulletNumber = $("<td style='background-color: #d8ffae'></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("warning");
                 }else if(item.totalBulletNumber<=8000){
-                    totalBulletNumber = $("<td></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("danger");
+                    totalBulletNumber = $("<td style='background-color: #f9ff48'></td>").append(item.totalBulletNumber).addClass("text-center ").addClass("danger");
                 }else {
-                    totalBulletNumber = $("<td></td>").append(item.totalBulletNumber).addClass("text-center").addClass("error");
+                    totalBulletNumber = $("<td style='background-color: #ff291a'></td>").append(item.totalBulletNumber).addClass("text-center").addClass("error");
                 }
 
                 var sosTime = $("<td></td>").append(new Date(item.updateTime).format("yyyy-MM-dd hh:mm:ss")).addClass("text-center");
@@ -306,6 +308,11 @@
             to_page(1, $("#gunTag").val());
         }
     });
+
+    //登出
+    function LogOut(){
+        LogOuts();
+    }
 </script>
 
 </body>

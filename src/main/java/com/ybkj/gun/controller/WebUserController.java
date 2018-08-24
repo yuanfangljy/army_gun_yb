@@ -3,6 +3,7 @@ package com.ybkj.gun.controller;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.error.ResultEnum;
 import com.ybkj.common.model.BaseModel;
+import com.ybkj.common.util.LoginUtil;
 import com.ybkj.gun.model.WebUser;
 import com.ybkj.gun.service.impl.WebUserServiceImpl;
 import io.swagger.annotations.Api;
@@ -55,7 +56,23 @@ public class WebUserController {
         return baseModel;
     }
 
+    /**
+     * Web用户登出
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/logOutWebUser",method = RequestMethod.PUT)
+    public void logOutWebUser(HttpSession session,HttpServletRequest request){
+        String userName =(String)session.getAttribute("userName");
+        LoginUtil.loginUserSessionIds.remove(request.getSession().getId());
+        //LoginUtil.LoginUserSessionIds(userName);
+        //登录成功后需将SessionId放在ServletContext中，做单点登录的seesion
+        request.getServletContext().removeAttribute(userName);
 
+        session.removeAttribute("userName");
+        //if(userName!=null && userName.equals(""))
+
+    }
     /**
      * 判断手机号码是否存在
      * @param mobile
@@ -163,4 +180,6 @@ public class WebUserController {
         }
         return baseModel;
     }
+
+
 }

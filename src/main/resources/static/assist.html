@@ -30,9 +30,8 @@
 </head>
 <body>
 <!--地图-->
-<div>
-</div>
-<div  id="allmap" ></div>
+
+<div id="allmap" style="position: absolute; margin-top: -50px;"></div>
 
 <script src="layui/layui.all.js" type="text/javascript"></script>
 <script src="js/jquery-1.11.1.min.js"></script>
@@ -41,37 +40,39 @@
 <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
 <script type="text/javascript" src="js/mq/customer.js"></script>
 <script type="text/javascript" src="js/dateTransition/datejs.js"></script>
+<script type="text/javascript" src="js/warning/warningNumber.js"></script>
+
 <script>
 
-    var deviceNos,lostGun,lng,lag;
+    var deviceNos, lostGun, lng, lag;
 
-    function parseUrl(){
-        var url=location.href;
-        var i=url.indexOf('?');
-        if(i==-1)return;
-        var querystr=url.substr(i+1);
-        var arr1=querystr.split('&');
-        var arr2=new Object();
-        for  (i in arr1){
-            var ta=arr1[i].split('=');
-            arr2[ta[0]]=ta[1];
+    function parseUrl() {
+        var url = location.href;
+        var i = url.indexOf('?');
+        if (i == -1) return;
+        var querystr = url.substr(i + 1);
+        var arr1 = querystr.split('&');
+        var arr2 = new Object();
+        for (i in arr1) {
+            var ta = arr1[i].split('=');
+            arr2[ta[0]] = ta[1];
         }
         return arr2;
     }
 
     $(function () {
         var v = parseUrl();//解析所有参数
-        deviceNos=v['deviceNos'];
-        lostGun=v['lostGun'];
-        lng= v['lng'];
-        lag=v['lag'];
+        deviceNos = v['deviceNos'];
+        lostGun = v['lostGun'];
+        lng = v['lng'];
+        lag = v['lag'];
         //alert(deviceNos+"."+lostGun+"."+lng+"."+lag);
-        FindAssist(deviceNos,lostGun,lng,lag);
+        FindAssist(deviceNos, lostGun, lng, lag);
     })
 
     //====================================   地图模态框    =========================================
     function FindAssist(deiceNos, lostGun, lng, lag) {
-        var deviceNosAndlng=lng+","+deiceNos;
+        var deviceNosAndlng = lng + "," + deiceNos;
         // 百度地图API功能
         var map = new BMap.Map("allmap");
         var point = new BMap.Point(114.034656, 22.616798);
@@ -135,168 +136,174 @@
         var overviewControl = new BMap.OverviewMapControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, isOpen: true});
         map.addControl(overviewControl);
 
+//虚线
+        var lineoff = "<div style='height: 1px;border-bottom: 1px dashed rgba(255,255,255,0.5); width:128px; margin-bottom: -18px; margin-top: 2px;'></div>";//离位虚线
+        var lineon = "<div style='height: 1px;border-bottom: 1px dashed rgba(14,11,12,0.2); width:128px; margin-bottom: -18px; margin-top: 2px;'></div>";//正常虚线
+
 //7、添加标注
-   // function deviceLocation(deviceNos, lng, lag) {
-            var label = [];//保存日期
-            var value = [];//数量
-            var markers = [];//点聚合参数
-            var markerClusterer = null;//点聚合参数
-            var recentlyDeivce;//最近设备
-            var location = "";
-            //设备实时状态显示
-            $.ajax({
-                url: "../deviceLocation/roundOnline",
-                type: "GET",
-                data: {"deviceNo": null, "lng": deviceNosAndlng, "lag": lag},
-                dataType: "json",
-                asynec: false,
-                success: function (result) {
-                    if (result.status == 200) {
-                        layer.alert(result.errorMessage);
-                        return false;
+        // function deviceLocation(deviceNos, lng, lag) {
+        var label = [];//保存日期
+        var value = [];//数量
+        var markers = [];//点聚合参数
+        var markerClusterer = null;//点聚合参数
+        var recentlyDeivce;//最近设备
+        var location = "";
+        //设备实时状态显示
+        $.ajax({
+            url: "../deviceLocation/roundOnline",
+            type: "GET",
+            data: {"deviceNo": null, "lng": deviceNosAndlng, "lag": lag},
+            dataType: "json",
+            asynec: false,
+            success: function (result) {
+                if (result.status == 200) {
+                    layer.alert(result.errorMessage);
+                    return false;
+                }
+                location = result.extend.location.split("@");
+                $.each(result.extend.onLine, function (i, p) {
+                    label[i] = p.longitude;
+                    value[i] = p.latitude;
+                    // 7.1:创建点
+                    var myIcon;
+                    if (p.gunState == 0 && p.deviceState == 0) {
+                        myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+                    } else {
+                        myIcon = new BMap.Icon('img/offNormalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
                     }
-                    location = result.extend.location.split("@");
-                    $.each(result.extend.onLine, function (i, p) {
-                        label[i] = p.longitude;
-                        value[i] = p.latitude;
-                        // 7.1:创建点
-                        var myIcon;
-                        if (p.gunState == 0 && p.deviceState == 0) {
-                            myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+
+                    //这就是对象的字面量形式
+                    var marker = new BMap.Marker(new BMap.Point(label[i], value[i]), {icon: myIcon});
+                    //将标注添加到地图中
+                    map.addOverlay(marker);
+                    addClickHandler(marker);
+
+                    //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+                    function addClickHandler(marker) {
+                        marker.addEventListener("click", function (e) {
+                                layer.alert(location[i]);
+                                //alert(p.deviceNo + "--" + p.longitude + "--" + p.latitude);
+                                //deviceLocation(p.deviceNo, p.longitude, p.latitude);
+                            }
+                        );
+                    }
+
+
+
+                    <!--框-->
+                    var gunOffNormal = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离位</span>';
+                    var unused = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">未使用</span>';
+                    var accompany = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">随行</span>';
+                    var onLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">在线</span>';
+                    var offLine = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离线</span>';
+                    var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">协助</span>';
+
+                    var tag;//浮框
+                    if (result.extend.number - 2 == i) {
+                        recentlyDeivce = p.deviceNo;
+                        tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:198px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
+                            + "警员编号：" + recentlyDeivce + lineon + "</br>"
+                            + "枪号：" + p.gunTag + lineon + "</br>"
+                            + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
+                            + "电话：" + p.mobile + lineon + "</br>"
+                            + "<span style='color: #ff2217'>最近距离：" + p.juli + "," + (result.extend.number - i - 1) + lineon + "</br></span>"
+                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
+                            "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
+                        ;
+                    } else {
+                        if (result.extend.number - 1 == i) {
+                            tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:160px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
+                                + "警员编号：" + p.deviceNo + lineoff + "</br>"
+                                + "枪号：" + p.gunTag + lineoff + "</br>"
+                                + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
+                                + "电话：" + p.mobile + lineoff + "</br>"
+                                + "<span style='color: #ff2589'>最近警员：" + recentlyDeivce + lineoff + "</br></span>"
+                                + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                                + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
+                                "</div>"
+                            ;
                         } else {
-                            myIcon = new BMap.Icon('img/offNormalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
-                        }
-
-                        //这就是对象的字面量形式
-                        var marker = new BMap.Marker(new BMap.Point(label[i], value[i]), {icon: myIcon});
-                        //将标注添加到地图中
-                        map.addOverlay(marker);
-                        addClickHandler(marker);
-
-                        //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-                        function addClickHandler(marker) {
-                            marker.addEventListener("click", function (e) {
-                                    layer.alert(location[i]);
-                                    //alert(p.deviceNo + "--" + p.longitude + "--" + p.latitude);
-                                    //deviceLocation(p.deviceNo, p.longitude, p.latitude);
-                                }
-                            );
-                        }
-
-                        <!--框-->
-                        var gunOffNormal = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离位</span>';
-                        var unused = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">未使用</span>';
-                        var accompany = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">随行</span>';
-                        var onLine = '<span style=" background:url(img/green.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">在线</span>';
-                        var offLine = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离线</span>';
-                        var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">协助</span>';
-
-                        var tag;//浮框
-                        if (result.extend.number - 2 == i) {
-                            recentlyDeivce = p.deviceNo;
-                            tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:173px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
-                                + "警员编号：" + recentlyDeivce + "</br>"
-                                + "枪号：" + p.gunTag + "</br>"
-                                + "枪支：" + (p.gunModel).slice(0,8) + "</br>"
+                            tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:196px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
+                                + "警员编号：" + p.deviceNo +lineon+ "</br>"
+                                + "枪号：" + p.gunTag +lineon+ "</br>"
+                                + "枪支：" + (p.gunModel).slice(0, 8) +lineon+ "</br>"
                                 + "电话：" + p.mobile + "</br>"
-                                + "<span style='color: #ff2217'>最近距离：" + p.juli + "," + (result.extend.number - i - 1) + "</br></span>"
+                                + "<span style='color: #ff2217'>距离：" + p.juli + "," + (result.extend.number - 1 - i) +lineon+ "</br></span>"
                                 + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
                                 "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
                             ;
-                        } else {
-                            if (result.extend.number - 1 == i) {
-                                tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:150px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
-                                    + "警员编号：" + p.deviceNo + "</br>"
-                                    + "枪号：" + p.gunTag + "</br>"
-                                    + "枪支：" + (p.gunModel).slice(0,8) + "</br>"
-                                    + "电话：" + p.mobile + "</br>"
-                                    + "<span style='color: #ff2589'>最近警员：" + recentlyDeivce + "</br></span>"
-                                    + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
-                                    + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
-                                    "</div>"
-                                ;
-                            } else {
-                                tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:173px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
-                                    + "警员编号：" + p.deviceNo + "</br>"
-                                    + "枪号：" + p.gunTag + "</br>"
-                                    + "枪支：" + (p.gunModel).slice(0,8) + "</br>"
-                                    + "电话：" + p.mobile + "</br>"
-                                    + "<span style='color: #ff2217'>距离：" + p.juli + "," + (result.extend.number - 1 - i) + "</br></span>"
-                                    + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
-                                    + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
-                                    "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
-                                ;
-                            }
-
                         }
 
+                    }
 
-                        /* if (result.extend.number - 2 == i) {
-                             //7.2 添加字体
-                             var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -185)});
-                             labela.setStyle({
-                                 color: "#302e18",
-                                 width: "100%",
-                                 height: "100%",
-                                 fontSize: "14px",
-                             });
-                             marker.setLabel(labela);
-                         }*/
 
-                        //创建标注的hover事件
-                        marker.addEventListener("mouseover", function (e) {
-                            //7.2 添加字体
-                            var labela;
-                            if (result.extend.number - 1 == i) {
-                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -160)});
-                            } else {
-                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -185)});
-                            }
-                            labela.setStyle({
-                                color: "#302e18",
-                                width: "100%",
-                                height: "100%",
-                                fontSize: "14px",
-                            });
-                            marker.setLabel(labela);
+                    /* if (result.extend.number - 2 == i) {
+                         //7.2 添加字体
+                         var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -185)});
+                         labela.setStyle({
+                             color: "#302e18",
+                             width: "100%",
+                             height: "100%",
+                             fontSize: "14px",
+                         });
+                         marker.setLabel(labela);
+                     }*/
+
+                    //创建标注的hover事件
+                    marker.addEventListener("mouseover", function (e) {
+                        //7.2 添加字体
+                        var labela;
+                        if (result.extend.number - 1 == i) {
+                            labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -170)});
+                        } else {
+                            labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -208)});
+                        }
+                        labela.setStyle({
+                            color: "#302e18",
+                            width: "100%",
+                            height: "100%",
+                            fontSize: "14px",
                         });
-                        marker.addEventListener("mouseout", function (e) {
-                            var label = this.getLabel();
-                            setTimeout(function () {
-                                label.setContent("");//设置标签内容为空
-                                label.setStyle({border: "none", width: "0px", padding: "0px"});//设置标签边框宽度为0
-                            }, 2000);
-                        });
-
-                        //7.4 将经纬坐标划入地图
-                        label[i] = new BMap.Point(label[i], value[i]);
-
-                        //7.3 将坐标放入到点聚合中
-                        markers.push(marker);
-                        //marker.addEventListener("click", attribute);
-
-                        //7.5 让所有点在视野范围内
-                        map.setViewport(label);
-
+                        marker.setLabel(labela);
                     });
-                    //7.3 最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-                    markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
+                    marker.addEventListener("mouseout", function (e) {
+                        var label = this.getLabel();
+                        setTimeout(function () {
+                            label.setContent("");//设置标签内容为空
+                            label.setStyle({border: "none", width: "0px", padding: "0px"});//设置标签边框宽度为0
+                        }, 2000);
+                    });
+
+                    //7.4 将经纬坐标划入地图
+                    label[i] = new BMap.Point(label[i], value[i]);
+
+                    //7.3 将坐标放入到点聚合中
+                    markers.push(marker);
+                    //marker.addEventListener("click", attribute);
+
+                    //7.5 让所有点在视野范围内
+                    map.setViewport(label);
+
+                });
+                //7.3 最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
+                markerClusterer = new BMapLib.MarkerClusterer(map, {markers: markers});
 
 
-                    //获取覆盖物位置
-                    function attribute(e) {
-                        var p = e.target;
-                        //layer.alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
-                    }
-                }, error: function (result) {
-                    if (result.responseText == "IsAjax") {
-                        window.location.href = "login.html";
-                        return false;
-                    }
+                //获取覆盖物位置
+                function attribute(e) {
+                    var p = e.target;
+                    //layer.alert("marker的位置是" + p.getPosition().lng + "," + p.getPosition().lat);
                 }
-            });
-      //}
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
+            }
+        });
+        //}
     }
 
     //================================   请求协助查询   ==============================

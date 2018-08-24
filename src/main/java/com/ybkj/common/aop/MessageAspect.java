@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.UUID;
 
 /**
@@ -62,7 +63,17 @@ public class MessageAspect {
                 if (needRemoveSession) {
                     if (isRepeatSubmit(request,session)) {
                         log.info("表单重复提交");
-                        throw new FormRepeatException("表单重复提交");
+                    /*    //输出到页面
+                        response.setContentType("text/html; charset=UTF-8"); //转码
+                        PrintWriter out=response.getWriter();
+                        out.print("<script>");
+                        out.print("alert('请不要重复提交!');");
+                        //out.println("window.location.href='login.html'");
+                        //out.println("history.back();");
+                        out.print("</script>");
+                        out.flush();
+                        out.close();
+                        //throw new FormRepeatException("表单重复提交");*/
                     }
                     request.getSession(false).removeAttribute( "tokenliu" );
                 }

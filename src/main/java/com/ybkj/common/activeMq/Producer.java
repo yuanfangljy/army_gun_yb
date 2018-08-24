@@ -13,8 +13,12 @@ import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.jms.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 
 @SuppressWarnings("all")
@@ -39,7 +43,8 @@ public class Producer {
     @Autowired
     private ProgressiveIncreaseNumber progressiveIncreaseNumber;
 
-
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpSession session = request.getSession();
     //@Scheduled(fixedDelay=5000)
 
     /**
@@ -52,6 +57,8 @@ public class Producer {
      * @throws MessageEOFException
      */
     public BaseModel sendMessageDelivery(String bluetoothMac, String gunTag, String applyTime, String deadlineTime, String deviceNo) throws ParseException {
+
+
         BaseModel baseModel = new BaseModel();
         AuthCodeMessage authCodeMessageBody = new AuthCodeMessage();
         AuthCodeMessageBody messageBody = new AuthCodeMessageBody();
@@ -74,6 +81,7 @@ public class Producer {
             messageBody.setSystemTime(dataTool.dateToString());
             messageBody.setMatchTime("11");
             messageBody.setSafeCode("11");
+            messageBody.setUserName((String)session.getAttribute("userName"));
 
             authCodeMessageBody.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
             authCodeMessageBody.setFormatVersion("1.0");//格式版本
@@ -113,6 +121,7 @@ public class Producer {
             messageBody.setBluetoothMac(bluetoothMac);
             messageBody.setAuthCode(TokenUtils.getMemberToken());
             messageBody.setDeviceNo(deviceNo);
+            messageBody.setUserName((String)session.getAttribute("userName"));
 
             authCodeMessageBody.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
             authCodeMessageBody.setFormatVersion("1.0");//格式版本

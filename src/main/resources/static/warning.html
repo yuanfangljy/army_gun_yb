@@ -49,11 +49,12 @@
         </div>
         <div id="navba	r" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">设置</a></li>
+                <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
                 <input type="text" class="form-control" id="deviceNos" placeholder="搜索警员">
+                <img src="img/select.png" style="position:relative; left: -36px; z-index: 999999;">
             </div>
         </div>
     </div>
@@ -349,10 +350,11 @@
     function FindAssist(sosId,deiceNos, lostGun, lng, lag) {
         ModifierSosMessage(sosId);
         to_page(1, null);
+        WarningNumber();
         //iframe窗
         layer.open({
             type: 2,
-            title: '协助查询',
+            title: '离位协助查找',
             shadeClose: true,
             shade: false,
             maxmin: true, //开启最大化最小化按钮
@@ -638,9 +640,14 @@
         $.ajax({
             url:"../sosMission/modifierSosMessageState/"+id,
             type:"PUT",
+            async: 'true',
             success:function (result) {
             }
         })
+    }
+    //登出
+    function LogOut(){
+        LogOuts();
     }
 </script>
 </body>

@@ -38,7 +38,7 @@
         </div>
         <div id="navba	r" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">设置</a></li>
+                <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
 
@@ -96,13 +96,14 @@
 
 </div>
 
-<script type="text/javascript" src="js/mq/stomp.min.js"></script>
-<script type="text/javascript" src="js/mq/sockjs.min.js"></script>
-<script type="text/javascript" src="js/mq/customer.js"></script>
+
 <script src="js/holder.min.js"></script>
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 <script src="js/jquery-1.4.2.min.js"></script>
 <script src="layui/layui.all.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/mq/stomp.min.js"></script>
+<script type="text/javascript" src="js/mq/sockjs.min.js"></script>
+<script type="text/javascript" src="js/mq/customer.js"></script>
 <script type="text/javascript" src="js/warning/warningNumber.js"></script>
 <script type="text/javascript">
     $("#submit_device_gun").click(function () {
@@ -166,6 +167,11 @@
     $("#cancel").click(function(){
         Clear();
     })
+
+    //登出
+    function LogOut(){
+        LogOuts();
+    }
 </script>
 </body>
 </html>

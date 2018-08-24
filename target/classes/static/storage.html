@@ -36,7 +36,7 @@
         </div>
         <div id="navba	r" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">设置</a></li>
+                <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
             <!--<form class="navbar-form navbar-right">-->
@@ -115,7 +115,7 @@
         $.ajax({
             url: "../deviceGun/gunStorage/" + status,
             data: $("#device_gun_from").serialize(),
-            type: "POST",
+            type: "PUT",
             //dataType: "json",
             success: function (result) {
                 if (result.status == "16") {
@@ -163,6 +163,10 @@
     $("#cancel").click(function(){
         Clear();
     })
+    //登出
+    function LogOut(){
+        LogOuts();
+    }
 </script>
 </body>
 </html>

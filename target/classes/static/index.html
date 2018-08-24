@@ -34,11 +34,12 @@
         </div>
         <div id="navba	r" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">设置</a></li>
+                <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
                 <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索警员">
+                <img src="img/select.png" style="position:relative; left: -36px; z-index: 999999;">
                 <!--<button id="liu">nishi</button>-->
             </div>
         </div>
@@ -56,7 +57,7 @@
               <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
                 <li><a href="count.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jishu.png" style="padding-right:20px;">射弹计数</a></li>
                 <li><a href="llibrary.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
-                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;" id="waNumber">警告信息</a> <span></span></li>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="img/jingao.png" style="padding-right:20px;" id="waNumber">警告信息</a><span></span></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-left:13%; width:87%;">
@@ -131,7 +132,7 @@
 <script type="text/javascript" src="js/mq/stomp.min.js"></script>
 <script type="text/javascript" src="js/mq/sockjs.min.js"></script>
 <script type="text/javascript" src="js/mq/customer.js"></script>
-<!--<script type="text/javascript" src="js/warning/warningNumber.js"></script>-->
+<script type="text/javascript" src="js/warning/warningNumber.js"></script>
 <script>
     $(document).ready(function() {
         $('#liu').hover(function(){
@@ -372,7 +373,10 @@
             to_page(1, $("#deviceNos").val());
         }
     });
-
+    //登出
+    function LogOut(){
+        LogOuts();
+    }
 
 </script>
 </body>

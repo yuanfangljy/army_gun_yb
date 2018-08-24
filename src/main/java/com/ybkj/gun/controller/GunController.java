@@ -95,12 +95,12 @@ public class GunController {
     @RequestMapping(value = "/fortifyGun",method = RequestMethod.POST)
     public BaseModel fortifyGun(@Valid Gun gun , BindingResult result, HttpSession session , HttpServletRequest request, HttpServletResponse response,String token) throws Exception {
         BaseModel baseModel=new BaseModel();
-        if (result.hasErrors()){
+        /*if (result.hasErrors()){
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             for (FieldError fieldError : result.getFieldErrors()) {
                 baseModel.getMapResults().put(fieldError.getField(),fieldError.getRejectedValue());
             }
-        }else{
+        }else{*/
             BaseModel gunModel=gunService.insertGuns(gun,session);
             if (gunModel.getStatus()== StatusCodeEnum.SUCCESS.getStatusCode()){
                 baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
@@ -109,7 +109,7 @@ public class GunController {
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                 baseModel.setErrorMessage(gunModel.getErrorMessage());
             }
-        }
+        //}
         return baseModel;
     }
 

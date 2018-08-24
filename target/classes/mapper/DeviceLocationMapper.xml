@@ -327,8 +327,8 @@
   </update>
 
     <!--根据时间和枪支查询枪支的轨迹-->
-    <select id="selectDeviceLocationByTimeAndGunTag" resultType="java.util.Map"
-            parameterType="com.ybkj.gun.model.DeviceLocation">
+    <select id="selectDeviceLocationByTimeAndGunTag" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
        SELECT b.device_no,b.latitude,b.longitude ,b.create_time FROM
    (SELECT DISTINCT e.device_no,e.gun_mac FROM device_gun e WHERE e.gun_mac IN
    (SELECT d.bluetooth_mac FROM gun d WHERE  d.gun_tag= ${gunTag})) AS a,device_location AS b,gun AS c

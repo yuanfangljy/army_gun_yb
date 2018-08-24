@@ -89,11 +89,12 @@
         </div>
         <div id="navba	r" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">设置</a></li>
+                <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
                 <input type="text" id="gunTags" name="gunTags" class="form-control" placeholder="搜索枪号">
+                <img src="img/select.png" style="position:relative; left: -36px; z-index: 999999;">
             </div>
         </div>
     </div>
@@ -270,7 +271,7 @@
             "总" + result.extend.pageInfo.pages + " 页",
             "总条 " + result.extend.pageInfo.total + " 记录");
         //保存总记录数
-        totalRecord = result.extend.pageInfo.total;
+        totalRecord = result.extend.pageInfo.total;//最后一页
         currentPage = result.extend.pageInfo.pageNum;
     }
 
@@ -408,17 +409,20 @@
             type: "POST",
             data: $("#gunAddModal form").serialize(),
             success: function (result) {
+              //  var gunTag = $("#gunTag").val();
+                //gunTngIs(gunTag);
                 //后台进行校验
                 if (result.status == "1") {
                     //员工保存成功
                     //1、关闭模态框
                     $("#gunAddModal").modal("hide");
                     //2、来到最后一页，显示刚才保存的数据
-                    //发送ajax请求显示最后一页的数据即可
-                    to_page(totalRecord, null);
+                    //发送ajax请求显示最后一页的数据即可 totalRecord
+                    to_page(1, null);
                 } else if (result.status == "200") {
                     show_validate_msg("#gunTag", "error", result.errorMessage);
                 } else {
+                    alert("123");
                     //显示失败信息
                     //console.log(result);
                     if (undefined != result.extend.errorFields.gunTag) {
@@ -439,20 +443,23 @@
     //判断枪支是否存在
     $('#gunTag').bind('input propertychange', function() {
         var gunTag = $("#gunTag").val();
+          gunTngIs(gunTag);
+    });
+    function  gunTngIs(gunTag) {
         $.ajax({
             url:"../gun/isInquireGuntag",
-            type:"POST",
+            type:"GET",
             data:{"gunTag":gunTag},
             success: function (result) {
                 if (result.status==1){
                     show_validate_msg("#gunTag", "error", result.errorMessage);
-                    return false;
+                    // return false;
                 }else{
                     show_validate_msg("#gunTag", "success", "校验成功");
                 }
             }
         })
-    });
+    }
     //校验表单数据
     function validete_add_form() {
         //枪支校验
@@ -509,7 +516,10 @@
         }
     });
 
-
+    //登出
+    function LogOut(){
+        LogOuts();
+    }
 </script>
 
 </body>
