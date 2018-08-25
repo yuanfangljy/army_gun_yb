@@ -3,25 +3,37 @@ package com.ybkj.common.activeMq;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.jms.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Slf4j
+@Component
 public class MQProducer {
+
+
 
     //"tcp://120.76.156.120:6160";   "tcp://120.76.156.120:6160";
     private static final String USERNAME = "admin"; //用户名
     private static final String PASSWORD = "admin";  //密码
     private static final String BROKENURL = "tcp://127.0.0.1:61616";
     private static final String Q_NAME = "WebInQueue";  //消息队列
-    
+
+
+
     public static void main(String[] args) {
             ConnectionFactory connectionFactory;
             Connection connection;
             Session session;
             Destination destination;
             MessageProducer producer;
+
             connectionFactory = new ActiveMQConnectionFactory(USERNAME, PASSWORD, BROKENURL);
             try {
                 connection = connectionFactory.createConnection();
@@ -32,6 +44,8 @@ public class MQProducer {
                 producer.setDeliveryMode(DeliveryMode.PERSISTENT);
                 Map map = new HashMap();
                 Map map1 = new HashMap();
+                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+                HttpSession sessions = request.getSession();
                 map.put("serviceType","BTOFFPOSITIONALARM");
                 map.put("formatVersion","1.0");
                 map.put("deviceType","1");
@@ -42,6 +56,7 @@ public class MQProducer {
                 map1.put("deviceNo", "22222");
                 map1.put("gunTag","11111");
                 map1.put("state", "1");
+                map1.put("userName", sessions.getAttribute("userName"));
                 map.put("messageBody",map1);
                 JSONObject json = (JSONObject) JSONObject.toJSON(map);
                 log.info("----"+json.toJSONString());

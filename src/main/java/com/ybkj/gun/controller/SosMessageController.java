@@ -99,6 +99,7 @@ public class SosMessageController {
     public BaseModel statisticsWarningNumber() throws Exception {
         BaseModel baseModel=new BaseModel();
         Integer  warningNumber=sosMessageSerivce.findWarningNumber(1);
+
         log.info("****************统计警告数****************"+warningNumber);
         baseModel.add("warningNumber",warningNumber);
         return baseModel;

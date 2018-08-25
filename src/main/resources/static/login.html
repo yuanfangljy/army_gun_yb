@@ -70,8 +70,9 @@
             type: "GET",
             data: $("#login_form").serialize(),
             success: function (result) {
-                if (result.status == 1) {/*
-                    layer.msg('登录加载中', {
+                if (result.status == 1) {
+                localStorage.setItem("userName",$("#userName").val());
+                    /*layer.msg('登录加载中', {
                         icon: 16,
                         shade: 0.01
                     },function(index){

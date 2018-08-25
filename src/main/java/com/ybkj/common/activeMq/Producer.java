@@ -42,9 +42,11 @@ public class Producer {
     private DataTool dataTool;
     @Autowired
     private ProgressiveIncreaseNumber progressiveIncreaseNumber;
+    @Autowired
+    HttpServletRequest requests;
 
-    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    HttpSession session = request.getSession();
+    /*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();*/
+
     //@Scheduled(fixedDelay=5000)
 
     /**
@@ -58,7 +60,7 @@ public class Producer {
      */
     public BaseModel sendMessageDelivery(String bluetoothMac, String gunTag, String applyTime, String deadlineTime, String deviceNo) throws ParseException {
 
-
+        HttpSession session = requests.getSession();
         BaseModel baseModel = new BaseModel();
         AuthCodeMessage authCodeMessageBody = new AuthCodeMessage();
         AuthCodeMessageBody messageBody = new AuthCodeMessageBody();
@@ -113,6 +115,7 @@ public class Producer {
      * @param authCode:授权码
      */
     public BaseModel sendMessageStorage(String bluetoothMac, String authCode, String deviceNo) throws MessageEOFException, ParseException {
+        HttpSession session = requests.getSession();
         BaseModel baseModel = new BaseModel();
         ServerInWareHouseMessage authCodeMessageBody = new ServerInWareHouseMessage();
         ServerInWareHouseBody messageBody = new ServerInWareHouseBody();
