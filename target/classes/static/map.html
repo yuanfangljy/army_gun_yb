@@ -12,6 +12,14 @@
             font-family: "微软雅黑";
         }
 
+        .BMap_cpyCtrl {
+            display: none;
+        }
+
+        .anchorBL {
+            display: none;
+        }
+
         .tag:before, .tag:after {
             content: "";
             display: block;
@@ -36,6 +44,7 @@
     <link href="css/index.css" rel="stylesheet" type="text/css"/>
     <link href="ali/fontali/iconfont.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="ali/fontali/iconfont.js"></script>
+    <link href="lobibox/dist/css/lobibox.min.css" rel="stylesheet">
     <![endif]-->
     <script src="js/jquery.js"></script>
     <script src="js/ie-emulation-modes-warning.js"></script>
@@ -231,12 +240,13 @@
 <script type="text/javascript" src="js/ditu/MarkerClusterer.js"></script>
 <script type="text/javascript"
         src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+<script src="lobibox/dist/js/lobibox.min.js"></script>
 <script type="text/javascript" src="js/mq/mqttTopic.js"></script>
 <script type="text/javascript" src="js/mq/mqttws31.js"></script>
 
 <script language="JavaScript">
 
-    $(function () {
+        $(function () {
         /* deviceLocation(null);
          deviceDislocation();
          gunDislocation();
@@ -270,7 +280,7 @@
                 deviceDislocation();
                 gunDislocation();
                 deviceOnlineNumber();
-            }, 5000)
+            }, 1000)
         }
     }
 
@@ -414,9 +424,10 @@
                         var offLine = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离线</span>';
                         var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">协助</span>';
 
-                        var tag;//标签
+                        var tag;//标签 p.gunState == 0 &&
 
                         if (p.gunState == 0 && p.deviceState == 0) {
+                            //alert(p.gunState+"---");
                             tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
                                 + "警员编号：" + p.deviceNo + lineon + "</br>"
                                 + "枪号：" + p.gunTag + lineon + "</br>"
@@ -425,6 +436,7 @@
                                 + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                         } else {
+                            //alert(p.gunState+"-----");
                             tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                                 + "警员编号：" + p.deviceNo + lineoff + "</br>"
                                 + "枪号：" + p.gunTag + lineoff + "</br>"

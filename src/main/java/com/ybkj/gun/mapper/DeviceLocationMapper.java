@@ -1,10 +1,10 @@
 package com.ybkj.gun.mapper;
 
-import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.DeviceLocationExample;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface DeviceLocationMapper {
@@ -20,8 +20,6 @@ public interface DeviceLocationMapper {
 
     List<DeviceLocation> selectByExample(DeviceLocationExample example);
 
-    List<DeviceLocation> selectDeviceLocation(DeviceLocation deviceLocation);
-
     DeviceLocation selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") DeviceLocation record, @Param("example") DeviceLocationExample example);
@@ -31,10 +29,12 @@ public interface DeviceLocationMapper {
     int updateByPrimaryKeySelective(DeviceLocation record);
 
     int updateByPrimaryKey(DeviceLocation record);
+
+    List<DeviceLocation> selectDeviceLocation(DeviceLocation deviceLocation);
+
     //根据时间枪支查询枪支的轨迹
     List<DeviceLocation> selectDeviceLocationByTimeAndGunTag(Map<String, Object> map);
     //根据警员编号，查询出最新警员地址
     DeviceLocation selectDeviceLocationByDeviceNoNewest(String deviceNo) throws Exception;
     List<DeviceLocation> selectRoundOnline(Map<String, Object> map) throws Exception;
-
 }

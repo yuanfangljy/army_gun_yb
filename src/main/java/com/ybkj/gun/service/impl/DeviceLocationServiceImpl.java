@@ -2,8 +2,6 @@ package com.ybkj.gun.service.impl;
 
 import com.ybkj.gun.mapper.DeviceGunMapper;
 import com.ybkj.gun.mapper.DeviceLocationMapper;
-import com.ybkj.gun.mapper.DeviceMapper;
-import com.ybkj.gun.mapper.GunMapper;
 import com.ybkj.gun.model.DeviceLocation;
 import com.ybkj.gun.model.DeviceLocationExample;
 import com.ybkj.gun.service.DeviceLocationSerivce;

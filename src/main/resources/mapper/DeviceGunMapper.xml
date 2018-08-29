@@ -60,6 +60,7 @@
             <result column="device_no" jdbcType="VARCHAR" property="deviceNo"/>
             <result column="latitude" jdbcType="VARCHAR" property="latitude"/>
             <result column="longitude" jdbcType="VARCHAR" property="longitude"/>
+            <result column="state" jdbcType="INTEGER" property="state" />
             <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
             <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
             <result column="version" jdbcType="INTEGER" property="version"/>
@@ -361,7 +362,8 @@
         WHERE a.device_no=c.device_no
         AND a.gun_mac=b.bluetooth_mac
         AND d.device_no=c.device_no
-        AND a.state=0
+        /*AND a.state=0*/
+        AND c.state=0
         AND a.device_no like '%' #{deviceNo} '%'
         GROUP BY a.device_no
         <!---->

@@ -57,13 +57,13 @@ public class GunServiceImpl implements GunSerivce {
         BaseModel baseModel = new BaseModel();
         Gun device = gunMapper.selectGunByGunTag(gun.getGunTag());
         if (device == null) {
-            gun.setState(1);//默认未使用
+            //gun.setState(1);//默认未使用
             gun.setCreateTime(new Date());
             WebUser webUser = webUserMapper.selectWebUserByUsername((String) session.getAttribute("userName"));
             gun.setWebId(webUser.getId());
             gun.setBulletNumber(0);
             gun.setRealTimeState(1);
-            final int i = gunMapper.insertSelective(gun);
+             int i = gunMapper.insertSelective(gun);
             if (i != 0) {
                 baseModel.setStatus(ResultEnum.SUCCESS.getCode());
                 baseModel.setErrorMessage("添加成功");

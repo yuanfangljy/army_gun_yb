@@ -1,8 +1,8 @@
 $(document).ready(function() {
-
+    var userNames=localStorage.getItem("userName");//读取
 
     function doDisconnect() {
-        client.disconnect();
+        client.disconnect();//响应一次，就关闭
     }
 
     // Web Messaging API callbacks
@@ -13,10 +13,10 @@ $(document).ready(function() {
     }
 
     var onConnect = function(frame) {
-       // alert(2);
+        //layer.alert("服务连接成功");
        /* $('#status').toggleClass('connected',true);
         $('#status').text('Connected');*/
-        client.subscribe("wuqi");
+        client.subscribe("WebTopic");
 
     }
     var onFailure = function(error) {
@@ -24,45 +24,92 @@ $(document).ready(function() {
        /* $('#status').toggleClass('connected',false);
         $('#status').text("Failure");*/
     }
+    var options = {
+        keepAliveInterval:10000,
+        onSuccess: onConnect,
+        onFailure: onFailure
+    };
 
     function onConnectionLost(responseObject) {
-       /* alert(4);
-        alert(client.clientId+"\n"+responseObject.errorCode);*/
+        client.connect(options);
+        //layer.alert("连接服务已断开，请刷新页面！");
+        //alert(client.clientId+"\n"+responseObject.errorCode);
     }
 
+
+
     function onMessageArrived(message) {
-        var userNames=localStorage.getItem("userName");//读取
+       // alert(message.payloadString);
+
+       // var userNames=localStorage.getItem("userName");//读取
+
         var json = JSON.parse(message.payloadString);
         //***************************   web操作出库列    ************************
-        if (json.messageType == "08"&& json.messageBody.userName==userNames) {
+        if (json.messageType == "08"&& json.userName==userNames) {
             if(json.messageBody.state=="1"){
-                layer.open({
+                Lobibox.notify('success', {
+                    size: 'mini',
                     title: '出库消息',
-                    content: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'出库成功',
-                    offset: 'r'
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'出库成功'
                 });
+
             }else{
-                layer.open({
+                Lobibox.notify('error', {
+                    size: 'mini',
                     title: '出库消息',
-                    content: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'出库失败',
-                    offset: 'r'
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'出库失败'
                 });
+
+            }
+        }else if(json.messageType == "08"&& json.userName=="1"){//腕表
+            if(json.messageBody.state=="1"){
+                Lobibox.notify('success', {
+                    size: 'mini',
+                    title: '出库消息',
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'出库成功'
+                });
+
+            }else{
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    title: '出库消息',
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'出库失败'
+                });
+
             }
         }
 
         //***************************    web操作入库列    ************************
-        if (json.messageType == "12" && json.messageBody.userName==userNames) {
+        if (json.messageType == "12" && json.userName==userNames) {
             if(json.messageBody.state=="1"){
-                layer.open({
+
+                Lobibox.notify('success', {
+                    size: 'mini',
                     title: '入库消息',
-                    content: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'入库成功',
-                    offset: 'r'
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'入库成功'
                 });
+
             }else{
-                layer.open({
-                    title: '警告',
-                    content: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'失败',
-                    offset: 'r'
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    title: '入库消息',
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'入库失败'
+                });
+            }
+        }else if(json.messageType == "12" && json.userName=="1"){//腕表
+            if(json.messageBody.state=="1"){
+
+                Lobibox.notify('success', {
+                    size: 'mini',
+                    title: '入库消息',
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'入库成功'
+                });
+
+            }else{
+                Lobibox.notify('error', {
+                    size: 'mini',
+                    title: '入库消息',
+                    msg: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'入库失败'
                 });
             }
         }
@@ -91,20 +138,22 @@ $(document).ready(function() {
                 }
             })
         }
-
-
-
     }
+
 
     var client;
     var r = Math.round(Math.random()*Math.pow(10,5));
     var d = new Date().getTime();
     var cid = r.toString() + "-" + d.toString()
 
-    client = new Messaging.Client("192.168.0.108", 1884, cid);
+    //112.74.51.194 1884  120.76.156.120 61614
+    client = new Messaging.Client("112.74.51.194", 1884, cid);
     client.onConnect = onConnect;
     client.onMessageArrived = onMessageArrived;
+
+   // client.connectOptions=onFeconnect;
     client.onConnectionLost = onConnectionLost;
-    client.connect({onSuccess: onConnect, onFailure: onFailure});
+    client.connect(options);
+    //client.connect({onSuccess: onConnect, onFailure: onFailure});
 
 });

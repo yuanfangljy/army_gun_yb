@@ -23,8 +23,8 @@ public class BaiDuUtil {
             + "," + lng
             + "&output=json&ak=G4o7IkuwiV94LpnCn9GERMjjUIVx2G10&pois=0";
     JSONObject obj = JSONObject.parseObject(HttpUtil.getRequest(url));
-    System.out.println("\n"+"经纬度查询地址为：" + url);
-    System.out.println("\n"+"经纬度坐标返回结果为：" + obj.toString());
+    //System.out.println("\n"+"经纬度查询地址为：" + url);
+    //System.out.println("\n"+"经纬度坐标返回结果为：" + obj.toString());
     return obj;
 
   }

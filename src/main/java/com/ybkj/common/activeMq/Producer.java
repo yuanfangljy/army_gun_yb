@@ -72,19 +72,19 @@ public class Producer {
             messageBody.setApplyTime(applyTime);
             messageBody.setDeadlineTime(deadlineTime);
             messageBody.setDeviceNo(deviceNo);
-            messageBody.setPowerAlarmLevel("11");
-            messageBody.setTransmittingPower("11");
-            messageBody.setBroadcastInterval("11");
-            messageBody.setConnectionInterval("11");
-            messageBody.setConnectionTimeout("11");
-            messageBody.setSoftwareversion("11");
-            messageBody.setHeartbeat("11");
+            messageBody.setPowerAlarmLevel("11");//电量报警级别
+            messageBody.setTransmittingPower("04");//发射功率
+            messageBody.setBroadcastInterval("01");//广播间隔
+            messageBody.setConnectionInterval("01");//连接间隔
+            messageBody.setConnectionTimeout("02");//连接超时
+            messageBody.setSoftwareversion("11");//软硬件版本
+            messageBody.setHeartbeat("11");//心跳间隔
             messageBody.setPowerSampling("11");
             messageBody.setSystemTime(dataTool.dateToString());
             messageBody.setMatchTime("11");
             messageBody.setSafeCode("11");
-            messageBody.setUserName((String)session.getAttribute("userName"));
 
+            authCodeMessageBody.setUserName((String)session.getAttribute("userName"));
             authCodeMessageBody.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
             authCodeMessageBody.setFormatVersion("1.0");//格式版本
             authCodeMessageBody.setDeviceType(1);//设备类型：1.随行设备 2.离位报警器 3.腕表
@@ -124,8 +124,8 @@ public class Producer {
             messageBody.setBluetoothMac(bluetoothMac);
             messageBody.setAuthCode(TokenUtils.getMemberToken());
             messageBody.setDeviceNo(deviceNo);
-            messageBody.setUserName((String)session.getAttribute("userName"));
 
+            authCodeMessageBody.setUserName((String)session.getAttribute("userName"));
             authCodeMessageBody.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
             authCodeMessageBody.setFormatVersion("1.0");//格式版本
             authCodeMessageBody.setDeviceType(1);//设备类型：1.随行设备 2.离位报警器 3.腕表

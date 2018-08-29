@@ -3,7 +3,6 @@ package com.ybkj.gun.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class DeviceLocation {
@@ -15,11 +14,14 @@ public class DeviceLocation {
 
     private String longitude;
 
+    private Integer state;
+
     private Date createTime;
 
     private Date updateTime;
 
     private Integer version;
+
 
     @Getter
     @Setter
@@ -94,6 +96,14 @@ public class DeviceLocation {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude == null ? null : longitude.trim();
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     public Date getCreateTime() {

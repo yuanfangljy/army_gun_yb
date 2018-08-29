@@ -4,12 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+
 
 import javax.jms.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,8 +19,8 @@ public class TopicProducer {
         /*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession sessions = request.getSession();
 */
-        //获取mq连接工程
-        ConnectionFactory connectionFactory=new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD,"tcp://127.0.0.1:61616");
+        //获取mq连接工程   #112.74.51.194
+        ConnectionFactory connectionFactory=new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD,"tcp://112.74.51.194:61616");
         //创建连接
         Connection connection=connectionFactory.createConnection();
         //启动连接
@@ -33,7 +31,7 @@ public class TopicProducer {
        // Destination destination=session.createQueue("yuanfang");
         MessageProducer producer=session.createProducer(null);
         //不持久化
-        producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+        producer.setDeliveryMode(DeliveryMode.PERSISTENT);
 
         Map map = new HashMap();
         Map map1 = new HashMap();
@@ -44,10 +42,11 @@ public class TopicProducer {
         map.put("messageType","08");
         map.put("sendTime","20180722222222");
         map.put("sessionToken","sfdsfwet347284129");
+        map.put("userName", "wt");
         map1.put("deviceNo", "22222");
         map1.put("gunTag","11111");
         map1.put("state", "1");
-        map1.put("userName", "wt");
+
         map.put("messageBody",map1);
         JSONObject json = (JSONObject) JSONObject.toJSON(map);
         log.info("----"+json.toJSONString());
@@ -59,7 +58,7 @@ public class TopicProducer {
 
     static  public  void  sendMsg(Session session,MessageProducer producer,String i) throws JMSException {
         TextMessage textMessage=session.createTextMessage(i);
-        Topic wuqi = session.createTopic("wuqi");
+        Topic wuqi = session.createTopic("WebTopic");
         producer.send(wuqi,textMessage);
     }
 

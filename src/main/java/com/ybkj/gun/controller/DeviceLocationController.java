@@ -93,27 +93,35 @@ public class DeviceLocationController {
         BaseModel baseModel=new BaseModel();
         String location="";
         String[] split = lng.split(",");
-        //System.out.println("------------------"+deviceNo+",,"+split[0]+".."+split[1]);
+
+        System.out.println("--------7777----------"+deviceNo+",,"+split[0]+".."+split[1]);
         if(split[0]!="" && split[1]!="" && lag!="" && lng!="" && deviceNo==""){
             DeviceGun deviceGuns = deviceGunMapper.selectGunAndDeviceLocationOne(split[1]);
-            DeviceLocation deviceLocation=new DeviceLocation();
-            deviceLocation.setLongitude(split[0]);
-            deviceLocation.setLatitude(lag);
-            deviceLocation.setDeviceNo(split[1]);
-            deviceLocation.setGunModel(deviceGuns.getGunModel());
-            deviceLocation.setGunTag(deviceGuns.getGunTag());
-            deviceLocation.setMobile(deviceGuns.getMobile());
-            deviceLocation.setDeviceState(deviceGuns.getDeviceState());
-            deviceLocation.setGunState(deviceGuns.getGunState());
-            List<DeviceLocation> deviceLocations=deviceLocationSerivce.findRoundOnline(deviceNo,split[0],lag);
-            deviceLocations.add(deviceLocation);
+            if(deviceGuns!=null) {
+                System.out.println("-----------------" + deviceGuns.toString());
+                DeviceLocation deviceLocation = new DeviceLocation();
+                deviceLocation.setLongitude(split[0]);
+                deviceLocation.setLatitude(lag);
+                deviceLocation.setDeviceNo(split[1]);
+                deviceLocation.setGunModel(deviceGuns.getGunModel());
+                deviceLocation.setGunTag(deviceGuns.getGunTag());
+                deviceLocation.setMobile(deviceGuns.getMobile());
+                deviceLocation.setDeviceState(deviceGuns.getDeviceState());
+                deviceLocation.setGunState(deviceGuns.getGunState());
+                List<DeviceLocation> deviceLocations = deviceLocationSerivce.findRoundOnline(null, split[0], lag);
+                deviceLocations.add(deviceLocation);
 
-            for (DeviceLocation location1 : deviceLocations) {
-                location+= BaiDuUtil.getAddress(location1.getLongitude(),location1.getLatitude())+"@";
+                for (DeviceLocation location1 : deviceLocations) {
+                    location += BaiDuUtil.getAddress(location1.getLongitude(), location1.getLatitude()) + "@";
+                }
+                baseModel.setErrorMessage("==================查询所有在线的警员和枪支==================");
+                baseModel.add("onLine", deviceLocations);
+                baseModel.add("number", deviceLocations.size()).add("location", location)
+                .add("sizeLocation",deviceLocations.size());
+            }else{
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                baseModel.setErrorMessage("该设备已入库，暂无数据");
             }
-            baseModel.setErrorMessage("==================查询所有在线的警员和枪支==================");
-            baseModel.add("onLine", deviceLocations);
-            baseModel.add("number",deviceLocations.size()).add("location",location);
         }else {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage("请不要暴力修改数据!");
@@ -147,7 +155,7 @@ public class DeviceLocationController {
         List<DeviceLocation> deviceLocations=deviceLocationSerivce.findDeviceLocationTrajectory(map);
         for (DeviceLocation deviceLocation : deviceLocations) {
             location+=BaiDuUtil.getAddress(deviceLocation.getLongitude(),deviceLocation.getLatitude())+"@";
-            System.out.println("-----000----0000-----0000---"+deviceLocation.getDeviceNo());
+            //System.out.println("-----000----0000-----0000---"+deviceLocation.getDeviceNo());
         }
        /* Iterator<DeviceLocation> listIt = deviceLocations.iterator();
         while (listIt.hasNext()) {

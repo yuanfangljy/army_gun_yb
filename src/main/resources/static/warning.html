@@ -20,6 +20,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
+    <link href="lobibox/dist/css/lobibox.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
@@ -135,6 +136,7 @@
 <script src="layui/layui.all.js" type="text/javascript"></script>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="lobibox/dist/js/lobibox.min.js"></script>
 <script type="text/javascript" src="js/mq/mqttTopic.js"></script>
 <script type="text/javascript" src="js/mq/mqttws31.js"></script>
 <script type="text/javascript" src="js/dateTransition/datejs.js"></script>
@@ -348,7 +350,7 @@
     //====================================   地图模态框    =========================================
     function FindAssist(sosId,deiceNos, lostGun, lng, lag) {
         ModifierSosMessage(sosId);
-        to_page(1, null);
+        //to_page(1, null);
         WarningNumber();
         //iframe窗
         layer.open({

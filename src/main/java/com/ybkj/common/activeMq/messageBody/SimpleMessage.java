@@ -21,4 +21,7 @@ public class SimpleMessage {
 	private String messageType;
 	private String sendTime;
 	private String sessionToken;
+	private String userName;
+
+
 }

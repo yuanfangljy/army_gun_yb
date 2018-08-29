@@ -78,7 +78,7 @@ public class CustomFilter implements Filter{
         boolean needFilter = isNeedFilter(uri);
         if(!needFilter){//不需要过滤直接传给下一个过滤器
             filterChain.doFilter(servletRequest, servletResponse);
-        }else if(LoginUtil.loginUserSessionIds.contains(request.getSession().getId())){
+        }/*else if(LoginUtil.loginUserSessionIds.contains(request.getSession().getId())){
             //挤下线并跳到提示页面
             String path = request.getContextPath();
             LoginUtil.loginUserSessionIds.remove(request.getSession().getId());
@@ -97,7 +97,7 @@ public class CustomFilter implements Filter{
             log.info("----------不要意思您的账号已在异地登录，请及时修改密码---------");
             return ;
            // response.sendRedirect(path+"/static/errorpage/500.html");
-        }else{//需要过滤器
+        }*/else{//需要过滤器
             // session中包含user对象,则是登录状态
             if(session!=null&&session.getAttribute("userName")!= null){
                 // System.out.println("user:"+session.getAttribute("user"));

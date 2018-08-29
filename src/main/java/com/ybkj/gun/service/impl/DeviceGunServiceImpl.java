@@ -73,7 +73,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
                 //send Storage message to Netty
                 BaseModel sendMessageStorage = producer.sendMessageStorage(gun.getBluetoothMac(), randomNumber.getRandomNumber(), deviceGun.getDeviceNo());
                 if (sendMessageStorage.getStatus()!=StatusCodeEnum.Fail.getStatusCode()) {
-                    deviceGun1.setUpdateTime(new Date());
+
                     Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
                     //修改设备的状态
                     device.setState(1);
@@ -84,9 +84,10 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
                     //gunMapper.updateByPrimaryKeySelective(gun);
                     //枪支入库
                     //deviceGun1.setState(1);
-                    deviceGun1.setInWarehouseTime(new Date());
+                    //deviceGun1.setUpdateTime(new Date());
+                    //deviceGun1.setInWarehouseTime(new Date());
 
-                    deviceGunMapper.updateByPrimaryKeySelective(deviceGun1);
+                    //deviceGunMapper.updateByPrimaryKeySelective(deviceGun1);
                     baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
                     baseModel.setErrorMessage("正在入库中...");
 

@@ -26,6 +26,7 @@ var onconnect = function (frame) {
                     title: '出库消息',
                     content: '【'+json.messageBody.deviceNo+'】'+'匹配'+ '【'+json.messageBody.gunTag+'】'+'出库成功',
                     offset: 'r'
+                    //,shade: 0 //不显示遮罩
                 });
             }else{
                 layer.open({
