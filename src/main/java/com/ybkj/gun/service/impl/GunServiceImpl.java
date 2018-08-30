@@ -118,6 +118,19 @@ public class GunServiceImpl implements GunSerivce {
     }
 
     /**
+     * 根据状态查询枪支
+     * @param state
+     * @return
+     */
+    @Override
+    public BaseModel selectGunByState(Integer state) {
+        BaseModel baseModel = new BaseModel();
+        List<Gun> guns=gunMapper.findSelectByState(state);
+        baseModel.add("gunsState",guns);
+        return baseModel;
+    }
+
+    /**
      * 根据枪支编码查询
      *
      * @param gunTag

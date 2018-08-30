@@ -18,7 +18,7 @@
     <result column="deviceState" jdbcType="INTEGER" property="deviceState"/>
     <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
     <result column="gunModel" jdbcType="VARCHAR" property="gunModel"/>
-
+    <result column="juli" jdbcType="INTEGER" property="juli" />
     <!--关联设备枪支出库表-->
     <association property="deviceGun" javaType="com.ybkj.gun.model.DeviceGun">
       <id column="id" jdbcType="INTEGER" property="id"/>

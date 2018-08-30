@@ -277,10 +277,10 @@
         } else if (ljy == 0) {
             ka = setInterval(function jia() {
                 deviceLocation(null);
-                deviceDislocation();
+               deviceDislocation();
                 gunDislocation();
                 deviceOnlineNumber();
-            }, 1000)
+            }, 2000)
         }
     }
 
@@ -364,9 +364,10 @@
         var markerClusterer = null;//点聚合参数
         var myIcon;//图标点
         var location;//地点
+        var deviceState=[];
         //设备实时状态显示
         $.ajax({
-            url: "../deviceGun/realTimeDeviceAndGun",
+            url: "../deviceLocation/optimizeMap",
             type: "GET",
             data: {"deviceNo": deviceNos},
             dataType: "json",
@@ -376,13 +377,16 @@
                 map.clearOverlays();//清除上次的轨迹记录
                 location = result.extend.location.split("@");
                 $.each(result.extend.devices, function (i, p) {
-                        label[i] = p.deviceLocationLongitude;
-                        value[i] = p.deviceLocationLatirude;
-
+                        label[i] = p.longitude;
+                        value[i] = p.latitude;
+                        deviceState[i]=p.gunState;
+                       //alert(p.gunState);
                         // 7.1:创建图点
-                        if (p.gunState == 0 && p.deviceState == 0) {
+                        if (p.gunState == 0 && p.deviceState == 0) {//出库
                             myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
-                        } else {
+                        }else if(!p.gunState){//在线未出库
+                            myIcon = new BMap.Icon('img/device_green.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+                        }else {//离线
                             myIcon = new BMap.Icon('img/offNormalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
                         }
                         var marker = null;
@@ -425,7 +429,6 @@
                         var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">协助</span>';
 
                         var tag;//标签 p.gunState == 0 &&
-
                         if (p.gunState == 0 && p.deviceState == 0) {
                             //alert(p.gunState+"---");
                             tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
@@ -433,8 +436,14 @@
                                 + "枪号：" + p.gunTag + lineon + "</br>"
                                 + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
                                 + "电话：" + p.mobile + lineon + "</br>"
-                                + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
-                                + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
+                                + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
+                                + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
+                        }else if (!p.gunState) {
+                        tag = "<div class='tag3' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:90px; border:1px solid #a6ff79; position:relative; border-radius:8px; background-color:#a6ff79;'>"
+                            + "警员编号：" + p.deviceNo + lineon + "</br>"
+                            + "电话：" + p.mobile + lineoff + "</br>"
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>"
+                            + "</div>";
                         } else {
                             //alert(p.gunState+"-----");
                             tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
@@ -442,8 +451,8 @@
                                 + "枪号：" + p.gunTag + lineoff + "</br>"
                                 + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
                                 + "电话：" + p.mobile + lineoff + "</br>"
-                                + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
-                                + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
+                                + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
+                                + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? gunOffNormal : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                         }
 
                         /* " +<button type='button' onclick='FindAssist()' id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button>"*/
@@ -453,10 +462,17 @@
                         //创建标注的hover事件
                         marker.addEventListener("mouseover", function (e) {
                             dingshi(1);
-                            // alert(flag);
                             //  clearInterval(timing);//清除定时
                             //7.2 添加字体
-                            var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -145)});
+                            var labela;
+                            if(deviceState[i]==0){
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -145)});
+                            }else if(!deviceState[i]){
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -100)});
+                            }else{
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -145)});
+                            }
+
                             labela.setStyle({
                                 color: "#302e18",
                                 width: "100%",
@@ -516,9 +532,10 @@
         var markerClusterer = null;//点聚合参数
         var myIcon;//图标点
         var location;//详细地点
+        var deviceState=[];
         //设备实时状态显示
         $.ajax({
-            url: "../deviceGun/realTimeDeviceAndGun",
+            url: "../deviceLocation/optimizeMap",
             type: "GET",
             data: {"deviceNo": deviceNos},
             dataType: "json",
@@ -528,12 +545,15 @@
                 map.clearOverlays();//清除上次的轨迹记录
                 location = result.extend.location.split("@");
                 $.each(result.extend.devices, function (i, p) {
-                    label[i] = p.deviceLocationLongitude;
-                    value[i] = p.deviceLocationLatirude;
+                    label[i] = p.longitude;
+                    value[i] = p.latitude;
+                    deviceState[i]=p.gunState;
                     // 7.1:创建图点
-                    if (p.gunState == 0 && p.deviceState == 0) {
+                    if (p.gunState == 0 && p.deviceState == 0) {//出库
                         myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
-                    } else {
+                    }else if(!p.gunState){//在线未出库
+                        myIcon = new BMap.Icon('img/device_green.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+                    }else {//离线
                         myIcon = new BMap.Icon('img/offNormalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
                     }
                     var marker = null;
@@ -579,16 +599,22 @@
                             + "枪号：" + p.gunTag + lineon + "</br>"
                             + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
                             + "电话：" + p.mobile + lineon + "</br>"
-                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
-                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
+                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
+                    }else if (!p.gunState) {
+                        tag = "<div class='tag3' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:90px; border:1px solid #a6ff79; position:relative; border-radius:8px; background-color:#a6ff79;'>"
+                            + "警员编号：" + p.deviceNo + lineon + "</br>"
+                            + "电话：" + p.mobile + lineoff + "</br>"
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>"
+                            + "</div>";
                     } else {
                         tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                             + "警员编号：" + p.deviceNo + lineoff + "</br>"
                             + "枪号：" + p.gunTag + lineoff + "</br>"
                             + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
                             + "电话：" + p.mobile + lineoff + "</br>"
-                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
-                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
+                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                     }
 
                     /* " +<button type='button' onclick='FindAssist()' id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button>"*/
@@ -599,7 +625,15 @@
                         marker.addEventListener("mouseover", function (e) {
                             dingshi(1);
                             //7.2 添加字体
-                            var labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -145)});
+                            var labela;
+                            if(deviceState[i]==0){
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -145)});
+                            }else if(!deviceState[i]){
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -100)});
+                            }else{
+                                labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -145)});
+                            }
+
                             labela.setStyle({
                                 color: "#302e18",
                                 width: "100%",

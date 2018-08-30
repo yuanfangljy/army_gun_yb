@@ -32,4 +32,6 @@ public interface GunSerivce {
     BaseModel selectGunBulletNumber(BaseModel baseModel, String gunMac,@RequestParam(value="pn",defaultValue="1") Integer pn) throws  Exception;
     //根据枪号查询gun
     List<Gun> findGunByGunTags(String gunTag);
+    //根据状态查询gun
+    BaseModel selectGunByState(Integer state);
 }

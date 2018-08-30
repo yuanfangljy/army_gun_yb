@@ -373,4 +373,10 @@
   <select id="selectGunOffNormal"  resultMap="BaseResultMap">
     select * from gun where real_time_state = 2
   </select>
+  <!--根据状态统计枪支信息-->
+  <select id="findSelectByState"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+    select gun_tag from gun where state = if(#{state}=0,0,1)
+  </select>
+
+
 </mapper>

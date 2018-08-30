@@ -26,5 +26,7 @@ public interface DeviceSerivce {
     //设备离线统计
     List<Gun> findDeviceOffLine(Integer state) throws Exception;
     //统计在线设备
-    Integer findDeviceOnLine() throws Exception;
+    Integer findDeviceOnLine() throws Exception ;
+    //根据设备状态查询设备信息
+    BaseModel selectDeviceByState(Integer state)throws Exception ;
 }

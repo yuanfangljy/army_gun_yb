@@ -47,4 +47,9 @@ public interface DeviceMapper {
     List<Gun> selectDeviceOffLine(Integer state);
     //统计在线设备
     Integer selectDeviceOnLine();
+
+    List<Device> findDeviceByState(Integer state);
+
+    Device findDeviceByDeviceNo(String deviceNo);
+
 }

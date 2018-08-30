@@ -171,4 +171,15 @@ public class DeviceLocationController {
         }
         return baseModel;
     }
+
+    /**
+     * 优化sql,显示地图上的实时数据
+     */
+    @ApiOperation(value = "优化sql,显示地图上的实时数据",notes = "map", httpMethod = "GET")
+    @RequestMapping(value = "optimizeMap",method = RequestMethod.GET)
+    public BaseModel optimizeMap(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        baseModel=deviceLocationSerivce.optimizeDeviceLocation(deviceNo);
+        return baseModel;
+    }
 }

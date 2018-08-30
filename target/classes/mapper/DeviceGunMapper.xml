@@ -351,22 +351,56 @@
   </select>
     <!-- 枪支实时列表管理:根据警员编号-->
     <select id="selectGunAndDeviceLocation" resultType="java.lang.String" resultMap="BaseResultMap">
-        SELECT d.id AS deviceLocationId,a.device_no,
-        d.longitude AS deviceLocationLongitude,d.latitude AS deviceLocationLatirude,
-        d.create_time AS locationEndTime,
-        b.warehouse_name AS gunWarehouseName,
-        b.real_time_state AS gunState,c.state AS deviceState,b.gun_tag as gunTag
-        ,c.phone AS mobile ,a.gun_mac,b.gun_model AS gunModel FROM
+
+  SELECT a.device_no,
+         a.gun_mac,
+         b.warehouse_name AS gunWarehouseName,
+         b.real_time_state AS gunState,
+         b.gun_model AS gunModel
+         b.gun_tag AS gunTag,
+         d.longitude AS deviceLocationLongitude,
+         d.latitude AS deviceLocationLatirude,
+         d.create_time AS locationEndTime,
+         c.state AS deviceState,
+         c.phone AS mobile ,
+
+         FROM
         (SELECT id, device_no,latitude,longitude,create_time FROM device_location WHERE id IN
         (SELECT MAX(id) AS ids FROM device_location GROUP BY device_no)) AS d,device_gun a,gun b,device c
         WHERE a.device_no=c.device_no
         AND a.gun_mac=b.bluetooth_mac
         AND d.device_no=c.device_no
-        /*AND a.state=0*/
+        AND a.state=0
+        /*(SELECT state FROM device_gun WHERE device_no IN (SELECT device_no FROM device WHERE state=0) AND state=0)*/
         AND c.state=0
-        AND a.device_no like '%' #{deviceNo} '%'
+        AND a.device_no =  #{deviceNo}
         GROUP BY a.device_no
-        <!---->
+
+        UNION ALL
+
+        SELECT  dls.device_no,
+                dls.longitude AS deviceLocationLongitude,
+                dls.latitude AS deviceLocationLatirude,
+                NULL AS locationEndTime,
+                NULL AS gunWarehouseName,
+                NULL AS gunState,
+                (SELECT ts.state FROM device AS ts WHERE ts.device_no=dls.device_no) AS deviceState,
+                NULL AS gunTag,
+                (SELECT tt.phone FROM device AS tt WHERE tt.device_no=dls.device_no) AS mobile ,
+                 NULL ,
+                 NULL AS gunModel
+         FROM device_location AS dls WHERE dls.id
+        IN (SELECT MAX(dl.id) FROM device_location AS dl WHERE dl.device_no
+        IN (SELECT d.device_no
+	FROM  device d
+	WHERE NOT EXISTS(
+	SELECT 1
+	FROM device_gun dg
+	WHERE dg.device_no = d.device_no
+	AND dg.state=0
+	) AND
+	d.state=0
+	GROUP BY d.device_no)AND dls.device_no = #{deviceNo}  GROUP BY dl.device_no)
     </select>
     <!-- 枪支实时列表管理:根据警员编号-->
     <select id="selectGunAndDeviceLocationOne" resultType="java.lang.String" resultMap="BaseResultMap">
@@ -457,7 +491,7 @@
   </select>
     <!-- 通过警员编号和状态查询警员有没有出库-->
     <select id="selectDeviceGunByDeviceNoAndState" resultMap="BaseResultMap">
-    select * from device_gun where device_no= #{deviceNo,jdbcType=VARCHAR} and state= #{state,jdbcType=INTEGER}
+    select  device_no, gun_mac from device_gun where device_no= #{deviceNo,jdbcType=VARCHAR} and state= #{state,jdbcType=INTEGER}
   </select>
 
 

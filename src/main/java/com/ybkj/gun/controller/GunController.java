@@ -214,8 +214,6 @@ public class GunController {
         return baseModel;
     }
 
-
-
     /**
      * 读取枪支的的射弹基数
      * 1、先给服务器发送mq
@@ -229,4 +227,20 @@ public class GunController {
         baseModel=gunService.selectGunBulletNumber(baseModel,gunMac,pn);
         return baseModel;
     }
+
+    /**
+     * 根据枪的状态查询相关信息
+     * @return
+     */
+    @ApiOperation(value = "枪支：根据状态查询枪支信息",notes = "枪支状态", httpMethod = "GET")
+    @RequestMapping(value = "/gunState",method = RequestMethod.GET)
+    public BaseModel gunState(BaseModel baseModel,Integer state){
+        //1、如果state=1,就是查询所有未出库的枪支
+        //2、如果state=0,就是查询所有未入库的枪支
+        baseModel=gunService.selectGunByState(state);
+        return baseModel;
+    }
+
+
+
 }

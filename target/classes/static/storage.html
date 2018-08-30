@@ -14,9 +14,15 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.searchableSelect.js"></script>
+
     <script src="js/ie-emulation-modes-warning.js"></script>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
 
 </head>
 <body>
@@ -78,12 +84,20 @@
                 <h2 class="sub-header" style="text-align:center">枪支入库</h2>
                 <div class="ruku" style=" position:relative; float:right; margin-right:50%; left:160px; margin-top:30px;">
                     <h4 style="float:left; margin-right:10px;">枪号</h4>
-                    <input type="text" class="kung" name="gunMac" id="gunMac"
+                  <!--  <select>
+                        <option value="8651234226">8651234226</option>
+                        <option value="8651234451">8651234451</option>
+                    </select>-->
+                   <input type="text" class="kung" name="gunMac" id="gunMac"
                            style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px"
                            value="" placeholder="请输入枪号">
                 </div>
                 <div class="jingyuan" style="position:relative; float:right; margin-right:50%; left:160px; margin-top:30px;">
                     <h4 style="float:left; margin-right:10px;">警员号</h4>
+                  <!--  <select>
+                        <option value="8651234226">8651234226</option>
+                        <option value="8651234451">8651234451</option>
+                    </select>-->
                     <input type="text" class="kuang" name="deviceNo" id="deviceNo" value=""
                            style="width:300px; height:40px; border:1px solid #CCC; float:left; padding-left:10px"
                            placeholder="请输入警员号">
@@ -97,13 +111,14 @@
                     确定
                 </button>
             </div>
+
         </form>
     </div>
 </div>
-<!--<script src="js/bootstrap.min.js"></script>-->
+
 <script src="js/holder.min.js"></script>
 <script src="js/ie10-viewport-bug-workaround.js"></script>
-<script src="js/jquery-1.11.1.min.js"></script>
+
 <script src="layui/layui.all.js" type="text/javascript"></script>
 <script src="lobibox/dist/js/lobibox.min.js"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>-->
@@ -111,6 +126,11 @@
 <script type="text/javascript" src="js/mq/mqttTopic.js"></script>
 <script type="text/javascript" src="js/mq/mqttws31.js"></script>
 <script type="text/javascript" src="js/warning/warningNumber.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('select').searchableSelect();
+    });
+</script>
 <script>
     /*出库申请*/
     $("#submit_device_gun").click(function () {

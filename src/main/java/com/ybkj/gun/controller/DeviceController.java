@@ -182,6 +182,19 @@ public class DeviceController {
         return baseModel;
     }
 
+    /**
+     * 根据枪的状态查询相关信息
+     * @return
+     */
+    @ApiOperation(value = "设备：根据状态查询设备信息",notes = "设备信息", httpMethod = "GET")
+    @RequestMapping(value = "/gunDevice",method = RequestMethod.GET)
+    public BaseModel gunDevice(BaseModel baseModel,@RequestParam(value = "state",required = true)Integer state) throws Exception {
+        //1、如果state=1,就是查询所有未出库的设备
+        //2、如果state=0,就是查询所有未入库的设备
+        baseModel=deviceSerivce.selectDeviceByState(state);
+        return baseModel;
+    }
+
 
     public static void main(String[] args) {
         int a=0;

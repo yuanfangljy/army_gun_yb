@@ -27,10 +27,27 @@ import java.util.List;
 @SuppressWarnings("all")
 @Service
 @Transactional(propagation= Propagation.REQUIRED)
-public class DeviceServiceImpl implements DeviceSerivce{
+public class DeviceServiceImpl implements DeviceSerivce {
+
+
 
     @Autowired
     DeviceMapper deviceMapper;
+
+    /**
+     * 根据设备状态查询设备信息
+     * @param state
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public BaseModel selectDeviceByState(Integer state) throws Exception {
+        BaseModel baseModel = new BaseModel();
+        List<Device> device=deviceMapper.findDeviceByState(state);
+        baseModel.add("deviceState",device);
+        return baseModel;
+    }
+
 
     /**
      * 添加设备信息
