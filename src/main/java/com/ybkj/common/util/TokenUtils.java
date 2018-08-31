@@ -11,4 +11,9 @@ public class TokenUtils {
         return Constants.TOKEN_MEMBER+"-"+UUID.randomUUID();
     }
 
+    /*16 bytes digest for track channel session*/
+    public static String channelSessionDigest() {
+
+        return String.format("%016x", System.currentTimeMillis());
+    }
 }

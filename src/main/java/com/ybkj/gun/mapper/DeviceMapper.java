@@ -1,12 +1,10 @@
 package com.ybkj.gun.mapper;
 
-import com.ybkj.gun.model.Device;
-import com.ybkj.gun.model.DeviceExample;
+import com.ybkj.gun.model.*;
+
 import java.util.List;
 import java.util.Map;
 
-import com.ybkj.gun.model.DeviceLocation;
-import com.ybkj.gun.model.Gun;
 import org.apache.ibatis.annotations.Param;
 
 public interface DeviceMapper {
@@ -51,5 +49,7 @@ public interface DeviceMapper {
     List<Device> findDeviceByState(Integer state);
 
     Device findDeviceByDeviceNo(String deviceNo);
+
+    Device findDeviceByDeviceNoAndState(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
 
 }

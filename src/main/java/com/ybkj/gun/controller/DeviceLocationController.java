@@ -13,6 +13,7 @@ import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.service.DeviceLocationSerivce;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,7 @@ public class DeviceLocationController {
         String location="";
         String[] split = lng.split(",");
 
-        System.out.println("--------7777----------"+deviceNo+",,"+split[0]+".."+split[1]);
+        //System.out.println("--------7777----------"+deviceNo+",,"+split[0]+".."+split[1]);
         if(split[0]!="" && split[1]!="" && lag!="" && lng!="" && deviceNo==""){
             DeviceGun deviceGuns = deviceGunMapper.selectGunAndDeviceLocationOne(split[1]);
             if(deviceGuns!=null) {
@@ -127,6 +128,26 @@ public class DeviceLocationController {
             baseModel.setErrorMessage("请不要暴力修改数据!");
         }
         return baseModel;
+    }
+
+    /**
+     * 协助查找，周围最近5个警员
+     * @param deviceNo
+     * @param lng
+     * @param lag
+     * @return
+     */
+    @ApiOperation(value = "协助查找，周围最近5个警员",notes = "协助查找", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "deviceNo", value = "009886", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "lng", value = "114.41408", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "lag", value = "30.498694", required = true, paramType = "query")
+            })
+    @RequestMapping(value = "/optimizeAssistRoundOnline",method = RequestMethod.GET)
+    public BaseModel optimizeAssistRoundOnline(@RequestParam(value="deviceNo",required=false)String deviceNo, @RequestParam(value="lng",required=false)String lng, @RequestParam(value="lag",required=false)String lag) throws Exception {
+        BaseModel baseMode=new BaseModel();
+        baseMode=deviceLocationSerivce.optimizeRoundOnline(deviceNo,lng,lag);
+        return baseMode;
     }
 
     /**

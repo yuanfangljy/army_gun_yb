@@ -37,4 +37,7 @@ public interface DeviceLocationMapper {
     //根据警员编号，查询出最新警员地址
     DeviceLocation selectDeviceLocationByDeviceNoNewest(String deviceNo) throws Exception;
     List<DeviceLocation> selectRoundOnline(Map<String, Object> map) throws Exception;
+    //优化查询最近五个设备
+    List<DeviceLocation> optimizeRoundOnline(Map<String, Object> map) throws Exception;
+
 }

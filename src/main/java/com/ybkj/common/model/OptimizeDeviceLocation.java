@@ -21,5 +21,6 @@ public class OptimizeDeviceLocation {
     private String gunWarehouseName;//库存名
     private Integer gunState;//枪的动态状态
     private Date locationEndTime;//最后经纬度的时间
+    private String jili;//距离
 
 }

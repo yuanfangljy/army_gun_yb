@@ -92,7 +92,7 @@ public class Producer {
             authCodeMessageBody.setMessageType("03");//报文类型： 03:出库下发报文
             authCodeMessageBody.setMessageBody(messageBody);//报文消息体
             authCodeMessageBody.setSendTime(dataTool.dateToString());//发报时间：系统时间
-            authCodeMessageBody.setSessionToken(TokenUtils.getMemberToken());
+            authCodeMessageBody.setSessionToken(TokenUtils.channelSessionDigest());
             String jsonString = JSONObject.toJSONString(authCodeMessageBody);
             //一对一发送
             try {
@@ -133,7 +133,7 @@ public class Producer {
             authCodeMessageBody.setMessageType("09");//报文类型： 09:入库下发报文
             authCodeMessageBody.setMessageBody(messageBody);//报文消息体
             authCodeMessageBody.setSendTime(dataTool.dateToString());//发报时间：系统时间
-            authCodeMessageBody.setSessionToken(TokenUtils.getMemberToken());
+            authCodeMessageBody.setSessionToken(TokenUtils.channelSessionDigest());
             String jsonString = JSONObject.toJSONString(authCodeMessageBody);
             try {
                 jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);

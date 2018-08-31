@@ -59,9 +59,9 @@ public class WebUserServiceImpl implements WebUserSerivce {
             //用户存在
             if (password.endsWith(user.getPassword())) {
                 //处理登录限制处理，无论处理结果如何，对本次操作没有影响
-                LoginUtil.LoginUserSessionIds(userName);
+                //LoginUtil.LoginUserSessionIds(userName);
                 //登录成功后需将SessionId放在ServletContext中，做单点登录的seesion
-                httpServletRequest.getServletContext().setAttribute(userName,httpSession.getId());
+                //httpServletRequest.getServletContext().setAttribute(userName,httpSession.getId());
                 //将用户信息保存到sessoin中，判断用户是否登录sessoin
                 httpSession.setAttribute("userName",userName);
                 //记录在日志中

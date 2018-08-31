@@ -50,4 +50,5 @@ public interface DeviceGunMapper {
     //查询所有在线警员和枪支
     List<DeviceGun> selectGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception;
 
+
 }

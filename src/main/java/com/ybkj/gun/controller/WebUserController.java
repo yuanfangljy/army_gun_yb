@@ -64,7 +64,7 @@ public class WebUserController {
     @RequestMapping(value = "/logOutWebUser",method = RequestMethod.PUT)
     public void logOutWebUser(HttpSession session,HttpServletRequest request){
         String userName =(String)session.getAttribute("userName");
-        LoginUtil.loginUserSessionIds.remove(request.getSession().getId());
+       // LoginUtil.loginUserSessionIds.remove(request.getSession().getId());
         //LoginUtil.LoginUserSessionIds(userName);
         //登录成功后需将SessionId放在ServletContext中，做单点登录的seesion
         request.getServletContext().removeAttribute(userName);

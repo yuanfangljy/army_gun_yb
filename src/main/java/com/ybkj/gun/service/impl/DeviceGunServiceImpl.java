@@ -66,38 +66,45 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
         BaseModel baseModel = new BaseModel();
         //通过mac地址(实际上是抢号)，来获取枪支的mac地址:deviceGun.getGunMac()实际上是抢号
         Gun gun = gunMapper.selectGunByGunTag(deviceGun.getGunMac());
+
         if (gun != null) {
-            //通过警员编号，枪支的mac地址和状态为0（已经出库）
-            DeviceGun deviceGun1 = deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(), gun.getBluetoothMac(), 0);
-            if (deviceGun1 != null) {
-                //send Storage message to Netty
-                BaseModel sendMessageStorage = producer.sendMessageStorage(gun.getBluetoothMac(), randomNumber.getRandomNumber(), deviceGun.getDeviceNo());
-                if (sendMessageStorage.getStatus()!=StatusCodeEnum.Fail.getStatusCode()) {
+            //在入库的时候，还要判断设备有没有离位，如果离位则不能进行入库
+            if(gun.getTotalBulletNumber()==2){
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                baseModel.setErrorMessage("该枪已离位，需重新连接成功，才能入库!");
+            }else {
+                //通过警员编号，枪支的mac地址和状态为0（已经出库）
+                DeviceGun deviceGun1 = deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(), gun.getBluetoothMac(), 0);
+                if (deviceGun1 != null) {
+                    //send Storage message to Netty
+                    BaseModel sendMessageStorage = producer.sendMessageStorage(gun.getBluetoothMac(), randomNumber.getRandomNumber(), deviceGun.getDeviceNo());
+                    if (sendMessageStorage.getStatus() != StatusCodeEnum.Fail.getStatusCode()) {
 
-                    Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
-                    //修改设备的状态
-                    device.setState(1);
-                    //deviceMapper.updateByPrimaryKeySelective(device);
-                    //修改枪支的状态
-                    gun.setState(1);
-                    gun.setRealTimeState(1);
-                    //gunMapper.updateByPrimaryKeySelective(gun);
-                    //枪支入库
-                    //deviceGun1.setState(1);
-                    //deviceGun1.setUpdateTime(new Date());
-                    //deviceGun1.setInWarehouseTime(new Date());
+                        Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
+                        //修改设备的状态
+                        device.setState(1);
+                        //deviceMapper.updateByPrimaryKeySelective(device);
+                        //修改枪支的状态
+                        gun.setState(1);
+                        gun.setRealTimeState(1);
+                        //gunMapper.updateByPrimaryKeySelective(gun);
+                        //枪支入库
+                        //deviceGun1.setState(1);
+                        //deviceGun1.setUpdateTime(new Date());
+                        //deviceGun1.setInWarehouseTime(new Date());
 
-                    //deviceGunMapper.updateByPrimaryKeySelective(deviceGun1);
-                    baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
-                    baseModel.setErrorMessage("正在入库中...");
+                        //deviceGunMapper.updateByPrimaryKeySelective(deviceGun1);
+                        baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
+                        baseModel.setErrorMessage("正在入库中...");
 
+                    } else {
+                        baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                        baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
+                    }
                 } else {
                     baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                    baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
+                    baseModel.setErrorMessage("枪号与警员号，不匹配，请重新审查");
                 }
-            } else {
-                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                baseModel.setErrorMessage("枪号与警员号，不匹配，请重新审查");
             }
         } else {
             baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());

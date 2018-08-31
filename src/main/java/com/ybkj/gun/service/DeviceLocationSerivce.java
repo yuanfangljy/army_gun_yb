@@ -53,4 +53,18 @@ public interface DeviceLocationSerivce {
      */
     public BaseModel optimizeDeviceLocation(String deviceNo) throws Exception;
 
+    /**
+     * 优化协助查找最近的5个在线的警员信息？
+     * 1、查询最近的五个经纬度和设备号（device_location），得到设备号，进行出重
+     *    select
+     * 2、根据得到的最近五个设备号，去(device去筛选状态为0)的device_no
+     * 3、根据2中得到的最终device_no，去判断用户有没有出库（根据state=0）；
+     *    如果为空，就执行4；
+     *    否则：就执行5
+     * 4、根据2中得到的最终device_no,去device_location中得到最新的数据（这个是用户在线，未出库）
+     * 5、根据deive_no在device_gun中的到mac，再根据mac在gun中得到相关信息；
+     *    还要根据device_no在device_location和device中的到相关信息
+     */
+    BaseModel optimizeRoundOnline(String deviceNo,String lng,String lag) throws Exception;
+
 }

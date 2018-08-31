@@ -148,13 +148,14 @@
         var value = [];//数量
         var markers = [];//点聚合参数
         var markerClusterer = null;//点聚合参数
-        var recentlyDeivce;//最近设备
+        var recentlyDeivce=[];//最近设备
         var location = "";
+        var deviceState=[];
         //设备实时状态显示
         $.ajax({
-            url: "../deviceLocation/roundOnline",
+            url: "../deviceLocation/optimizeAssistRoundOnline",
             type: "GET",
-            data: {"deviceNo": null, "lng": deviceNosAndlng, "lag": lag},
+            data: {"deviceNo": deiceNos, "lng": lng, "lag": lag},
             dataType: "json",
             async: false,
             success: function (result) {
@@ -162,16 +163,22 @@
                     layer.alert(result.errorMessage);
                     return false;
                 }
+               //alert(result.extend.number)
                 location = result.extend.location.split("@");
-                $.each(result.extend.onLine, function (i, p) {
+                $.each(result.extend.devices, function (i, p) {
                     label[i] = p.longitude;
                     value[i] = p.latitude;
+                    deviceState[i]=p.gunState;
+                    recentlyDeivce[i]=p.deviceNo;
+                    alert(recentlyDeivce[i]);
                     // 7.1:创建点
                     var myIcon;
                     if (result.extend.number - 1 == i) {
                         myIcon = new BMap.Icon('img/offNormalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
-                    } else {
+                    } else if (deviceState[i]==0) {//在线未出库
                         myIcon = new BMap.Icon('img/normalGun.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
+                    } else {
+                        myIcon = new BMap.Icon('img/device.png', new BMap.Size(68, 75));//这里先不用第三个参数IconOptions
                     }
 
                     //这就是对象的字面量形式
@@ -191,7 +198,6 @@
                     }
 
 
-
                     <!--框-->
                     var gunOffNormal = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离位</span>';
                     var unused = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">未使用</span>';
@@ -200,22 +206,60 @@
                     var offLine = '<span style=" background:url(img/red.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">离线</span>';
                     var assist = '<span style=" background:url(img/orange.png); background-repeat:no-repeat; background-position:left; padding-left: 16px; margin-right: 22px">协助</span>';
 
+                    //alert(result.extend.number - 2 == i);
                     var tag;//浮框
-                    if (result.extend.number - 2 == i) {
-                        recentlyDeivce = p.deviceNo;
-                        tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:198px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
-                            + "警员编号：" + recentlyDeivce + lineon + "</br>"
+                    //1、自己本身
+                    if(result.extend.number-1 == i){
+
+                        tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:160px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
+                            + "警员编号：" + p.deviceNo + lineoff + "</br>"
+                            + "枪号：" + p.gunTag + lineoff + "</br>"
+                            + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
+                            + "电话：" + p.mobile + lineoff + "</br>"
+                            + "<span style='color: #ff2589'>最近警员：" + recentlyDeivce[result.extend.number - 1 - i]  + lineoff + "</br></span>"
+                            + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
+                    }else if(p.gunState==0){
+                        tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:196px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
+                            + "警员编号：" + p.deviceNo + lineon + "</br>"
                             + "枪号：" + p.gunTag + lineon + "</br>"
                             + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
-                            + "电话：" + p.mobile + lineon + "</br>"
-                            + "<span style='color: #ff2217'>最近距离：" + p.juli + "," + (result.extend.number - i - 1) + lineon + "</br></span>"
-                          //  + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                            + "电话：" + p.mobile + "</br>"
+                            + "<span style='color: #ff2217'>距离排行：" + (result.extend.number - 1 - i) + lineon + "</br></span>"
+                           /* + "<span style='color: #ff2217'>距离：" + p.juli + "," + (result.extend.number - 1 - i) + lineon + "</br></span>"*/
+                            //+ ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                             + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
                             "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
                         ;
-                    } else {
+                    }else{
+                        tag = "<div class='tag3' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:150px; border:1px solid #a6ff79; position:relative; border-radius:8px; background-color:#a6ff79;'>"
+                            + "警员编号：" + p.deviceNo + lineon + "</br>"
+                            + "电话：" + p.mobile + lineoff + "</br>"
+                            + "<span style='color: #ff2217'>距离排行：" + (result.extend.number - 1 - i) + lineon + "</br></span>"
+                          /*  + "<span style='color: #ff2217'>距离：" + p.juli + "," + (result.extend.number - 1 - i) + lineon + "</br></span>"*/
+                            + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
+                            "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button>"+"</div>";
+                    }
 
-                        if(result.extend.sizeLocation==1){
+
+
+
+                /*    if (result.extend.number - 2 == i) {//最近的警员
+                        alert(12312);
+                        recentlyDeivce = p.deviceNo;
+
+                            tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:198px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
+                                + "警员编号：" + recentlyDeivce + lineon + "</br>"
+                                + "枪号：" + p.gunTag + lineon + "</br>"
+                                + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
+                                + "电话：" + p.mobile + lineon + "</br>"
+                                + "<span style='color: #ff2217'>最近距离：" + p.juli + "," + (result.extend.number - i - 1) + lineon + "</br></span>"
+                                //  + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
+                                + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
+                                "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>";
+
+                    } else {
+                        if (result.extend.number == 1) {//只有自己
                             layer.alert('暂无在线警员');
                             tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:160px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                                 + "警员编号：" + p.deviceNo + lineoff + "</br>"
@@ -225,10 +269,8 @@
                                 + "<span style='color: #ff2589;padding-left:24px;'>暂无在线警员</br></span>"
                                 + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
-                                "</div>"
-                            ;
-                        }else
-                        if (result.extend.number - 1 == i) {
+                                "</div>";
+                        } else if (result.extend.number - 1 == i) {//自己。还有其他警员
                             tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:160px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                                 + "警员编号：" + p.deviceNo + lineoff + "</br>"
                                 + "枪号：" + p.gunTag + lineoff + "</br>"
@@ -237,22 +279,31 @@
                                 + "<span style='color: #ff2589'>最近警员：" + recentlyDeivce + lineoff + "</br></span>"
                                 + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
-                                "</div>"
-                            ;
-                        } else {
+                                "</div>";
+                        } else {//其他警员
                             tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:196px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
-                                + "警员编号：" + p.deviceNo +lineon+ "</br>"
-                                + "枪号：" + p.gunTag +lineon+ "</br>"
-                                + "枪支：" + (p.gunModel).slice(0, 8) +lineon+ "</br>"
+                                + "警员编号：" + p.deviceNo + lineon + "</br>"
+                                + "枪号：" + p.gunTag + lineon + "</br>"
+                                + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
                                 + "电话：" + p.mobile + "</br>"
-                                + "<span style='color: #ff2217'>距离：" + p.juli + "," + (result.extend.number - 1 - i) +lineon+ "</br></span>"
+                                + "<span style='color: #ff2217'>距离：" + p.juli + "," + (result.extend.number - 1 - i) + lineon + "</br></span>"
                                 //+ ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? unused : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? unused : (p.deviceState) == 2 ? offLine : assist) + "</br>" +
                                 "<button type='button' onclick=IsRequestFind('" + deiceNos + "','" + p.deviceNo + "','" + lostGun + "') id='findAssist' class='btn btn-primary btn-sm' style='margin-top: 6px; margin-left: 25px;font-size: 14px;padding-top: 6px;'>前去查找</button></div>"
                             ;
                         }
+                    }*/
 
-                    }
+
+
+                    //=======================================在线没有出库=============================================
+                       /*   function deviceNoOnLine(){
+                              tag = "<div class='tag3' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:90px; border:1px solid #a6ff79; position:relative; border-radius:8px; background-color:#a6ff79;'>"
+                                  + "警员编号：" + p.deviceNo + lineon + "</br>"
+                                  + "电话：" + p.mobile + lineoff + "</br>"
+                                  + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>"
+                                  + "</div>";
+                          }*/
 
 
                     /* if (result.extend.number - 2 == i) {
@@ -269,13 +320,17 @@
 
                     //创建标注的hover事件
                     marker.addEventListener("mouseover", function (e) {
+
                         //7.2 添加字体
                         var labela;
-                        if (result.extend.number - 1 == i) {
+                        if (deviceState[i]==2) {
                             labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -170)});
+                        }else if(deviceState[i]==0){
+                            labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -207)});
                         } else {
-                            labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -208)});
+                            labela = new BMap.Label(tag, {offset: new BMap.Size(-50, -163)});
                         }
+
                         labela.setStyle({
                             color: "#302e18",
                             width: "100%",

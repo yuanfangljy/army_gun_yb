@@ -350,7 +350,7 @@
   </select>
   <!--根据状态统计设备信息-->
   <select id="findDeviceByState"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
-    select device_no from Device where state = if(#{state}=0,0,1)
+    select device_no from device where state = if(#{state}=0,0,1)
   </select>
 
   <!--根据设备号获取相关信息-->
@@ -358,4 +358,8 @@
    select phone,state from device where device_no = #{deviceNo,jdbcType=VARCHAR}
   </select>
 
+  <!--根据设备号和状态，获取相关信息-->
+  <select id="findDeviceByDeviceNoAndState"    resultMap="BaseResultMap">
+    select device_no from device where device_no = #{deviceNo,jdbcType=VARCHAR} and state = if(#{state}=0,0,1)
+  </select>
 </mapper>
