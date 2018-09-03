@@ -373,10 +373,28 @@
   <select id="selectGunOffNormal"  resultMap="BaseResultMap">
     select * from gun where real_time_state = 2
   </select>
-  <!--根据状态统计枪支信息-->
+  <!--根据状态统计枪支-->
   <select id="findSelectByState"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
-    select gun_tag from gun where state = if(#{state}=0,0,1)
+    select gun_tag from gun where  state = if(#{state}=0,0,1)
+   <!-- <where>
+       <if test="state!=null" >
+         state = #{state}
+       </if>
+     </where>-->
   </select>
 
+  <!--根据状态统计枪支-->
+  <select id="findSelectByStates" resultMap="BaseResultMap">
+    select gun_tag from gun
+  </select>
+  <!--根据状态统计枪支信息-->
+  <select id="findSelectAllByState"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+    select id,gun_tag,bluetooth_mac,warehouse_name,state,real_time_state from gun where  state = if(#{state}=0,0,1)
+    <!--<where>
+      <if test="state!=null" >
+
+      </if>
+    </where>-->
+  </select>
 
 </mapper>

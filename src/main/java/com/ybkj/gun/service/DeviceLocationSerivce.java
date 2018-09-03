@@ -2,6 +2,7 @@ package com.ybkj.gun.service;
 
 import com.ybkj.common.model.BaseModel;
 import com.ybkj.gun.model.Device;
+import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceLocation;
 
 import java.util.Date;
@@ -65,6 +66,35 @@ public interface DeviceLocationSerivce {
      * 5、根据deive_no在device_gun中的到mac，再根据mac在gun中得到相关信息；
      *    还要根据device_no在device_location和device中的到相关信息
      */
-    BaseModel optimizeRoundOnline(String deviceNo,String lng,String lag) throws Exception;
+    BaseModel optimizeRoundOnline(String deviceNo,String lng,String lag,String lostGun) throws Exception;
 
+
+    /**
+     * 优化轨迹查询？
+     * 1、根据传入的枪号，在gun表中获取到对应的mac
+     * 2、再根据mac，在device_gun中获取到所有的设备号，进行去重
+     * 3、根据设备号，在device_location中，根据state=0，时间，查询到最终的轨迹
+     * @param map
+     * @return
+     */
+    BaseModel optimizeDeviceLocationTrajectory(String gunTag,String startTime,String endTime) throws Exception;
+
+
+    /**
+     * 优化枪列表的实时位置信息？
+     * 1、既然是枪，就在gun表中，查询所以state=0的枪支信息
+     * 2、根据查询出来枪的mac，在device_gun,根据mac和状态为state=0得到在线的设备号device_no
+     * 3、再根据deviceNo在device_location中的到最新的设备记录
+     * @return
+     * @throws Exception
+     */
+    BaseModel optimizeGunLocation(Integer pn,Integer pageSize,String deviceNo) throws Exception;
+
+    /**
+     * 实时显示列表相关信息
+     * @param deviceNo
+     * @return
+     * @throws Exception
+     */
+    public List<DeviceLocation> selectOnLineGun(String deviceNo) throws Exception;
 }

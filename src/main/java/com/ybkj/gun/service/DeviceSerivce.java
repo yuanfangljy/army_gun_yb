@@ -25,6 +25,7 @@ public interface DeviceSerivce {
     BaseModel selectDeviceNo(String deviceNo)throws Exception;
     //设备离线统计
     List<Gun> findDeviceOffLine(Integer state) throws Exception;
+    public BaseModel findDeviceByStates() throws Exception;
     //统计在线设备
     Integer findDeviceOnLine() throws Exception ;
     //根据设备状态查询设备信息

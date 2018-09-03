@@ -155,7 +155,7 @@
         $.ajax({
             url: "../deviceLocation/optimizeAssistRoundOnline",
             type: "GET",
-            data: {"deviceNo": deiceNos, "lng": lng, "lag": lag},
+            data: {"deviceNo": deiceNos, "lng": lng, "lag": lag,"lostGun":lostGun},
             dataType: "json",
             async: false,
             success: function (result) {
@@ -170,7 +170,7 @@
                     value[i] = p.latitude;
                     deviceState[i]=p.gunState;
                     recentlyDeivce[i]=p.deviceNo;
-                    alert(recentlyDeivce[i]);
+                    //alert(recentlyDeivce[i]);
                     // 7.1:创建点
                     var myIcon;
                     if (result.extend.number - 1 == i) {
@@ -190,7 +190,8 @@
                     //marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
                     function addClickHandler(marker) {
                         marker.addEventListener("click", function (e) {
-                                layer.alert(location[i]);
+                            Locations(p.longitude,p.latitude);
+                                //layer.alert(location[i]);
                                 //alert(p.deviceNo + "--" + p.longitude + "--" + p.latitude);
                                 //deviceLocation(p.deviceNo, p.longitude, p.latitude);
                             }
@@ -216,7 +217,7 @@
                             + "枪号：" + p.gunTag + lineoff + "</br>"
                             + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
                             + "电话：" + p.mobile + lineoff + "</br>"
-                            + "<span style='color: #ff2589'>最近警员：" + recentlyDeivce[result.extend.number - 1 - i]  + lineoff + "</br></span>"
+                            + "<span style='color: #ff2589'>最近警员：" + recentlyDeivce[result.extend.number - i]  + lineoff + "</br></span>"
                             + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
                             + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                     }else if(p.gunState==0){
@@ -410,6 +411,19 @@
                         icon: 2
                     });
                 }
+            }
+        })
+    }
+
+    function Locations(lng,lat) {
+        $.ajax({
+            url: "../locationUtil/getLocation",
+            type: "GET",
+            data: {"lng": lng, "lat": lat},
+            async: false,
+            dataType: "json",
+            success: function (result) {
+                layer.alert(result.extend.realLocations);
             }
         })
     }

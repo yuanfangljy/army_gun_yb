@@ -123,7 +123,25 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
     @Override
     public BaseModel addGunDelivery(DeviceGun deviceGun, Integer status) throws Exception {
         BaseModel baseModel = new BaseModel();
+        //实际是：抢号deviceGun.getGunMac()
         Gun gun = gunMapper.selectGunByGunTag(deviceGun.getGunMac());
+        /**
+         * 2018-09-04:出库bug修改
+         * 1、根据传入的设备查询，state为0的，如果存在，就说改警员正在出库中
+         * 2、根据传入的枪支编号，查询对应的mac，再在device__gun中查询state为0的，
+           如果存在，就报该枪支正在使用中
+         */
+        DeviceGun deviceGun3 = deviceGunMapper.selectDeviceGunByMacAndState(gun.getBluetoothMac(), 0);
+        if(deviceGun3!=null){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("枪支【"+deviceGun.getGunMac()+"】正在使用中...");
+        }
+        DeviceGun deviceGun4 = deviceGunMapper.selectDeviceGunByDeviceNoAndState(deviceGun.getDeviceNo(), 0);
+        if(deviceGun4!=null){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("警员【"+deviceGun.getGunMac()+"】已出库...");
+        }
+
        /* System.out.println(gun.getState()==null);*/
         if (gun != null) {
             if (gun.getState() == null || gun.getState() == 1) {

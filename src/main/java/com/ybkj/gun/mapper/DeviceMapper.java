@@ -47,6 +47,7 @@ public interface DeviceMapper {
     Integer selectDeviceOnLine();
 
     List<Device> findDeviceByState(Integer state);
+    List<Device> findDeviceByStates();
 
     Device findDeviceByDeviceNo(String deviceNo);
 

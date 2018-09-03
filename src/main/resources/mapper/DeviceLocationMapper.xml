@@ -323,8 +323,31 @@
     (SELECT DISTINCT e.device_no,e.gun_mac FROM device_gun e WHERE e.gun_mac IN
     (SELECT d.bluetooth_mac FROM gun d WHERE  d.gun_tag= ${gunTag})) AS a,device_location AS b,gun AS c
     WHERE  a.gun_mac=c.bluetooth_mac AND a.device_no =b.device_no AND b.state=0
-    AND b.create_time BETWEEN  #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP}  ORDER BY b.create_time ASC
+    AND b.create_time BETWEEN  #{beginTime,jdbcType=TIMESTAMP} and #{endTime ,jdbcType=TIMESTAMP}  ORDER BY b.create_time ASC
   </select>
+
+
+    <!--优化：根据时间和枪支查询枪支的轨迹-->
+    <select id="optimizeDeviceLocationByTimeAndGunTag" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        SELECT b.device_no,b.latitude,b.longitude ,b.create_time FROM device_location b
+        WHERE b.state=0 AND b.device_no=#{deviceNo}
+        AND b.create_time
+        BETWEEN #{beginTime,jdbcType=TIMESTAMP} and DATE_ADD(#{endTime,jdbcType=TIMESTAMP} ,INTERVAL 1 DAY) ORDER BY
+        b.create_time ASC
+        <!--     <where>
+                 <if test="beginTime == null">
+                     #{DATE_ADD(endTime) ,jdbcType=TIMESTAMP}
+                 </if>
+                 <if test="endTime == null">
+                     #{beginTime ,jdbcType=TIMESTAMP}
+                 </if>
+                 <if test="endTime != null $$">
+
+                 </if>
+             </where>-->
+
+    </select>
 
 
     <!--根据警员编号，查询出最新警员地址-->
@@ -368,4 +391,58 @@ ORDER BY juli DESC
 LIMIT 5
   </select>
 
+    <!--实时显示枪支在线列表-->
+    <select id="selectOnLineGun" resultType="java.lang.String" resultMap="BaseResultMap">
+
+        SELECT zz.gunTag as gunTag,zz.device_no as deviceNo,
+               zz.latitude as latitude,zz.longitude as longitude,
+               zz.warehouseName as gunWarehouseName,zz.realTimeState as gunState,
+               zz.state as deviceState
+        FROM
+        (SELECT
+        c.gunTags AS gunTag,
+        dl.device_no AS device_no ,
+        dl.latitude AS latitude,
+        dl.longitude AS longitude,
+        c.warehouseName AS warehouseName,
+        c.realTimeState AS realTimeState,
+        c.state AS state,
+        dl.create_time AS create_time
+        FROM
+        device_location AS dl
+        INNER JOIN
+        (SELECT
+        b.realTimeState AS realTimeState,
+        b.warehouseName AS warehouseName,
+        b.gunTag AS gunTags,
+        d.device_no AS deviceNo,
+        d.state AS state
+        FROM
+        device AS d
+        INNER JOIN
+        (SELECT
+        dg.device_no AS deviceNo,
+        a.bluetoothMac,
+        a.gunTag AS gunTag,
+        a.warehouseName AS warehouseName,
+        a.realTimeState AS realTimeState
+        FROM
+        device_gun AS dg
+        INNER JOIN
+        (SELECT
+        g.gun_tag AS gunTag,
+        g.bluetooth_mac AS bluetoothMac,
+        g.warehouse_name AS warehouseName,
+        g.real_time_state AS realTimeState
+        FROM
+        gun AS g
+        WHERE state = 0) AS a
+        ON dg.gun_mac = a.bluetoothMac ) AS b
+        ON b.deviceNo = d.device_no ) AS c
+        ON c.deviceNo = dl.device_no
+
+        )AS zz WHERE NOT EXISTS (SELECT 1 FROM device_location as dls WHERE dls.device_no= zz.device_no
+        AND zz.create_time &lt; dls.create_time) AND zz.device_no like '%' #{deviceNo} '%'
+
+    </select>
 </mapper>

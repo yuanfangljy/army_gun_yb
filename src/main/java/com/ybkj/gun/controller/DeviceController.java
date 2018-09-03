@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
+import com.ybkj.gun.mapper.DeviceMapper;
 import com.ybkj.gun.model.Device;
 import com.ybkj.gun.model.Gun;
 import com.ybkj.gun.service.impl.DeviceServiceImpl;
@@ -27,7 +28,8 @@ public class DeviceController {
 
     @Autowired
     DeviceServiceImpl deviceSerivce;
-
+    @Autowired
+    DeviceMapper deviceMapper;
 
     /**
      * 判断手机号码是否存在
@@ -187,11 +189,16 @@ public class DeviceController {
      * @return
      */
     @ApiOperation(value = "设备：根据状态查询设备信息",notes = "设备信息", httpMethod = "GET")
-    @RequestMapping(value = "/gunDevice",method = RequestMethod.GET)
-    public BaseModel gunDevice(BaseModel baseModel,@RequestParam(value = "state",required = true)Integer state) throws Exception {
+    @RequestMapping(value = "/deviceState",method = RequestMethod.GET)
+    public BaseModel deviceState(BaseModel baseModel,@RequestParam(value = "state",required = true)Integer state) throws Exception {
         //1、如果state=1,就是查询所有未出库的设备
         //2、如果state=0,就是查询所有未入库的设备
-        baseModel=deviceSerivce.selectDeviceByState(state);
+        if(state==null){
+            baseModel= deviceSerivce.findDeviceByStates();
+        }else{
+            baseModel=deviceSerivce.selectDeviceByState(state);
+        }
+
         return baseModel;
     }
 

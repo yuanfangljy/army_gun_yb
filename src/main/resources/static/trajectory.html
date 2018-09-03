@@ -24,6 +24,8 @@
     <link rel="icon" href="../../favicon.ico">
     <title>Dashboard Template for Bootstrap</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap_select/css/bootstrap-select.css">
+
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet" type="text/css"/>
@@ -82,10 +84,16 @@
 </div>
 <div style=" margin-top: 8px; padding-bottom: 8px; border-bottom: 1px solid #d7d7d7; margin-bottom: 15px ; margin-left:-28%">
     <form class="form-inline" method="post">
-        <div class="form-group ">
-            <label for="exampleInputName2" style="font-size:14px">枪号</label>
-            <input type="text" class="form-control" id="gunTag" name="gunTag" placeholder="选择枪支">
+        <div class="col-md-1 col-md-offset-4">
+            <h4 for="exampleInputName2" style="font-size:14px; position: absolute;z-index: 999999999">枪号</h4>
+            <div style="margin-left: 40px;">
+            <select class="selectpicker form-control" id="gunTag" name="gunTag"
+                    data-container="body"
+                    data-live-search="true" title="请选择枪号" data-hide-disabled="true"></select>
+           <!-- <input type="text" class="form-control" id="gunTag" name="gunTag" placeholder="选择枪支">-->
+            </div>
         </div>
+
         <div class="col-md-4"></div>
         <div class="form-group">
             <label for="" style="font-size:14px; margin-left: 180px">开始时间</label>
@@ -153,6 +161,34 @@
 <script type="text/javascript" src="js/mq/mqttTopic.js"></script>
 <script type="text/javascript" src="js/mq/mqttws31.js"></script>
 <script type="text/javascript" src="js/warning/warningNumber.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="bootstrap_select/js/bootstrap-select.js"></script>
+
+<script type="text/javascript">
+
+    $("#gunTag").on('shown.bs.select', function () {
+        createOptionsGun(null);
+    })
+    function createOptionsGun(state) {
+        var optionsGun = [], _optionsGun;
+        $.ajax({
+            url: "../gun/gunState",
+            type: "GET",
+            data: {"state": state},
+            success: function (result) {
+                $.each(result.extend.gunStateList, function (i, p) {
+                    var option = '<option value="' + p.gunTag + '">' + p.gunTag + '</option>';
+                    optionsGun.push(option);
+                })
+                _optionsGun = optionsGun.join('');
+                $('#gunTag')[0].innerHTML = _optionsGun;
+                $('#gunTag').selectpicker('render');
+                $('#gunTag').selectpicker('refresh');
+            }
+        });
+    }
+</script>
 <script type="text/javascript">
 
 
@@ -285,7 +321,7 @@
         var myIcon;//图标点
         var location;//详细地点
             $.ajax({
-                url:"../deviceLocation/queryTheTrajectory",
+                url:"../deviceLocation/optimizeQueryTheTrajectory",
                 type:"GET",
                 data:{"deviceNo":deviceNo,"startTime":startTime,"endTime":endTime},
                 async:false,
@@ -294,7 +330,7 @@
                         layer.msg(result.errorMessage);
                         return false;
                     }
-                    location = result.extend.location.split("@");
+                    //location = result.extend.location.split("@");
                     $.each(result.extend.deviceLocations,function (item, value) {
                         label[item] = value.longitude;
                         values[item] = value.latitude;
@@ -317,7 +353,7 @@
                                 if(e.overlay){//判断右键单击的是否是marker
                                     alert("12312");
                                 }else{
-                                    layer.alert(location[item]);
+                                    Locations(value.longitude,value.latitude);
                                 }
                             });
                         };
@@ -431,6 +467,17 @@
     function LogOut(){
         LogOuts();
     }
-
+    function Locations(lng,lat) {
+        $.ajax({
+            url: "../locationUtil/getLocation",
+            type: "GET",
+            data: {"lng": lng, "lat": lat},
+            async: false,
+            dataType: "json",
+            success: function (result) {
+                layer.alert(result.extend.realLocations);
+            }
+        })
+    }
 
 </script>

@@ -65,6 +65,8 @@ public class SosMessageController {
             }
         }
         PageInfo<SosMessage> page = new PageInfo<SosMessage>(sosMassages,5);
+        System.out.println("-----------------------00----------"+sosMassages.size());
+        System.out.println("-----------------------00----------"+page.getPages());
         baseModel.add("pageInfo",page).add("deviceNo", deviceNo);
         baseModel.add("location", location).add("gunTag",gunTag).add("number",state);
         return baseModel;

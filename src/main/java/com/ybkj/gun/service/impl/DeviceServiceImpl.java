@@ -44,7 +44,13 @@ public class DeviceServiceImpl implements DeviceSerivce {
     public BaseModel selectDeviceByState(Integer state) throws Exception {
         BaseModel baseModel = new BaseModel();
         List<Device> device=deviceMapper.findDeviceByState(state);
-        baseModel.add("deviceState",device);
+        baseModel.add("deviceStateList",device);
+        return baseModel;
+    }
+    public BaseModel findDeviceByStates() throws Exception {
+        BaseModel baseModel=new BaseModel();
+        List<Device> device=deviceMapper.findDeviceByStates();
+        baseModel.add("deviceStateList",device);
         return baseModel;
     }
 
@@ -163,6 +169,8 @@ public class DeviceServiceImpl implements DeviceSerivce {
         return deviceMapper.insert(device);
     }
 
+
+
     @Override
     public void removeDevice(Integer deviceId) throws Exception {
 
@@ -187,6 +195,7 @@ public class DeviceServiceImpl implements DeviceSerivce {
     public Device findDevice(Integer deviceId) throws Exception {
         return null;
     }
+
 
 
 }

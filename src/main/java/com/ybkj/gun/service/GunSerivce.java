@@ -34,4 +34,7 @@ public interface GunSerivce {
     List<Gun> findGunByGunTags(String gunTag);
     //根据状态查询gun
     BaseModel selectGunByState(Integer state);
+    //根据状态查询gun
+    BaseModel selectGunByState();
+
 }

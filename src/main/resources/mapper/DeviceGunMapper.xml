@@ -491,8 +491,35 @@
   </select>
     <!-- 通过警员编号和状态查询警员有没有出库-->
     <select id="selectDeviceGunByDeviceNoAndState" resultMap="BaseResultMap">
-    select  device_no, gun_mac from device_gun where device_no= #{deviceNo,jdbcType=VARCHAR} and state= #{state,jdbcType=INTEGER}
+    select  device_no, gun_mac from device_gun
+    <where>
+        <if test="state != null">
+             state= #{state,jdbcType=INTEGER}
+        </if>
+        <if test="deviceNo != null and deviceNo !=''">
+            and device_no like '%' #{deviceNo} '%'
+        </if>
+
+    </where>
   </select>
+
+    <!-- 通过警员编号和状态查询警员有没有出库-->
+    <select id="selectDeviceGunByDeviceNoAndStates" resultMap="BaseResultMap">
+        select  device_no, gun_mac from device_gun
+        <where>
+            <if test="state != null">
+                state= #{state,jdbcType=INTEGER}
+            </if>
+            <if test="deviceNo != null and deviceNo !=''">
+                and device_no like '%' #{deviceNo} '%'
+            </if>
+
+        </where>
+    </select>
+    <!-- 根据蓝牙号，查询到所有的设备号，进行去重-->
+    <select id="selectDeviceGunByMac" resultMap="BaseResultMap">
+        select DISTINCT device_no from device_gun  where gun_mac= #{gunMac,jdbcType=VARCHAR}
+    </select>
 
 
 

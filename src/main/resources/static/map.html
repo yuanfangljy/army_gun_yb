@@ -280,7 +280,7 @@
                deviceDislocation();
                 gunDislocation();
                 deviceOnlineNumber();
-            }, 2000)
+            },1000)
         }
     }
 
@@ -375,7 +375,7 @@
             async: true,
             success: function (result) {
                 map.clearOverlays();//清除上次的轨迹记录
-                location = result.extend.location.split("@");
+               // location = result.extend.location.split("@");
                 $.each(result.extend.devices, function (i, p) {
                         label[i] = p.longitude;
                         value[i] = p.latitude;
@@ -415,7 +415,8 @@
                                 if(e.overlay){//判断右键单击的是否是marker
                                     alert("12312");
                                 }else{
-                                    layer.alert(location[i]);
+                                    Locations(p.longitude, p.latitude);
+                                    //layer.alert(location[i]);
                                 }
                             });
                         };
@@ -543,7 +544,7 @@
             async: true,
             success: function (result) {
                 map.clearOverlays();//清除上次的轨迹记录
-                location = result.extend.location.split("@");
+                ///location = result.extend.location.split("@");
                 $.each(result.extend.devices, function (i, p) {
                     label[i] = p.longitude;
                     value[i] = p.latitude;
@@ -579,7 +580,8 @@
                             if(e.overlay){//判断右键单击的是否是marker
                                 alert("12312");
                             }else{
-                                layer.alert(location[i]);
+                                Locations(p.longitude, p.latitude);
+                                //layer.alert(location[i]);
                             }
                         });
                     };
@@ -1190,5 +1192,18 @@
     //登出
     function LogOut(){
         LogOuts();
+    }
+    
+    function Locations(lng,lat) {
+        $.ajax({
+            url: "../locationUtil/getLocation",
+            type: "GET",
+            data: {"lng": lng, "lat": lat},
+            async: false,
+            dataType: "json",
+            success: function (result) {
+                layer.alert(result.extend.realLocations);
+            }
+        })
     }
 </script>

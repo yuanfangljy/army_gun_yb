@@ -47,8 +47,10 @@ public interface DeviceGunMapper {
      DeviceGun selectDeviceGunByMacAndState(@Param(value="bluetoothMac")String bluetoothMac, @Param(value = "state") Integer state) throws Exception;
     //通过警员编号和状态查询警员有没有出库
     DeviceGun selectDeviceGunByDeviceNoAndState(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
+    List<DeviceGun> selectDeviceGunByDeviceNoAndStates(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
     //查询所有在线警员和枪支
     List<DeviceGun> selectGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception;
-
+    //根据蓝牙号，查询到所有的设备号，进行去重
+    List<DeviceGun> selectDeviceGunByMac(String gunMac) throws Exception;
 
 }

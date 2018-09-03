@@ -122,7 +122,7 @@ public class Producer {
         for (int i = 0; i < 1; i++) {
             //报文体
             messageBody.setBluetoothMac(bluetoothMac);
-            messageBody.setAuthCode(TokenUtils.getMemberToken());
+            messageBody.setAuthCode(TokenUtils.channelSessionDigest());
             messageBody.setDeviceNo(deviceNo);
 
             authCodeMessageBody.setUserName((String)session.getAttribute("userName"));
@@ -182,7 +182,7 @@ public class Producer {
             serverMessageBody.setMessageType("19");//报文类型： 09:入库下发报文
             serverMessageBody.setMessageBody(messageBody);//报文消息体
             serverMessageBody.setSendTime(dataTool.dateToString());//发报时间：系统时间
-            serverMessageBody.setSessionToken(TokenUtils.getMemberToken());
+            serverMessageBody.setSessionToken(TokenUtils.channelSessionDigest());
             String jsonString = JSONObject.toJSONString(serverMessageBody);
             try {
                 jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
@@ -213,7 +213,7 @@ public class Producer {
             //报文体
             messageBody.setReserve(state);
             messageBody.setBluetoothMac(bluetoothMac);
-            messageBody.setAuthCode(TokenUtils.getMemberToken());
+            messageBody.setAuthCode(TokenUtils.channelSessionDigest());
 
             message.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
             message.setFormatVersion("1.0");//格式版本
@@ -222,7 +222,7 @@ public class Producer {
             message.setMessageType("17");//报文类型： 09:入库下发报文
             message.setMessageBody(messageBody);//报文消息体
             message.setSendTime(dataTool.dateToString());//发报时间：系统时间
-            message.setSessionToken(TokenUtils.getMemberToken());
+            message.setSessionToken(TokenUtils.channelSessionDigest());
             String jsonString = JSONObject.toJSONString(message);
             try {
                 jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);
@@ -249,7 +249,7 @@ public class Producer {
         for (int i = 0; i < 1; i++) {
             //报文体
             messageBody.setBluetoothMac(gunMac);
-            messageBody.setAuthCode(TokenUtils.getMemberToken());
+            messageBody.setAuthCode(TokenUtils.channelSessionDigest());
 
             message.setServiceType("BTOFFPOSITIONALARM");//报文唯一标识：默认.BTOFFPOSITIONALARM
             message.setFormatVersion("1.0");//格式版本
@@ -258,7 +258,7 @@ public class Producer {
             message.setMessageType("25");//报文类型： 上报射弹计数器响应报文
             message.setMessageBody(messageBody);//报文消息体
             message.setSendTime(dataTool.dateToString());//发报时间：系统时间
-            message.setSessionToken(TokenUtils.getMemberToken());
+            message.setSessionToken(TokenUtils.channelSessionDigest());
             String jsonString = JSONObject.toJSONString(message);
             try {
                 jmsMessagingTemplate.convertAndSend(storageQueue, jsonString);

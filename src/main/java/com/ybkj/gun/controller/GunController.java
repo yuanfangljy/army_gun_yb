@@ -237,7 +237,12 @@ public class GunController {
     public BaseModel gunState(BaseModel baseModel,Integer state){
         //1、如果state=1,就是查询所有未出库的枪支
         //2、如果state=0,就是查询所有未入库的枪支
-        baseModel=gunService.selectGunByState(state);
+
+        if(state==null){
+            baseModel= gunService.selectGunByState();
+        }else{
+            baseModel=gunService.selectGunByState(state);
+        }
         return baseModel;
     }
 

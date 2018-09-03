@@ -147,7 +147,7 @@ $(document).ready(function() {
     var cid = r.toString() + "-" + d.toString()
 
     //112.74.51.194 1884  120.76.156.120 61614
-    client = new Messaging.Client("112.74.51.194", 1884, cid);
+    client = new Messaging.Client("120.76.156.120", 61614, cid);
     client.onConnect = onConnect;
     client.onMessageArrived = onMessageArrived;
 

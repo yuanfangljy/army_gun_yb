@@ -39,4 +39,9 @@ public interface GunMapper {
     List<Gun> selectGunOffNormal();
 
     List<Gun> findSelectByState(Integer state);
+
+    List<Gun> findSelectByStates();
+
+
+    List<Gun> findSelectAllByState(Integer state);
 }

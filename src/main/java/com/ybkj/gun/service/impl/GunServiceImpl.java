@@ -126,7 +126,15 @@ public class GunServiceImpl implements GunSerivce {
     public BaseModel selectGunByState(Integer state) {
         BaseModel baseModel = new BaseModel();
         List<Gun> guns=gunMapper.findSelectByState(state);
-        baseModel.add("gunsState",guns);
+        baseModel.add("gunStateList",guns);
+        return baseModel;
+    }
+
+    @Override
+    public BaseModel selectGunByState() {
+        BaseModel baseModel = new BaseModel();
+        List<Gun> guns=gunMapper.findSelectByStates();
+        baseModel.add("gunStateList",guns);
         return baseModel;
     }
 

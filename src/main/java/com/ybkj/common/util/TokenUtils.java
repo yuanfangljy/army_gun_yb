@@ -16,4 +16,8 @@ public class TokenUtils {
 
         return String.format("%016x", System.currentTimeMillis());
     }
+
+    public static void main(String[] args) {
+        System.out.println(String.format("%016x", System.currentTimeMillis()));
+    }
 }

@@ -148,7 +148,7 @@
         $("#ycxg").hide();
     });
     $(function () {
-        to_page(1, null);
+        to_page(1,null);
     });
 
     var likePhone = "";
@@ -158,20 +158,20 @@
     //请求数据
     function to_page(pn, deviceNo) {
         $.ajax({
-            url: "../deviceGun/realTimeDispalyDeviceGun",
+            url: "../deviceLocation/optimizeGunLocatins",
             data: {"pn": pn, "deviceNo": deviceNo},
             type: "GET",
             async:true,
             dataType: "json",
             success: function (result) {
-
+                //alert(result.extend.pageInfo.pages);
                 var ii = layer.load(1, {
                     shade: [0.1, '#ffc659'] //0.1透明度的白色背景
                 });
                 //此处用setTimeout演示ajax的回调
                 setTimeout(function () {
                     layer.close(ii);
-                    if (result.extend.pageInfo.pages>="2") {
+                    if (result.extend.pageInfo.pages>="1") {
                         //1、解析屏显示枪支地点数据、
                         build_location_table(result);
                         //2、解析并显示分页信息
@@ -213,8 +213,8 @@
                 var gunTag = $("<td></td>").append(item.gunTag).addClass("text-center");
                 var deviceLocationLatirude = $("<td></td>").append(location[index]).addClass("text-center");
                 var gunWarehouseName = $("<td></td>").append(item.gunWarehouseName).addClass("text-center");
-                var gunState = $("<td></td>").append((item.gunState) == 1 ? "未使用" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
-                var deviceState = $("<td></td>").append((item.deviceState) == 2 ? "离线" :(item.deviceState)==0 ? "在线":(item.deviceState)==3?"协助中":"未使用").addClass("text-center");
+                var gunState = $("<td></td>").append((item.gunState) == 1 ? "离位" : (item.gunState) == 0 ? "随行" : "离位").addClass("text-center");
+                var deviceState = $("<td></td>").append((item.deviceState) == 2 ? "离线" :(item.deviceState)==0 ? "在线":(item.deviceState)==3?"协助中":"离位").addClass("text-center");
                 //edit_btn添加上的class标识
                 var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
                     .append($("<span></span>")/*.addClass("glyphicon glyphicon-pencil  ")*/

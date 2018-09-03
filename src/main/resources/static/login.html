@@ -71,6 +71,7 @@
             data: $("#login_form").serialize(),
             success: function (result) {
                 if (result.status == 1) {
+                    //$('#login').prop('disabled', true);
                 localStorage.setItem("userName",$("#userName").val());
                     /*layer.msg('登录加载中', {
                         icon: 16,

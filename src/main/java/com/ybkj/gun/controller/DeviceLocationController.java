@@ -1,8 +1,11 @@
 package com.ybkj.gun.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ybkj.common.baiduMap.BaiDuUtil;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
+import com.ybkj.common.model.OptimizeDeviceLocation;
 import com.ybkj.common.util.DataTool;
 import com.ybkj.gun.mapper.DeviceGunMapper;
 import com.ybkj.gun.mapper.DeviceMapper;
@@ -16,6 +19,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.jasper.tagplugins.jstl.core.Out;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -144,9 +148,9 @@ public class DeviceLocationController {
             @ApiImplicitParam(name = "lag", value = "30.498694", required = true, paramType = "query")
             })
     @RequestMapping(value = "/optimizeAssistRoundOnline",method = RequestMethod.GET)
-    public BaseModel optimizeAssistRoundOnline(@RequestParam(value="deviceNo",required=false)String deviceNo, @RequestParam(value="lng",required=false)String lng, @RequestParam(value="lag",required=false)String lag) throws Exception {
+    public BaseModel optimizeAssistRoundOnline(@RequestParam(value="deviceNo",required=false)String deviceNo, @RequestParam(value="lng",required=false)String lng, @RequestParam(value="lag",required=false)String lag,@RequestParam(value="lostGun",required=false)String lostGun) throws Exception {
         BaseModel baseMode=new BaseModel();
-        baseMode=deviceLocationSerivce.optimizeRoundOnline(deviceNo,lng,lag);
+        baseMode=deviceLocationSerivce.optimizeRoundOnline(deviceNo,lng,lag,lostGun);
         return baseMode;
     }
 
@@ -194,6 +198,36 @@ public class DeviceLocationController {
     }
 
     /**
+     * 优化：查询时间段内的枪支轨迹
+     * @param deviceNo
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @ApiOperation(value = "优化：查询时间段内的枪支轨迹",notes = "优化轨迹", httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "deviceNo", value = "8651234216", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "startTime", value = "114.41408", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "endTime", value = "30.498694", required = true, paramType = "query")
+    })
+    @RequestMapping(value = "optimizeQueryTheTrajectory",method = RequestMethod.GET)
+    public BaseModel optimizeQueryTheTrajectory(@RequestParam(value = "deviceNo",required = false) String deviceNo,@RequestParam(value = "startTime",required = false)String startTime,@RequestParam(value = "endTime",required = false)String endTime) throws Exception {
+        System.out.println("----------------"+deviceNo+"====="+startTime+"-----"+endTime);
+        BaseModel baseModel=new BaseModel();
+        if(deviceNo.equals("")){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("请输入枪号");
+        }else if(startTime.equals("")&& !endTime.equals("")){
+            baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,endTime,endTime);
+        }else if(!startTime.equals("")&& endTime.equals("")){
+            baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,startTime,startTime);
+        }else if(startTime.equals("")&& endTime.equals("")){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("请选择查询时间");
+        }
+        return baseModel;
+    }
+    /**
      * 优化sql,显示地图上的实时数据
      */
     @ApiOperation(value = "优化sql,显示地图上的实时数据",notes = "map", httpMethod = "GET")
@@ -201,6 +235,32 @@ public class DeviceLocationController {
     public BaseModel optimizeMap(@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
         BaseModel baseModel=new BaseModel();
         baseModel=deviceLocationSerivce.optimizeDeviceLocation(deviceNo);
+        return baseModel;
+    }
+
+    /**
+     * 优化sql,枪列表的实时位置信息
+     */
+    @ApiOperation(value = "优化sql,枪列表的实时位置信息",notes = "枪列表的实时", httpMethod = "GET")
+    @RequestMapping(value = "optimizeGunLocatins",method = RequestMethod.GET)
+    public BaseModel optimizeGunLocatins(@RequestParam(value="pn",defaultValue="1",required=false) Integer pn,@RequestParam(value="pageSize",defaultValue="10") Integer pageSize,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        baseModel= deviceLocationSerivce.optimizeGunLocation(pn,pageSize,deviceNo);
+
+       /* String location="";
+        PageHelper.startPage(pn, 5);
+        List<OptimizeDeviceLocation> optimizeDeviceLocations = deviceLocationSerivce.optimizeGunLocation(deviceNo);
+        PageInfo<OptimizeDeviceLocation> page = new PageInfo<OptimizeDeviceLocation>(optimizeDeviceLocations, 5);
+
+        for (OptimizeDeviceLocation optimizeDeviceLocation : optimizeDeviceLocations) {
+            location+=BaiDuUtil.getAddress(optimizeDeviceLocation.getLongitude(),optimizeDeviceLocation.getLatitude())+"@";
+        }
+
+        System.out.println("-----------------------00----------"+optimizeDeviceLocations.size());
+        System.out.println("-----------------------00----------"+page.getPages());
+
+        baseModel.add("pageInfo", page).add("deviceNo", deviceNo).add("location", location);*/
+
         return baseModel;
     }
 }
