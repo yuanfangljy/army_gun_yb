@@ -219,9 +219,11 @@ public class DeviceLocationController {
             baseModel.setErrorMessage("请输入枪号");
         }else if(startTime.equals("")&& !endTime.equals("")){
             baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,endTime,endTime);
-        }else if(!startTime.equals("")&& endTime.equals("")){
+        }else if(!startTime.equals("") && endTime.equals("")){
             baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,startTime,startTime);
-        }else if(startTime.equals("")&& endTime.equals("")){
+        }else if(!(startTime.equals("")&& endTime.equals(""))){
+            baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,startTime,endTime);
+        }else {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage("请选择查询时间");
         }

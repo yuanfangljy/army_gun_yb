@@ -154,7 +154,9 @@ public class GunController {
         String webNames="";
         for (Gun gun : guns) {
             WebUser webUser = webUserMapper.selectByPrimaryKey(gun.getWebId());
-            webNames+=webUser.getUserName()+"@";
+            if(webUser!=null){
+                webNames+=webUser.getUserName()+"@";
+            }
         }
         //用PageInfo对查询结果进行包装，只需要将pageInfo交给页面就行了
         //封装了，详细的分页信息，包括我们查询出来的数据,传入连续显示的页数
@@ -206,7 +208,10 @@ public class GunController {
         List<Gun> guns=gunService.findGunOffNormal();
         for (Gun gun : guns) {
             DeviceGun deviceGun = deviceGunMapper.selectDeviceGunByMacAndState(gun.getBluetoothMac(), 0);
-            deivceNoGun+=deviceGun.getDeviceNo()+"@";
+            if(deviceGun!=null){
+                deivceNoGun+=deviceGun.getDeviceNo()+"@";
+            }
+
         }
         PageInfo<Gun> page = new PageInfo<Gun>(guns,1);
         baseModel.setErrorMessage("统计成功");

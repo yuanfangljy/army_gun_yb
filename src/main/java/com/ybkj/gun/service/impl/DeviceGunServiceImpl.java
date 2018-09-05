@@ -69,10 +69,10 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
 
         if (gun != null) {
             //在入库的时候，还要判断设备有没有离位，如果离位则不能进行入库
-            if(gun.getTotalBulletNumber()==2){
+            if (gun.getTotalBulletNumber() == 2) {
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                 baseModel.setErrorMessage("该枪已离位，需重新连接成功，才能入库!");
-            }else {
+            } else {
                 //通过警员编号，枪支的mac地址和状态为0（已经出库）
                 DeviceGun deviceGun1 = deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(), gun.getBluetoothMac(), 0);
                 if (deviceGun1 != null) {
@@ -115,6 +115,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
 
     /**
      * 枪支出库
+     *
      * @param deviceGun
      * @param status
      * @return
@@ -129,75 +130,74 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
          * 2018-09-04:出库bug修改
          * 1、根据传入的设备查询，state为0的，如果存在，就说改警员正在出库中
          * 2、根据传入的枪支编号，查询对应的mac，再在device__gun中查询state为0的，
-           如果存在，就报该枪支正在使用中
+         如果存在，就报该枪支正在使用中
          */
         DeviceGun deviceGun3 = deviceGunMapper.selectDeviceGunByMacAndState(gun.getBluetoothMac(), 0);
-        if(deviceGun3!=null){
-            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-            baseModel.setErrorMessage("枪支【"+deviceGun.getGunMac()+"】正在使用中...");
-        }
         DeviceGun deviceGun4 = deviceGunMapper.selectDeviceGunByDeviceNoAndState(deviceGun.getDeviceNo(), 0);
-        if(deviceGun4!=null){
+        if (deviceGun3 != null) {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-            baseModel.setErrorMessage("警员【"+deviceGun.getGunMac()+"】已出库...");
-        }
-
+            baseModel.setErrorMessage("枪支【" + deviceGun.getGunMac() + "】正在使用中...");
+        }else if(deviceGun4 != null) {
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("警员【" + deviceGun.getDeviceNo() + "】已出库...");
+        }else{
        /* System.out.println(gun.getState()==null);*/
-        if (gun != null) {
-            if (gun.getState() == null || gun.getState() == 1) {
-                //通过警员编号，枪支的mac地址和状态为0（已经出库）
-                System.out.println("========="+deviceGun.getDeviceNo()+"----"+gun.getBluetoothMac()+"----"+status);
-                DeviceGun deviceGun1 = deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(), gun.getBluetoothMac(), status);
-                if (deviceGun1 != null) {
-                    baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                    baseModel.setErrorMessage("该警员正在使用此枪");
-                } else {
-                    //判断设备是否在在使用，通过设备号和状态是否为O
-                    DeviceGun deviceGun2 = deviceGunMapper.selectDeviceGunByDeviceNoAndState(deviceGun.getDeviceNo(), status);
-                    Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
-                    /*System.out.println(device.getPhone()+"--"+device);*/
-                    if (device != null && device.getState()!=null) {
-                        if (deviceGun2!=null) {
-                            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                            baseModel.setErrorMessage("该警员与枪正在连接中");
-                        } else {
-                            //send Delivery message to Netty
-                            BaseModel sendMessageDelivery = producer.sendMessageDelivery(gun.getBluetoothMac(), gun.getGunTag(), dataTool.dateToString(), dataTool.dateToString(deviceGun.getTemperanceTime()), deviceGun.getDeviceNo());
-                            System.out.println("-----&&&&&------" + sendMessageDelivery);
-                            if (sendMessageDelivery.getStatus()!=StatusCodeEnum.Fail.getStatusCode()) {
-                                //进行出库操作
-                                //修改设备的状态，根据警员编号
-                                device.setState(1);
-                                //deviceMapper.updateByPrimaryKeySelective(device);
-                                //修改枪支的状态
-                                gun.setState(1);
-                                gun.setRealTimeState(1);
-                                //gunMapper.updateByPrimaryKeySelective(gun);
-                                //device_gun：修改
-                                deviceGun.setCreateTime(new Date());
-                                deviceGun.setOutWarehouseTime(new Date());
-                                deviceGun.setState(0);
-                                deviceGun.setGunMac(gun.getBluetoothMac());
-                                deviceGunMapper.insertSelective(deviceGun);
-                                baseModel.setStatus(StatusCodeEnum.GUN_OUTPUT.getStatusCode());
-                                baseModel.setErrorMessage("正在出库中...");
-                            }else{
-                                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                                baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
-                            }
-                        }
+            if (gun != null) {
+                if (gun.getState() == null || gun.getState() == 1) {
+                    //通过警员编号，枪支的mac地址和状态为0（已经出库）
+                    System.out.println("=========" + deviceGun.getDeviceNo() + "----" + gun.getBluetoothMac() + "----" + status);
+                    DeviceGun deviceGun1 = deviceGunMapper.selectDeviceGunByStatus(deviceGun.getDeviceNo(), gun.getBluetoothMac(), status);
+                    if (deviceGun1 != null) {
+                        baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                        baseModel.setErrorMessage("该警员正在使用此枪");
                     } else {
-                        baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-                        baseModel.setErrorMessage("该警员不存在");
+                        //判断设备是否在在使用，通过设备号和状态是否为O
+                        DeviceGun deviceGun2 = deviceGunMapper.selectDeviceGunByDeviceNoAndState(deviceGun.getDeviceNo(), status);
+                        Device device = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
+                    /*System.out.println(device.getPhone()+"--"+device);*/
+                        if (device != null && device.getState() != null) {
+                            if (deviceGun2 != null) {
+                                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                                baseModel.setErrorMessage("该警员与枪正在连接中");
+                            } else {
+                                //send Delivery message to Netty
+                                BaseModel sendMessageDelivery = producer.sendMessageDelivery(gun.getBluetoothMac(), gun.getGunTag(), dataTool.dateToString(), dataTool.dateToString(deviceGun.getTemperanceTime()), deviceGun.getDeviceNo());
+                               // System.out.println("-----&&&&&------" + sendMessageDelivery);
+                                if (sendMessageDelivery.getStatus() != StatusCodeEnum.Fail.getStatusCode()) {
+                                   /* //进行出库操作
+                                    //修改设备的状态，根据警员编号
+                                    device.setState(1);
+                                    //deviceMapper.updateByPrimaryKeySelective(device);
+                                    //修改枪支的状态
+                                    gun.setState(1);
+                                    gun.setRealTimeState(1);
+                                    //gunMapper.updateByPrimaryKeySelective(gun);
+                                    //device_gun：修改
+                                    deviceGun.setCreateTime(new Date());
+                                    deviceGun.setOutWarehouseTime(new Date());
+                                    deviceGun.setState(0);
+                                    deviceGun.setGunMac(gun.getBluetoothMac());
+                                    //deviceGunMapper.insertSelective(deviceGun);*/
+                                    baseModel.setStatus(StatusCodeEnum.GUN_OUTPUT.getStatusCode());
+                                    baseModel.setErrorMessage("正在出库中...");
+                                } else {
+                                    baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                                    baseModel.setErrorMessage("服务出现故障，暂时不能使用!");
+                                }
+                            }
+                        } else {
+                            baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
+                            baseModel.setErrorMessage("该警员不存在");
+                        }
                     }
+                } else {
+                    baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                    baseModel.setErrorMessage("该枪支正在使用中，不能再次出库");
                 }
             } else {
-                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
-                baseModel.setErrorMessage("该枪支正在使用中，不能再次出库");
+                baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
+                baseModel.setErrorMessage("该枪支不存在");
             }
-        } else {
-            baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
-            baseModel.setErrorMessage("该枪支不存在");
         }
         return baseModel;
     }
@@ -250,6 +250,7 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
 
     /**
      * 查询所有在线警员和枪支
+     *
      * @return
      * @throws Exception
      */

@@ -338,6 +338,11 @@
 
     }
 
+    //跳到指定页码
+    $(document).on('click', '#goPageButton', function () {
+        to_page($("#toPage").val(), likePhone);
+    });
+
     //回车查询事件
     $(document).keyup(function (event) {
         if (event.keyCode == 13) {
