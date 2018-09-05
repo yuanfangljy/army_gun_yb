@@ -76,6 +76,7 @@
                 <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索警员">
                 <!--  <i class="iconfont">&#xe603;</i>-->
                 </input><img src="img/select.png" style="position:relative; left: -36px; z-index: 999999;">
+                <button id="mapNew">全屏</button>
             </div>
         </div>
     </div>
@@ -1206,4 +1207,17 @@
             }
         })
     }
+
+    //iframe窗
+$("#mapNew").click(function () {
+    layer.open({
+        type: 2,
+        title: '实时枪支显示',
+        shadeClose: true,
+        shade: false,
+        maxmin: true, //开启最大化最小化按钮
+        area: ['100%', '100%'],
+        content: 'mapFullScreen.html'
+    });
+})
 </script>

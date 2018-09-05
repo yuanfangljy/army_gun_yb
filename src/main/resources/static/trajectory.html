@@ -18,7 +18,15 @@
             fill: currentColor;
             overflow: hidden;
         }
-     </style>
+        .BMap_cpyCtrl
+        {
+            display:none;
+        }
+        .anchorBL{
+            display:none;
+        }
+
+    </style>
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
@@ -61,7 +69,7 @@
                 <li><a href="#" onclick="LogOut()" >登出</a></li>
                 <li><a href="#">admin</a></li>
             </ul>
-
+            <!--<button id="mapNew">全屏</button>-->
         </div>
     </div>
 </nav>
@@ -261,6 +269,9 @@
     //5、进行拖拽
     map.enableScrollWheelZoom(true);
     map.disableDragging();     //禁止拖拽
+    //6、左下角地图查看空间
+    var overviewControl1 = new BMap.OverviewMapControl({anchor: BMAP_ANCHOR_BOTTOM_RIGHT, isOpen: true});
+    map.addControl(overviewControl1);
 
     setTimeout(function () {
         map.enableDragging();   //两秒后开启拖拽
@@ -320,7 +331,9 @@
         var points = []; // 添加折线运动轨迹
         var label = [];//经度
         var values=[];//纬度
+        var stateWire=null;
         var myIcon;//图标点
+        var polyline;
         var location;//详细地点
             $.ajax({
                 url:"../deviceLocation/optimizeQueryTheTrajectory",
@@ -336,6 +349,10 @@
                     $.each(result.extend.deviceLocations,function (item, value) {
                         label[item] = value.longitude;
                         values[item] = value.latitude;
+                        stateWire=value.state;
+                       // alert(value.state);
+                        //stateWire[item]=value.state;
+                       // alert(stateWire);
                         var point = new BMap.Point(label[item],values[item]); // 填充标注点
                         //1、自定义标注图形
                         if(item==0){
@@ -343,7 +360,14 @@
                         }else if(item==result.extend.numberLocations-1){
                             myIcon = new BMap.Icon('img/end.png', new BMap.Size(40, 100));
                         }else{
-                            myIcon = new BMap.Icon('img/centre.png', new BMap.Size(10, 10));
+                            if(value.state==0){
+                                myIcon = new BMap.Icon('img/outCenter.png', new BMap.Size(10, 10));
+                            }else if(value.state==1){
+                                myIcon = new BMap.Icon('img/onlieCenter.png', new BMap.Size(10, 10));
+                            }else {
+                                myIcon = new BMap.Icon('img/centre.png', new BMap.Size(10, 10));
+                            }
+
                         }
                         var marker;//标注
                         marker = new BMap.Marker(point, {icon: myIcon});// 创建标注，为要查询的地方对应的经纬度
@@ -414,15 +438,40 @@
                         //7.4 将经纬坐标划入地图
                         label[item] = new BMap.Point(label[item], values[item]);
                         map.setViewport(label);
+                        /* 添加轨迹接口begin */
+                        //alert(value.state);
+
+
+
                     })
 
-                    /* 添加轨迹接口begin */
-                    var polyline = new BMap.Polyline(points, {
+                  /*  if(2==0){
+                        polyline = new BMap.Polyline(points, {
+                            strokeColor : "blue",
+                            strokeWeight : 2,
+                            strokeOpacity : 0.5
+                        });
+                    }else if(3==1){
+                        polyline = new BMap.Polyline(points, {
+                            strokeColor : "yellow",
+                            strokeWeight : 2,
+                            strokeOpacity : 0.5
+                        });
+                    }else{
+                        polyline = new BMap.Polyline(points, {
+                            strokeColor : "red",
+                            strokeWeight : 2,
+                            strokeOpacity : 0.5
+                        });
+                    }*/
+                    polyline = new BMap.Polyline(points, {
                         strokeColor : "red",
                         strokeWeight : 2,
                         strokeOpacity : 0.5
                     });
                     map.addOverlay(polyline);
+
+
                 }
             })
     }

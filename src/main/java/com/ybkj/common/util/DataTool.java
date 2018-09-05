@@ -38,12 +38,24 @@ public class DataTool {
         return date;
     }
 
+
+
     /**
-     * 将时间转换成字符串
+     * 将时间转换成字符串 yyyyMMddhhmmss
      * @return
      */
     public static String  dateToString() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat(formatDate5);
+        String sendTime = sdf.format(new Date());
+        return sendTime;
+    }
+
+    /**
+     * 将时间转换成字符串 yyyyMMddhhmmss
+     * @return
+     */
+    public static String  dateToStrings() throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(formatStr);
         String sendTime = sdf.format(new Date());
         return sendTime;
     }
@@ -164,5 +176,7 @@ public class DataTool {
     public static Timestamp getTimestamp() {
         return new Timestamp(new Date().getTime());
     }
+
+
 
 }

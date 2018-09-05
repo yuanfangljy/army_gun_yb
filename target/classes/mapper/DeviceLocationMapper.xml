@@ -330,8 +330,8 @@
     <!--优化：根据时间和枪支查询枪支的轨迹-->
     <select id="optimizeDeviceLocationByTimeAndGunTag" resultMap="BaseResultMap"
             parameterType="java.util.Map">
-        SELECT b.device_no,b.latitude,b.longitude ,b.create_time FROM device_location b
-        WHERE b.state=0 AND b.device_no=#{deviceNo}
+        SELECT b.device_no,b.latitude,b.longitude ,b.create_time,b.state FROM device_location b
+        WHERE /*b.state=0 AND*/ b.device_no=#{deviceNo}
         AND b.create_time
         BETWEEN #{beginTime,jdbcType=TIMESTAMP} and DATE_ADD(#{endTime,jdbcType=TIMESTAMP} ,INTERVAL 1 DAY) ORDER BY
         b.create_time ASC
@@ -380,13 +380,8 @@
 
     <!--计算传入的经纬度，周围的最近的经纬度:优化，先得到最近5个经纬度和设备号-->
     <select id="optimizeRoundOnline" parameterType="java.util.Map" resultMap="BaseResultMap">
-            select dl.device_no,dl.longitude,dl.latitude,
-ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lag}*PI()/180-dl.latitude *PI()/180)/2),2)+
-    COS(#{lag}*PI()/180) *COS(dl.latitude *PI()/180)*POW(SIN((#{lng}*PI()/180-dl.longitude *PI()/180)/2),2)))*1000)
-    AS juli
-        from  device_location dl WHERE dl.device_no!=#{deviceNo}
-        GROUP BY dl.device_no
-    HAVING juli > 500
+ select dl.device_no,dl.longitude,dl.latitude,ROUND(6378.138*2*ASIN(SQRT(POW(SIN((#{lag}*PI()/180-dl.latitude *PI()/180)/2),2)+COS(#{lag}*PI()/180) *COS(dl.latitude *PI()/180)*POW(SIN((#{lng}*PI()/180-dl.longitude *PI()/180)/2),2)))*1000)AS juli from  device_location AS dl,device AS c WHERE dl.device_no=c.device_no AND c.state=0 AND c.device_no!=${deviceNo} GROUP BY dl.device_no
+HAVING juli > 0
 ORDER BY juli DESC
 LIMIT 5
   </select>

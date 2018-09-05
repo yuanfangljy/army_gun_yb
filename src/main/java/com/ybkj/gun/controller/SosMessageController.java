@@ -57,16 +57,24 @@ public class SosMessageController {
         PageHelper.startPage(pn, 5);
         //startPage后面紧跟着的这个查询就是一个分页查询
         List<SosMessage> sosMassages=sosMessageSerivce.selectSosMassageByDeviceNo(deviceNo);
-        for (SosMessage sos : sosMassages) {
-            location+= BaiDuUtil.getAddress(sos.getLongitude(),sos.getLatitude())+"@";
-            gunTag+=gunMapper.selectGunByBluetoothMac(sos.getGunMac()).getGunTag()+"@";
-            if(sos.getState()==1){
-                state+=1;
+
+        try{
+            for (SosMessage sos : sosMassages) {
+                location+= BaiDuUtil.getAddress(sos.getLongitude(),sos.getLatitude())+"@";
+                gunTag+=gunMapper.selectGunByBluetoothMac(sos.getGunMac()).getGunTag()+"@";
+                if(sos.getState()==1){
+                    state+=1;
+                }
             }
+        }catch (Exception e){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("网络出现异常，请重新刷新！");
+            e.printStackTrace();
         }
+
         PageInfo<SosMessage> page = new PageInfo<SosMessage>(sosMassages,5);
-        System.out.println("-----------------------00----------"+sosMassages.size());
-        System.out.println("-----------------------00----------"+page.getPages());
+        /*System.out.println("-----------------------00----------"+sosMassages.size());
+        System.out.println("-----------------------00----------"+page.getPages());*/
         baseModel.add("pageInfo",page).add("deviceNo", deviceNo);
         baseModel.add("location", location).add("gunTag",gunTag).add("number",state);
         return baseModel;

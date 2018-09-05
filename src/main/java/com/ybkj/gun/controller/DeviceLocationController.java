@@ -149,6 +149,7 @@ public class DeviceLocationController {
             })
     @RequestMapping(value = "/optimizeAssistRoundOnline",method = RequestMethod.GET)
     public BaseModel optimizeAssistRoundOnline(@RequestParam(value="deviceNo",required=false)String deviceNo, @RequestParam(value="lng",required=false)String lng, @RequestParam(value="lag",required=false)String lag,@RequestParam(value="lostGun",required=false)String lostGun) throws Exception {
+        System.out.println("---------"+deviceNo+"---"+lng+"---"+lag+"---"+lostGun);
         BaseModel baseMode=new BaseModel();
         baseMode=deviceLocationSerivce.optimizeRoundOnline(deviceNo,lng,lag,lostGun);
         return baseMode;
@@ -218,9 +219,11 @@ public class DeviceLocationController {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage("请输入枪号");
         }else if(startTime.equals("")&& !endTime.equals("")){
-            baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,endTime,endTime);
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("请选择开始时间");
         }else if(!startTime.equals("") && endTime.equals("")){
-            baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,startTime,startTime);
+            //System.out.println("---------------"+DataTool.dateToString(new Date()));
+            baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,startTime,DataTool.dateToStrings());
         }else if(!(startTime.equals("")&& endTime.equals(""))){
             baseModel=deviceLocationSerivce.optimizeDeviceLocationTrajectory(deviceNo,startTime,endTime);
         }else {

@@ -117,7 +117,6 @@ $(document).ready(function() {
 //***************************    离位警告信息    ************************
 
         if (json.messageType == "15") {
-            // function WarningNumber() {
             $.ajax({
                 url:"../sosMission/statisticsWarningNumber",
                 type:"GET",
@@ -137,8 +136,14 @@ $(document).ready(function() {
                     }
                 }
             })
+            Lobibox.notify('error', {
+                width: $(window).width(),
+                msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+            });
+
         }
     }
+
 
 
     var client;
