@@ -1,5 +1,7 @@
 package com.ybkj.gun.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ybkj.common.activeMq.Producer;
 import com.ybkj.common.constant.StatusCodeEnum;
 import com.ybkj.common.model.BaseModel;
@@ -16,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description: 功能描述（枪支领取信息业务表）
@@ -64,9 +63,15 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
     @Override
     public BaseModel updategunStorage(DeviceGun deviceGun, Integer status) throws Exception {
         BaseModel baseModel = new BaseModel();
+        Device device1 = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
+        if(device1.getState()!=0){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("警员【" + deviceGun.getDeviceNo() + "】尚未登录，请重新登录(可能被下线)");
+            return baseModel;
+        }
         //通过mac地址(实际上是抢号)，来获取枪支的mac地址:deviceGun.getGunMac()实际上是抢号
-        Gun gun = gunMapper.selectGunByGunTag(deviceGun.getGunMac());
-
+        //Gun gun = gunMapper.selectGunByGunTag(deviceGun.getGunMac());
+        Gun gun = gunMapper.selectGunByBluetoothMac(deviceGun.getGunMac());
         if (gun != null) {
             //在入库的时候，还要判断设备有没有离位，如果离位则不能进行入库
             if (gun.getTotalBulletNumber() == 2) {
@@ -124,7 +129,14 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
     @Override
     public BaseModel addGunDelivery(DeviceGun deviceGun, Integer status) throws Exception {
         BaseModel baseModel = new BaseModel();
-        //实际是：抢号deviceGun.getGunMac()
+        //出库时判断设备有没有在线
+        Device device1 = deviceMapper.selectDeviceNo(deviceGun.getDeviceNo());
+        if(device1.getState()!=0){
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            baseModel.setErrorMessage("警员【" + deviceGun.getDeviceNo() + "】尚未登录，请重新登录(可能被下线)");
+            return baseModel;
+        }
+        //实际是：枪号deviceGun.getGunMac()
         Gun gun = gunMapper.selectGunByGunTag(deviceGun.getGunMac());
         /**
          * 2018-09-04:出库bug修改
@@ -263,6 +275,23 @@ public class DeviceGunServiceImpl implements DeviceGunSerivce {
         map.put("lng",Double.parseDouble(lng));
         map.put("lag",Double.parseDouble(lag));*/
         return deviceGunMapper.selectGunAndDeviceLocationAllOnLine(deviceNo);
+    }
+
+    /**
+     * 查询已经出库的枪支列表
+     * @param pn
+     * @param pageSize
+     * @param deviceNo
+     * @return
+     */
+    @Override
+    public BaseModel findInventoryList(Integer pn, Integer pageSize, String deviceNo) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        PageHelper.startPage(pn, 5);
+        List<DeviceGun> deviceGun = deviceGunMapper.selectDeviceGunByDeviceNoAndStatesInventoryList(deviceNo, 0);
+        PageInfo<DeviceGun> page = new PageInfo<DeviceGun>(deviceGun,5);
+        baseModel.add("pageInfo",page).add("deviceNo", deviceNo);
+        return baseModel;
     }
 
 

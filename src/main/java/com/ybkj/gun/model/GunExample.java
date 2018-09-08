@@ -365,6 +365,66 @@ public class GunExample {
             return (Criteria) this;
         }
 
+        public Criteria andGunTypeIsNull() {
+            addCriterion("gun_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeIsNotNull() {
+            addCriterion("gun_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeEqualTo(Integer value) {
+            addCriterion("gun_type =", value, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeNotEqualTo(Integer value) {
+            addCriterion("gun_type <>", value, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeGreaterThan(Integer value) {
+            addCriterion("gun_type >", value, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("gun_type >=", value, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeLessThan(Integer value) {
+            addCriterion("gun_type <", value, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("gun_type <=", value, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeIn(List<Integer> values) {
+            addCriterion("gun_type in", values, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeNotIn(List<Integer> values) {
+            addCriterion("gun_type not in", values, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeBetween(Integer value1, Integer value2) {
+            addCriterion("gun_type between", value1, value2, "gunType");
+            return (Criteria) this;
+        }
+
+        public Criteria andGunTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("gun_type not between", value1, value2, "gunType");
+            return (Criteria) this;
+        }
+
         public Criteria andBluetoothMacIsNull() {
             addCriterion("bluetooth_mac is null");
             return (Criteria) this;
@@ -682,6 +742,76 @@ public class GunExample {
 
         public Criteria andTotalBulletNumberNotBetween(Integer value1, Integer value2) {
             addCriterion("total_bullet_number not between", value1, value2, "totalBulletNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerIsNull() {
+            addCriterion("device_battery_power is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerIsNotNull() {
+            addCriterion("device_battery_power is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerEqualTo(String value) {
+            addCriterion("device_battery_power =", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerNotEqualTo(String value) {
+            addCriterion("device_battery_power <>", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerGreaterThan(String value) {
+            addCriterion("device_battery_power >", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerGreaterThanOrEqualTo(String value) {
+            addCriterion("device_battery_power >=", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerLessThan(String value) {
+            addCriterion("device_battery_power <", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerLessThanOrEqualTo(String value) {
+            addCriterion("device_battery_power <=", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerLike(String value) {
+            addCriterion("device_battery_power like", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerNotLike(String value) {
+            addCriterion("device_battery_power not like", value, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerIn(List<String> values) {
+            addCriterion("device_battery_power in", values, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerNotIn(List<String> values) {
+            addCriterion("device_battery_power not in", values, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerBetween(String value1, String value2) {
+            addCriterion("device_battery_power between", value1, value2, "deviceBatteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeviceBatteryPowerNotBetween(String value1, String value2) {
+            addCriterion("device_battery_power not between", value1, value2, "deviceBatteryPower");
             return (Criteria) this;
         }
 

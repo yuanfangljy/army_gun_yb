@@ -6,11 +6,13 @@
     <result column="web_id" jdbcType="INTEGER" property="webId" />
     <result column="gun_tag" jdbcType="VARCHAR" property="gunTag" />
     <result column="gun_model" jdbcType="VARCHAR" property="gunModel" />
+    <result column="gun_type" jdbcType="INTEGER" property="gunType" />
     <result column="bluetooth_mac" jdbcType="VARCHAR" property="bluetoothMac" />
     <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
     <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId" />
     <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber" />
     <result column="total_bullet_number" jdbcType="INTEGER" property="totalBulletNumber" />
+    <result column="device_battery_power" jdbcType="VARCHAR" property="deviceBatteryPower" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="real_time_state" jdbcType="INTEGER" property="realTimeState" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -76,8 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, web_id, gun_tag, gun_model, bluetooth_mac, warehouse_name, warehouse_id, bullet_number, 
-    total_bullet_number, state, real_time_state, create_time, update_time, version
+    id, web_id, gun_tag, gun_model, gun_type, bluetooth_mac, warehouse_name, warehouse_id, 
+    bullet_number, total_bullet_number, device_battery_power, state, real_time_state, 
+    create_time, update_time, version
   </sql>
   <select id="selectByExample" parameterType="com.ybkj.gun.model.GunExample" resultMap="BaseResultMap">
     select
@@ -111,13 +114,15 @@
   </delete>
   <insert id="insert" parameterType="com.ybkj.gun.model.Gun">
     insert into gun (id, web_id, gun_tag, 
-      gun_model, bluetooth_mac, warehouse_name, 
-      warehouse_id, bullet_number, total_bullet_number, 
+      gun_model, gun_type, bluetooth_mac, 
+      warehouse_name, warehouse_id, bullet_number, 
+      total_bullet_number, device_battery_power, 
       state, real_time_state, create_time, 
       update_time, version)
     values (#{id,jdbcType=INTEGER}, #{webId,jdbcType=INTEGER}, #{gunTag,jdbcType=VARCHAR}, 
-      #{gunModel,jdbcType=VARCHAR}, #{bluetoothMac,jdbcType=VARCHAR}, #{warehouseName,jdbcType=VARCHAR}, 
-      #{warehouseId,jdbcType=INTEGER}, #{bulletNumber,jdbcType=INTEGER}, #{totalBulletNumber,jdbcType=INTEGER}, 
+      #{gunModel,jdbcType=VARCHAR}, #{gunType,jdbcType=INTEGER}, #{bluetoothMac,jdbcType=VARCHAR}, 
+      #{warehouseName,jdbcType=VARCHAR}, #{warehouseId,jdbcType=INTEGER}, #{bulletNumber,jdbcType=INTEGER}, 
+      #{totalBulletNumber,jdbcType=INTEGER}, #{deviceBatteryPower,jdbcType=VARCHAR}, 
       #{state,jdbcType=INTEGER}, #{realTimeState,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER})
   </insert>
@@ -136,6 +141,9 @@
       <if test="gunModel != null">
         gun_model,
       </if>
+      <if test="gunType != null">
+        gun_type,
+      </if>
       <if test="bluetoothMac != null">
         bluetooth_mac,
       </if>
@@ -150,6 +158,9 @@
       </if>
       <if test="totalBulletNumber != null">
         total_bullet_number,
+      </if>
+      <if test="deviceBatteryPower != null">
+        device_battery_power,
       </if>
       <if test="state != null">
         state,
@@ -180,6 +191,9 @@
       <if test="gunModel != null">
         #{gunModel,jdbcType=VARCHAR},
       </if>
+      <if test="gunType != null">
+        #{gunType,jdbcType=INTEGER},
+      </if>
       <if test="bluetoothMac != null">
         #{bluetoothMac,jdbcType=VARCHAR},
       </if>
@@ -194,6 +208,9 @@
       </if>
       <if test="totalBulletNumber != null">
         #{totalBulletNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deviceBatteryPower != null">
+        #{deviceBatteryPower,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -233,6 +250,9 @@
       <if test="record.gunModel != null">
         gun_model = #{record.gunModel,jdbcType=VARCHAR},
       </if>
+      <if test="record.gunType != null">
+        gun_type = #{record.gunType,jdbcType=INTEGER},
+      </if>
       <if test="record.bluetoothMac != null">
         bluetooth_mac = #{record.bluetoothMac,jdbcType=VARCHAR},
       </if>
@@ -247,6 +267,9 @@
       </if>
       <if test="record.totalBulletNumber != null">
         total_bullet_number = #{record.totalBulletNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.deviceBatteryPower != null">
+        device_battery_power = #{record.deviceBatteryPower,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=INTEGER},
@@ -274,11 +297,13 @@
       web_id = #{record.webId,jdbcType=INTEGER},
       gun_tag = #{record.gunTag,jdbcType=VARCHAR},
       gun_model = #{record.gunModel,jdbcType=VARCHAR},
+      gun_type = #{record.gunType,jdbcType=INTEGER},
       bluetooth_mac = #{record.bluetoothMac,jdbcType=VARCHAR},
       warehouse_name = #{record.warehouseName,jdbcType=VARCHAR},
       warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
       bullet_number = #{record.bulletNumber,jdbcType=INTEGER},
       total_bullet_number = #{record.totalBulletNumber,jdbcType=INTEGER},
+      device_battery_power = #{record.deviceBatteryPower,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       real_time_state = #{record.realTimeState,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -300,6 +325,9 @@
       <if test="gunModel != null">
         gun_model = #{gunModel,jdbcType=VARCHAR},
       </if>
+      <if test="gunType != null">
+        gun_type = #{gunType,jdbcType=INTEGER},
+      </if>
       <if test="bluetoothMac != null">
         bluetooth_mac = #{bluetoothMac,jdbcType=VARCHAR},
       </if>
@@ -314,6 +342,9 @@
       </if>
       <if test="totalBulletNumber != null">
         total_bullet_number = #{totalBulletNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deviceBatteryPower != null">
+        device_battery_power = #{deviceBatteryPower,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
@@ -338,11 +369,13 @@
     set web_id = #{webId,jdbcType=INTEGER},
       gun_tag = #{gunTag,jdbcType=VARCHAR},
       gun_model = #{gunModel,jdbcType=VARCHAR},
+      gun_type = #{gunType,jdbcType=INTEGER},
       bluetooth_mac = #{bluetoothMac,jdbcType=VARCHAR},
       warehouse_name = #{warehouseName,jdbcType=VARCHAR},
       warehouse_id = #{warehouseId,jdbcType=INTEGER},
       bullet_number = #{bulletNumber,jdbcType=INTEGER},
       total_bullet_number = #{totalBulletNumber,jdbcType=INTEGER},
+      device_battery_power = #{deviceBatteryPower,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       real_time_state = #{realTimeState,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -350,6 +383,7 @@
       version = #{version,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 
   <!--根据警员编号信息枪支信息-->
   <select id="selectGunBydevice" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -376,11 +410,11 @@
   <!--根据状态统计枪支-->
   <select id="findSelectByState"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
     select gun_tag from gun where  state = if(#{state}=0,0,1)
-   <!-- <where>
-       <if test="state!=null" >
-         state = #{state}
-       </if>
-     </where>-->
+    <!-- <where>
+        <if test="state!=null" >
+          state = #{state}
+        </if>
+      </where>-->
   </select>
 
   <!--根据状态统计枪支-->
@@ -396,5 +430,4 @@
       </if>
     </where>-->
   </select>
-
 </mapper>

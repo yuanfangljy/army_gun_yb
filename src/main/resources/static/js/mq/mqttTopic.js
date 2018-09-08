@@ -138,7 +138,8 @@ $(document).ready(function() {
             })
             Lobibox.notify('error', {
                 width: $(window).width(),
-                msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                title: '离位告警',
+                msg: '已有设备与枪支离位，请注意查看，进行处理。'
             });
 
         }

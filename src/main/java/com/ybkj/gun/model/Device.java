@@ -1,9 +1,5 @@
 package com.ybkj.gun.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 public class Device {
@@ -13,24 +9,19 @@ public class Device {
 
     private String deviceName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9_-]{6,18}$",message="{password}")
     private String password;
 
-    @Pattern(regexp = "^1[34578]\\d{9}$",message="{phone}")
     private String phone;
 
-    @Pattern(regexp = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$",message = "{email}")
     private String email;
+
+    private String batteryPower;
 
     private Integer state;
 
     private Date createTime;
 
     private Date updateTime;
-
-    @Getter
-    @Setter
-    private Date temperanceTime;
 
     private Integer version;
 
@@ -82,6 +73,14 @@ public class Device {
         this.email = email == null ? null : email.trim();
     }
 
+    public String getBatteryPower() {
+        return batteryPower;
+    }
+
+    public void setBatteryPower(String batteryPower) {
+        this.batteryPower = batteryPower == null ? null : batteryPower.trim();
+    }
+
     public Integer getState() {
         return state;
     }
@@ -113,6 +112,4 @@ public class Device {
     public void setVersion(Integer version) {
         this.version = version;
     }
-
-
 }

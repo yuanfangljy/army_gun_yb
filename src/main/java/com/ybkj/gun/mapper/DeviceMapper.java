@@ -36,7 +36,7 @@ public interface DeviceMapper {
 
     Device selectEmail(String email);
 
-    Device selectGunMac(String gunMac);
+//    Device selectGunMac(String gunMac);
 
     Device selectDeviceName(String deviceName);
 
@@ -51,6 +51,6 @@ public interface DeviceMapper {
 
     Device findDeviceByDeviceNo(String deviceNo);
 
-    Device findDeviceByDeviceNoAndState(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
+    Device findDeviceByDeviceNoAndState(@Param(value = "deviceNo") String deviceNo, @Param(value = "state") Integer state) throws Exception;
 
 }

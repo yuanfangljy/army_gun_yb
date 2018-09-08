@@ -8,6 +8,7 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="battery_power" jdbcType="VARCHAR" property="batteryPower" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, device_no, device_name, password, phone, email, state, create_time, update_time, 
-    version
+    id, device_no, device_name, password, phone, email, battery_power, state, create_time, 
+    update_time, version
   </sql>
   <select id="selectByExample" parameterType="com.ybkj.gun.model.DeviceExample" resultMap="BaseResultMap">
     select
@@ -88,41 +89,6 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
-  </select>
-  <select id="selectDevice" parameterType="com.ybkj.gun.model.Device" resultMap="BaseResultMap">
-    select * from device
-    <where>
-      <if test="id !=null">
-        and id= # {id}
-      </if>
-      <if test="deviceNo !=null">
-        and device_no = #{deviceNo}
-      </if>
-      <if test="deviceName !=null">
-        and device_name = #{deviceName}
-      </if>
-      <if test="password !=null">
-        and password = #{password}
-      </if>
-      <if test="phone !=null">
-        and phone like '%' #{phone} '%'
-      </if>
-      <if test="email !=null">
-        and email like '%' #{email} '%'
-      </if>
-      <if test="state !=null">
-        and state like '%' #{state} '%'
-      </if>
-      <if test="createTime !=null">
-        and create_time like '%' #{createTime} '%'
-      </if>
-      <if test="updateTime !=null">
-        and update_time like '%' #{updateTime} '%'
-      </if>
-      <if test="version !=null">
-        and version = #{version}
-      </if>
-    </where>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -143,12 +109,12 @@
   <insert id="insert" parameterType="com.ybkj.gun.model.Device">
     insert into device (id, device_no, device_name, 
       password, phone, email, 
-      state, create_time, update_time, 
-      version)
+      battery_power, state, create_time, 
+      update_time, version)
     values (#{id,jdbcType=INTEGER}, #{deviceNo,jdbcType=VARCHAR}, #{deviceName,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{version,jdbcType=INTEGER})
+      #{batteryPower,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{version,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.ybkj.gun.model.Device">
     insert into device
@@ -170,6 +136,9 @@
       </if>
       <if test="email != null">
         email,
+      </if>
+      <if test="batteryPower != null">
+        battery_power,
       </if>
       <if test="state != null">
         state,
@@ -202,6 +171,9 @@
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="batteryPower != null">
+        #{batteryPower,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
@@ -244,6 +216,9 @@
       <if test="record.email != null">
         email = #{record.email,jdbcType=VARCHAR},
       </if>
+      <if test="record.batteryPower != null">
+        battery_power = #{record.batteryPower,jdbcType=VARCHAR},
+      </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=INTEGER},
       </if>
@@ -269,6 +244,7 @@
       password = #{record.password,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
       email = #{record.email,jdbcType=VARCHAR},
+      battery_power = #{record.batteryPower,jdbcType=VARCHAR},
       state = #{record.state,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -295,6 +271,9 @@
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
       </if>
+      <if test="batteryPower != null">
+        battery_power = #{batteryPower,jdbcType=VARCHAR},
+      </if>
       <if test="state != null">
         state = #{state,jdbcType=INTEGER},
       </if>
@@ -317,6 +296,7 @@
       password = #{password,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
+      battery_power = #{batteryPower,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -351,11 +331,11 @@
   <!--根据状态统计设备信息-->
   <select id="findDeviceByState"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
     select device_no from device where  state = #{state}
-<!--<where>
-  <if test="state != null">
-    state = #{state}
-  </if>
-</where>-->
+    <!--<where>
+      <if test="state != null">
+        state = #{state}
+      </if>
+    </where>-->
 
   </select>
   <!--根据状态统计设备信息-->
@@ -364,7 +344,7 @@
   </select>
   <!--根据设备号获取相关信息-->
   <select id="findDeviceByDeviceNo"  parameterType="java.lang.String"  resultMap="BaseResultMap">
-   select phone,state from device where device_no = #{deviceNo,jdbcType=VARCHAR}
+    select phone,state from device where device_no = #{deviceNo,jdbcType=VARCHAR}
   </select>
 
   <!--根据设备号和状态，获取相关信息-->

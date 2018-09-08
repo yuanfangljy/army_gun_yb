@@ -90,7 +90,7 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
      */
     @Override
     public BaseModel optimizeDeviceLocation(String deviceNo) throws Exception {
-        System.out.println("------------------------------------------" + deviceNo);
+        //System.out.println("------------------------------------------" + deviceNo);
         BaseModel baseModel = new BaseModel();
         try {
             List<String> deviceGunList = new ArrayList<>();
@@ -136,6 +136,8 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
                         optimizeDeviceLocation.setGunModel(null);
                         optimizeDeviceLocation.setGunWarehouseName(null);
                         optimizeDeviceLocation.setGunState(null);
+                        //optimizeDeviceLocation.setDeviceBatteryPower(gun.getDeviceBatteryPower());
+                        optimizeDeviceLocation.setBatteryPower(device.getBatteryPower());
                         //optimizeMap.put(device.getDeviceNo(),optimizeDeviceLocation);
                         optimizeList.add(optimizeDeviceLocation);
 
@@ -159,6 +161,8 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
                         optimizeDeviceLocation.setGunModel(gun.getGunModel());
                         optimizeDeviceLocation.setGunWarehouseName(gun.getWarehouseName());
                         optimizeDeviceLocation.setGunState(gun.getRealTimeState());
+                        optimizeDeviceLocation.setDeviceBatteryPower(gun.getDeviceBatteryPower());
+                        optimizeDeviceLocation.setBatteryPower(device.getBatteryPower());
                         //optimizeMap.put(device.getDeviceNo(),optimizeDeviceLocation);
                         optimizeList.add(optimizeDeviceLocation);
 
@@ -195,6 +199,8 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
                     optimizeDeviceLocation.setGunModel(null);
                     optimizeDeviceLocation.setGunWarehouseName(null);
                     optimizeDeviceLocation.setGunState(null);
+                    //optimizeDeviceLocation.setDeviceBatteryPower(gun.getDeviceBatteryPower());
+                    optimizeDeviceLocation.setBatteryPower(device.getBatteryPower());
                     //optimizeMap.put(device.getDeviceNo(),optimizeDeviceLocation);
                     optimizeList.add(optimizeDeviceLocation);
 
@@ -217,6 +223,8 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
                     optimizeDeviceLocation.setGunModel(gun.getGunModel());
                     optimizeDeviceLocation.setGunWarehouseName(gun.getWarehouseName());
                     optimizeDeviceLocation.setGunState(gun.getRealTimeState());
+                    optimizeDeviceLocation.setDeviceBatteryPower(gun.getDeviceBatteryPower());
+                    optimizeDeviceLocation.setBatteryPower(device.getBatteryPower());
                     //optimizeMap.put(device.getDeviceNo(),optimizeDeviceLocation);
                     optimizeList.add(optimizeDeviceLocation);
 
@@ -251,12 +259,14 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
         if (deviceNo.equals("")) {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage("请不要暴力篡改数据");
+            return baseModel;
         }
         //判断该警员有没有入库，入库就不能协助查找
         DeviceGun deviceGuns = deviceGunMapper.selectDeviceGunByDeviceNoAndState(deviceNo, 0);
         if (deviceGuns == null) {
             baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
             baseModel.setErrorMessage("该设备已找到，暂无数据");
+            return baseModel;
         }
 
         try {
@@ -279,6 +289,7 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
             if (deviceLocations.size() < 1) {
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                 baseModel.setErrorMessage("暂时无法协助查询，无在线警员");
+                return baseModel;
             }
             //2、根据得到的最近五个设备号，去(device去筛选状态为0)的device_no
             for (DeviceLocation deviceLocation : deviceLocations) {
@@ -305,6 +316,7 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
                 if (dls == null) {
                     baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                     baseModel.setErrorMessage("在线警员位上传位置信息，服务器出现问题");
+                    return baseModel;
                 }
                 devices = deviceMapper.findDeviceByDeviceNo(dn);
                 //3、3.1 根据2中得到的最终device_no,去device_location中得到最新的数据（这个是用户在线，未出库）
@@ -475,7 +487,7 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
         Device device = null;
         Gun guns = null;
 
-        PageHelper.startPage(pn, 5);
+        PageHelper.startPage(pn, 2);
         //1、既然是实时枪，就所有的枪都已经出库，查询device_gun所有state=0的枪支信息
         List<DeviceGun> deviceGun1 = deviceGunMapper.selectDeviceGunByDeviceNoAndStates(deviceNo, 0);
         System.out.println("----------66666-------------"+deviceGun1.size());
@@ -504,11 +516,11 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
 
             List<OptimizeDeviceLocation> optimizeLists = new ArrayList<>();
             optimizeLists.addAll(optimizeList);
-            PageInfo<OptimizeDeviceLocation> page = new PageInfo<OptimizeDeviceLocation>(optimizeLists, 5);
+            PageInfo<OptimizeDeviceLocation> page = new PageInfo<OptimizeDeviceLocation>(optimizeList, 5);
 
 
 
-            System.out.println("-----------------------00----------"+optimizeLists.size());
+            System.out.println("-----------------------00----------"+optimizeList.size());
             System.out.println("-----------------------00----------"+page.getPages());
 
             baseModel.add("pageInfo", page).add("deviceNo", deviceNo).add("location", location);

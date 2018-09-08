@@ -435,9 +435,9 @@
                             //alert(p.gunState+"---");
                             tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
                                 + "警员编号：" + p.deviceNo + lineon + "</br>"
-                                + "枪号：" + p.gunTag + lineon + "</br>"
-                                + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
                                 + "电话：" + p.mobile + lineon + "</br>"
+                                + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
+                                + "枪号：" + p.gunTag + lineon + "</br>"
                                 + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                         }else if (!p.gunState) {
@@ -450,9 +450,9 @@
                             //alert(p.gunState+"-----");
                             tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                                 + "警员编号：" + p.deviceNo + lineoff + "</br>"
-                                + "枪号：" + p.gunTag + lineoff + "</br>"
-                                + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
                                 + "电话：" + p.mobile + lineoff + "</br>"
+                                + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
+                                + "枪号：" + p.gunTag + lineoff + "</br>"
                                 + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
                                 + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? gunOffNormal : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                         }
@@ -599,9 +599,9 @@
                     if (p.gunState == 0 && p.deviceState == 0) {
                         tag = "<div class='tag' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #ccc; position:relative; border-radius:8px; background-color:#FFF;'>"
                             + "警员编号：" + p.deviceNo + lineon + "</br>"
-                            + "枪号：" + p.gunTag + lineon + "</br>"
-                            + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
                             + "电话：" + p.mobile + lineon + "</br>"
+                            + "枪支：" + (p.gunModel).slice(0, 8) + lineon + "</br>"
+                            + "枪号：" + p.gunTag + lineon + "</br>"
                             + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
                             + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                     }else if (!p.gunState) {
@@ -613,9 +613,9 @@
                     } else {
                         tag = "<div class='tag2' style='padding-left:10px;padding-top:6px;line-height:20px;width:150px; height:133px; border:1px solid #f8b400; position:relative; border-radius:8px; background-color:#f8b400;'>"
                             + "警员编号：" + p.deviceNo + lineoff + "</br>"
-                            + "枪号：" + p.gunTag + lineoff + "</br>"
-                            + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
                             + "电话：" + p.mobile + lineoff + "</br>"
+                            + "枪支：" + (p.gunModel).slice(0, 8) + lineoff + "</br>"
+                            + "枪号：" + p.gunTag + lineoff + "</br>"
                             + ((p.gunState) == 0 ? accompany : (p.gunState) == 1 ? gunOffNormal : gunOffNormal)
                             + ((p.deviceState) == 0 ? onLine : (p.deviceState) == 1 ? offLine : (p.deviceState) == 2 ? offLine : assist) + "</br>" + "</div>";
                     }
@@ -916,6 +916,7 @@
             //查询按钮添加最新枪支轨道的Id
             selectBtn.attr("device-location-id", item.deviceNo);
 
+
             //将两个按钮追加到一个按钮中
             var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
 
@@ -1043,9 +1044,13 @@
                     .append("查询"));
             //查询按钮添加最新枪支轨道的Id
             selectBtn.attr("device-location-id", item.deviceNo);
+            var trajectoryBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn text-center")
+                .append($("<span></span>")/*.addClass("glyphicon glyphicon-pencil  ")*/
+                    .append("轨迹"));
+            trajectoryBtn.attr("device-trajectory-id",item.deviceNo);
 
             //将两个按钮追加到一个按钮中
-            var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
+            var btnTd = $("<td></td>").append(trajectoryBtn).append(selectBtn).addClass("text-center");
 
             //append（追加）方法执行完成以后还是放回原来的元素
             $("<tr></tr>")
@@ -1053,7 +1058,7 @@
                 .append(deviceNo)
                 .append(deviceName)
                 .append(phone)
-                .append(selectBtn)
+                .append(btnTd)
                 /*.append(gunState)*/
                 .appendTo("#device_Online_table tbody");
         });

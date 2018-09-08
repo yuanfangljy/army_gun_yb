@@ -48,6 +48,8 @@ public interface DeviceGunMapper {
     //通过警员编号和状态查询警员有没有出库
     DeviceGun selectDeviceGunByDeviceNoAndState(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
     List<DeviceGun> selectDeviceGunByDeviceNoAndStates(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
+    List<DeviceGun> selectDeviceGunByDeviceNoAndStatesInventoryList(@Param(value="deviceNo")String deviceNo, @Param(value = "state") Integer state) throws Exception;
+
     //查询所有在线警员和枪支
     List<DeviceGun> selectGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception;
     //根据蓝牙号，查询到所有的设备号，进行去重

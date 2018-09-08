@@ -7,7 +7,7 @@
     <style type="text/css">
         body, html, #allmap {
             width: 100%;
-            height: 100%;
+            height: 90%;
             overflow: hidden;
             margin: 0;
             font-family: "微软雅黑";
@@ -90,7 +90,7 @@
         </div>
     </div>
 </div>
-<div style=" margin-top: 8px; padding-bottom: 8px; border-bottom: 1px solid #d7d7d7; margin-bottom: 15px ; margin-left:-28%">
+<div style=" margin-top: 8px; padding-bottom: 8px; border-bottom: 1px solid #d7d7d7; margin-bottom: 5px ; margin-left:-28%">
     <form class="form-inline" method="post">
         <div class="col-md-1 col-md-offset-4">
             <h4 for="exampleInputName2" style="font-size:14px; position: absolute;z-index: 999999999">枪号</h4>
@@ -353,6 +353,10 @@
                        // alert(value.state);
                         //stateWire[item]=value.state;
                        // alert(stateWire);
+                       var pointss= new BMap.Point(label[item],values[item]); // 填充标注点
+                      /*  if(points){
+
+                        }*/
                         var point = new BMap.Point(label[item],values[item]); // 填充标注点
                         //1、自定义标注图形
                         if(item==0){
@@ -360,18 +364,21 @@
                         }else if(item==result.extend.numberLocations-1){
                             myIcon = new BMap.Icon('img/end.png', new BMap.Size(40, 100));
                         }else{
-                            if(value.state==0){
-                                myIcon = new BMap.Icon('img/outCenter.png', new BMap.Size(10, 10));
-                            }else if(value.state==1){
+                           /* if(value.state==0){
+                                myIcon = new BMap.Icon('img/blues.png', new BMap.Size(4, 4));
+                            }else*/
+                           if(value.state==1){
                                 myIcon = new BMap.Icon('img/onlieCenter.png', new BMap.Size(10, 10));
-                            }else {
+                            }else if(value.state==2){
                                 myIcon = new BMap.Icon('img/centre.png', new BMap.Size(10, 10));
                             }
 
                         }
                         var marker;//标注
                         marker = new BMap.Marker(point, {icon: myIcon});// 创建标注，为要查询的地方对应的经纬度
-                        map.addOverlay(marker);
+                        if(item==0 || item==result.extend.numberLocations-1 || value.state==1 || value.state==2){
+                            map.addOverlay(marker);
+                        }
                         RightClickHandler(marker);//右键单击marker出现右键菜单事件
                         //右键单击marker出现右键菜单事件
                         function RightClickHandler(marker) {
@@ -405,8 +412,28 @@
                                 +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
                                 +"</div>";
                         }
-
-                        //创建标注的hover事件
+                        //1、鼠标左键单击事件
+                        function addClickHandler(marker) {
+                            marker.addEventListener("click", function (e) {
+                                var labela;//3、创建标注
+                                if(item==0){
+                                    labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
+                                }else if(item==result.extend.numberLocations-1){
+                                    labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
+                                }else{
+                                    labela = new BMap.Label(tips,{offset:new BMap.Size(-142,-75)});
+                                }
+                                labela.setStyle({
+                                    color: "#eeeeee",
+                                    width: "100%",
+                                    height: "100%",
+                                    fontSize: "14px",
+                                });
+                                marker.setLabel(labela);
+                                }
+                            );
+                        }
+                       //创建标注的hover事件
                         marker.addEventListener("mouseover", function (e) {
                             //7.2 添加字体
                             var labela;//3、创建标注
@@ -414,9 +441,9 @@
                                 labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
                             }else if(item==result.extend.numberLocations-1){
                                 labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
-                            }else{
+                            }/*else{
                                 labela = new BMap.Label(tips,{offset:new BMap.Size(-142,-75)});
-                            }
+                            }*/
                             labela.setStyle({
                                 color: "#eeeeee",
                                 width: "100%",
@@ -434,17 +461,22 @@
                         });
 
                         //addMarker(point, map, tips);
-                        points.push(point);
+                        points.push(pointss);
                         //7.4 将经纬坐标划入地图
                         label[item] = new BMap.Point(label[item], values[item]);
                         map.setViewport(label);
                         /* 添加轨迹接口begin */
                         //alert(value.state);
 
+                            polyline = new BMap.Polyline(points, {
+                                strokeColor : "blue",
+                                strokeWeight : 5,
+                                strokeOpacity : 1
+                            });
 
 
                     })
-
+                    map.addOverlay(polyline);
                   /*  if(2==0){
                         polyline = new BMap.Polyline(points, {
                             strokeColor : "blue",
@@ -464,12 +496,7 @@
                             strokeOpacity : 0.5
                         });
                     }*/
-                    polyline = new BMap.Polyline(points, {
-                        strokeColor : "red",
-                        strokeWeight : 2,
-                        strokeOpacity : 0.5
-                    });
-                    map.addOverlay(polyline);
+
 
 
                 }

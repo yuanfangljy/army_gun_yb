@@ -268,4 +268,22 @@ public class DeviceLocationController {
 
         return baseModel;
     }
+
+
+    /**
+     * 实时显示当前用户的轨迹，默认是10-20分钟
+     * @param deviceNo
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @RequestMapping(value = "/realTimeDayLocus",method = RequestMethod.GET)
+    public BaseModel realTimeDayLocus(@RequestParam(value = "deviceNo",required = false) String deviceNo,@RequestParam(value = "startTime",required = false)String startTime,@RequestParam(value = "endTime",required = false)String endTime,@RequestParam(value = "state",required = true)Integer state){
+        BaseModel baseModel=new BaseModel();
+        //1、如果state=1，默认是10分钟
+        if(state==1){
+
+        }
+        return null;
+    }
 }

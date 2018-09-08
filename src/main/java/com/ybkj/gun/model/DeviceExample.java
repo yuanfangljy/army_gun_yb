@@ -515,6 +515,76 @@ public class DeviceExample {
             return (Criteria) this;
         }
 
+        public Criteria andBatteryPowerIsNull() {
+            addCriterion("battery_power is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerIsNotNull() {
+            addCriterion("battery_power is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerEqualTo(String value) {
+            addCriterion("battery_power =", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerNotEqualTo(String value) {
+            addCriterion("battery_power <>", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerGreaterThan(String value) {
+            addCriterion("battery_power >", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerGreaterThanOrEqualTo(String value) {
+            addCriterion("battery_power >=", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerLessThan(String value) {
+            addCriterion("battery_power <", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerLessThanOrEqualTo(String value) {
+            addCriterion("battery_power <=", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerLike(String value) {
+            addCriterion("battery_power like", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerNotLike(String value) {
+            addCriterion("battery_power not like", value, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerIn(List<String> values) {
+            addCriterion("battery_power in", values, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerNotIn(List<String> values) {
+            addCriterion("battery_power not in", values, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerBetween(String value1, String value2) {
+            addCriterion("battery_power between", value1, value2, "batteryPower");
+            return (Criteria) this;
+        }
+
+        public Criteria andBatteryPowerNotBetween(String value1, String value2) {
+            addCriterion("battery_power not between", value1, value2, "batteryPower");
+            return (Criteria) this;
+        }
+
         public Criteria andStateIsNull() {
             addCriterion("state is null");
             return (Criteria) this;

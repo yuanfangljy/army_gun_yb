@@ -34,6 +34,8 @@
             <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
             <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber"/>
             <result column="total_bullet_number" jdbcType="INTEGER" property="totalBulletNumber" />
+            <result column="device_battery_power" jdbcType="VARCHAR" property="deviceBatteryPower" />
+            <result column="gun_type" jdbcType="INTEGER" property="gunType" />
             <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
             <result column="state" jdbcType="INTEGER" property="state"/>
             <result column="real_time_state" jdbcType="INTEGER" property="realTimeState"/>
@@ -49,6 +51,7 @@
             <result column="password" jdbcType="VARCHAR" property="password"/>
             <result column="phone" jdbcType="VARCHAR" property="phone"/>
             <result column="email" jdbcType="VARCHAR" property="email"/>
+            <result column="battery_power" jdbcType="VARCHAR" property="batteryPower" />
             <result column="state" jdbcType="INTEGER" property="state"/>
             <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
             <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -505,7 +508,7 @@
 
     <!-- 通过警员编号和状态查询警员有没有出库-->
     <select id="selectDeviceGunByDeviceNoAndStates" resultMap="BaseResultMap">
-        select  device_no, gun_mac from device_gun
+        select  id,device_no, gun_mac from device_gun
         <where>
             <if test="state != null">
                 state= #{state,jdbcType=INTEGER}
@@ -516,6 +519,24 @@
 
         </where>
     </select>
+
+    <!-- 通过警员编号和状态查询出库列表-->
+    <select id="selectDeviceGunByDeviceNoAndStatesInventoryList" resultMap="BaseResultMap">
+        SELECT  dg.id,dg.device_no, (SELECT g.gun_tag FROM gun AS g WHERE g.bluetooth_mac= dg.gun_mac) AS gun_mac,
+        (SELECT d.state FROM device AS d WHERE d.device_no= dg.device_no) AS deviceState,
+        (SELECT g.state FROM gun AS g WHERE g.bluetooth_mac= dg.gun_mac) AS gunState,
+        dg.create_time FROM device_gun dg
+        <where>
+            <if test="state != null">
+                dg.state= #{state,jdbcType=INTEGER}
+            </if>
+            <if test="deviceNo != null and deviceNo !=''">
+                and dg.device_no like '%' #{deviceNo} '%'
+            </if>
+        </where>
+    </select>
+
+
     <!-- 根据蓝牙号，查询到所有的设备号，进行去重-->
     <select id="selectDeviceGunByMac" resultMap="BaseResultMap">
         select DISTINCT device_no from device_gun  where gun_mac= #{gunMac,jdbcType=VARCHAR}

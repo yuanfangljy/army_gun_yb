@@ -42,6 +42,8 @@
             <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName"/>
             <result column="bullet_number" jdbcType="INTEGER" property="bulletNumber"/>
             <result column="total_bullet_number" jdbcType="INTEGER" property="totalBulletNumber"/>
+            <result column="device_battery_power" jdbcType="VARCHAR" property="deviceBatteryPower" />
+            <result column="gun_type" jdbcType="INTEGER" property="gunType" />
             <result column="warehouse_id" jdbcType="INTEGER" property="warehouseId"/>
             <result column="state" jdbcType="INTEGER" property="state"/>
             <result column="real_time_state" jdbcType="INTEGER" property="realTimeState"/>
@@ -57,6 +59,7 @@
             <result column="password" jdbcType="VARCHAR" property="password"/>
             <result column="phone" jdbcType="VARCHAR" property="phone"/>
             <result column="email" jdbcType="VARCHAR" property="email"/>
+            <result column="battery_power" jdbcType="VARCHAR" property="batteryPower" />
             <result column="state" jdbcType="INTEGER" property="state"/>
             <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
             <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -331,11 +334,10 @@
     <select id="optimizeDeviceLocationByTimeAndGunTag" resultMap="BaseResultMap"
             parameterType="java.util.Map">
         SELECT b.device_no,b.latitude,b.longitude ,b.create_time,b.state FROM device_location b
-        WHERE /*b.state=0 AND*/ b.device_no=#{deviceNo}
-        AND b.create_time
-        BETWEEN #{beginTime,jdbcType=TIMESTAMP} and DATE_ADD(#{endTime,jdbcType=TIMESTAMP} ,INTERVAL 1 DAY) ORDER BY
-        b.create_time ASC
-        <!--     <where>
+        WHERE b.device_no=#{deviceNo} AND b.create_time BETWEEN #{beginTime,jdbcType=TIMESTAMP} and #{endTime,jdbcType=TIMESTAMP} ORDER BY b.create_time ASC
+        <!--
+            /*DATE_ADD(#{endTime,jdbcType=TIMESTAMP} ,INTERVAL 1 DAY)*/
+            <where>
                  <if test="beginTime == null">
                      #{DATE_ADD(endTime) ,jdbcType=TIMESTAMP}
                  </if>
@@ -346,7 +348,6 @@
 
                  </if>
              </where>-->
-
     </select>
 
 

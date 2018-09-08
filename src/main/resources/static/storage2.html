@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Title</title>
+    <link rel="icon" href="../../favicon.ico">
+    <title>Dashboard Template for Bootstrap</title>
+    <link href="lobibox/dist/css/lobibox.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap_select/css/bootstrap-select.css">
+    <link href="css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+
+    <div class="container-fluid" style="background-color:#022581">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img src="img/logo.png" width="36" height="36" style=" float:left; margin-top:6px; margin-right:6px">
+            <a class="navbar-brand" href="#">枪械定位追踪</a>
+        </div>
+        <div id="navba	r" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" onclick="LogOut()">登出</a></li>
+                <li><a href="#">admin</a></li>
+            </ul>
+            <!--<form class="navbar-form navbar-right">-->
+            <!--  <div class="navbar-form navbar-right">
+                  <input type="text" class="form-control" placeholder="搜索枪号">
+              </div>-->
+            <!--</form>-->
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
+            <ul class="nav nav-sidebar" id="wanav">
+                <li><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+                <li class="activb"><a href="storage2.html"
+                                      style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+                <li><a href="index.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/diaoku.png" style="padding-right:20px;">枪支列表</a></li>
+                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+                <li><a href="count.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/jishu.png" style="padding-right:20px;">射弹计数</a></li>
+                <li><a href="llibrary.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="img/jingao.png" style="padding-right:20px;" id="waNumber">警告信息</a> <span></span></li>
+            </ul>
+        </div>
+
+        <form id="device_gun_from" method="POST">
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="margin-left:13%; width:87%;">
+                <h2 class="sub-header" style="text-align:center">枪支入库</h2>
+            </div>
+
+            <div style="position:relative; margin-left: 60px;">
+                    <form role="form">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-5 ">
+                                <label>枪号</label>
+                                <select class="selectpicker form-control" id="gunMac" name="gunMac"
+                                        data-container="body"
+                                        data-live-search="true" title="请选择枪号" data-hide-disabled="true"></select>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 12px;">
+                            <div class="col-md-3 col-md-offset-5">
+                                <label>警员</label>
+                                <select class="selectpicker form-control" id="deviceNo" name="deviceNo"
+                                        data-container="body" data-live-search="true" title="请选择警员"
+                                        data-hide-disabled="true" style="background-color: #fff9ec;"></select>
+                                <!--<select multiple class="selectpicker form-control" id="number-multiple" data-container="body" data-live-search="true" title="请选择警员" data-hide-disabled="true" data-actions-box="true" data-virtual-scroll="false"></select>-->
+                            </div>
+                        </div>
+                    </form>
+
+            </div>
+
+            <div class="dispaly" style="clear:both"></div>
+            <div style="position: relative; margin-left: 50%; left: 75px;">
+                <button type="button" id="cancel"
+                        style=" width:80px; line-height:30px; color:#666; float:left; position:relative; right:140px; margin-top:30px">取消
+                </button>
+                <button type="button" id="submit_device_gun"
+                        style=" width:80px; line-height:30px; color:#FFF; background-color:#3f8ff1; margin-top:30px;">
+                    确定
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script src="js/holder.min.js"></script>
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script src="layui/layui.all.js" type="text/javascript"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="bootstrap_select/js/bootstrap-select.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>-->
+<script src="lobibox/dist/js/lobibox.min.js"></script>
+<script type="text/javascript" src="js/mq/mqttTopic.js"></script>
+<script type="text/javascript" src="js/mq/mqttws31.js"></script>
+<script type="text/javascript" src="js/warning/warningNumber.js"></script>
+
+
+
+
+
+<script type="text/javascript">
+
+    $("#gunMac").on('shown.bs.select', function () {
+        createOptionsGun(0);
+    })
+    $("#deviceNo").on('shown.bs.select', function () {
+        createOptionsDevice(0);
+    })
+
+</script>
+<script>
+    /*出库申请*/
+    $("#submit_device_gun").click(function () {
+        submitGun();
+    })
+
+    function submitGun() {
+        var status = 1;
+        $.ajax({
+            url: "../deviceGun/gunStorage/" + status,
+            data: $("#device_gun_from").serialize(),
+            type: "PUT",
+            dataType: "json",
+            success: function (result) {
+                if (result.status == "16") {
+                    $('#submit_device_gun').prop('disabled', true);
+                    Clear();
+                    layer.msg(result.errorMessage, {}, function (result) {
+                        $('#submit_device_gun').prop('disabled', false);
+                    });
+
+                    //location.href = "map.html";
+                    /* layer.alert(result.errorMessage, {
+                         icon: 1,
+                         skin: 'layer-ext-moon'
+                     });*/
+                } else if (result.status == "200") {
+                    layer.alert(result.errorMessage, {
+                        icon: 3,
+                        skin: 'layer-ext-moon'
+                    });
+                } else if (result.status == "17") {
+                    layer.alert(result.errorMessage, {
+                        icon: 3,
+                        skin: 'layer-ext-moon'
+                    });
+                } else if (result.status == "18") {
+                    layer.alert(result.errorMessage, {
+                        icon: 3,
+                        skin: 'layer-ext-moon'
+                    });
+                }
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
+            }
+        })
+    }
+
+    //-----------------------------------------------------------------------------------------
+    function createOptionsGun(state) {
+        var optionsGun = [], _optionsGun;
+        $.ajax({
+            url: "../gun/gunState",
+            type: "GET",
+            data: {"state": state},
+            success: function (result) {
+                $.each(result.extend.gunStateList, function (i, p) {
+                    var option = '<option value="' + p.gunTag + '">' + p.gunTag + '</option>';
+                    optionsGun.push(option);
+                })
+                _optionsGun = optionsGun.join('');
+                $('#gunMac')[0].innerHTML = _optionsGun;
+                $('#gunMac').selectpicker('render');
+                $('#gunMac').selectpicker('refresh');
+            }
+        });
+    }
+
+    function createOptionsDevice(state) {
+        var optionsDevice = [], _optionsDevice;
+        $.ajax({
+            url: "../device/deviceState",
+            type: "GET",
+            data: {"state": state},
+            success: function (result) {
+                $.each(result.extend.deviceStateList, function (i, p) {
+                    var option = '<option value="' + p.deviceNo + '">' + p.deviceNo + '</option>';
+                    optionsDevice.push(option);
+                })
+                _optionsDevice = optionsDevice.join('');
+                $('#deviceNo')[0].innerHTML = _optionsDevice;
+                $('#deviceNo').selectpicker('render');
+                $('#deviceNo').selectpicker('refresh');
+            }
+        });
+    }
+
+    /* $("#gunSelects").click(function () {
+         $("#gunSelect").selectpicker({
+             selectedText: '请选择枪支'
+         });
+
+         $.ajax({
+             url: "../gun/gunState",
+             type: "GET",
+             data: {"state": 0},
+             success: function (result) {
+
+                 $.each(result.extend.gunStateList, function (i, p) {
+                     var select = $("#gunSelect");
+                     select.append("<option value='" + p.gunTag + "'>" + p.gunTag + "</option>");
+                 })
+                 $('#gunSelect').selectpicker('render');
+                 $('#gunSelect').selectpicker('refresh');
+             }
+         })
+     })
+
+
+
+
+     $("#deviceSelects").click(function () {
+         $("#deviceSelect").selectpicker({
+             selectedText: '请选择警员'
+         });
+         $.ajax({
+             url: "../device/deviceState",
+             type: "GET",
+             data: {"state": 0},
+             success: function (result) {
+                 $.each(result.extend.deviceStateList, function (i, p) {
+                     var selDom = $("#deviceSelect");//根据id获取select的jquery对象
+                     selDom.append("<option value='" + p.deviceNo + "'>" + p.deviceNo + "</option>");//添加option
+                 })
+                 $('#deviceSelect').selectpicker('render');
+                 $('#deviceSelect').selectpicker('refresh');
+             }
+         })
+     })
+ */
+
+    //-----------------------------------------------------------------------------------------
+    function Clear() {
+     /*   $("#gunMac").empty();
+        $('#gunMac').append(options);
+        $('#gunMac').selectpicker('render');
+        $('#gunMac').selectpicker('refresh');
+        $('#gunMac').selectpicker();
+        $("#gunMac").empty();
+        $("#deviceNo").empty();
+        $('#gunMac').selectpicker('refresh');
+        $('#deviceNo').selectpicker('refresh');
+*/
+
+    }
+
+   $("#cancel").click(function () {
+
+        Clear();
+    })
+
+    //回车查询事件
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            submitGun();
+        }
+    });
+
+    //登出
+    function LogOut() {
+        LogOuts();
+    }
+</script>
+</body>
+</html>

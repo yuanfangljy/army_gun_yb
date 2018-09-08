@@ -81,4 +81,6 @@ public  interface DeviceGunSerivce {
     Integer findDeviceOffLine() throws Exception;
     //查询所有在线警员和枪支:根据设备号
     List<DeviceGun> findGunAndDeviceLocationAllOnLine(String deviceNo) throws Exception;
+    //枪支已经出库的列表
+    BaseModel findInventoryList(Integer pn, Integer pageSize, String deviceNo) throws Exception;
 }

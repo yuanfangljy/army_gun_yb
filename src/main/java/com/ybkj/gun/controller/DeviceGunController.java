@@ -46,6 +46,8 @@ public class DeviceGunController {
     DeviceGunServiceImpl deviceGunService;
     @Autowired
     GunMapper gunMapper;
+    @Autowired
+    DeviceGunMapper deviceGunMapper;
 
     /**
      * 统计设备离线数
@@ -196,6 +198,52 @@ public class DeviceGunController {
             baseModel.setStatus(StatusCodeEnum.VIOLENTACTION.getStatusCode());
             baseModel.setErrorMessage("请不要暴力操作！");
         }
+        return baseModel;
+    }
+    /**
+     * 枪支入库:列表形式
+     * @param deviceGun
+     * @param status
+     * @return
+     */
+    @RequestMapping(value = "/gunStorageList/{id}",method = RequestMethod.PUT)
+    public BaseModel gunStorageList(@PathVariable(value = "id",required = true) Integer id) throws Exception {
+       // System.out.println("000000000000:---"+id);
+        BaseModel baseModel=new BaseModel();
+        DeviceGun deviceGun = deviceGunMapper.selectByPrimaryKey(id);
+        if(deviceGun==null){
+            baseModel.setStatus(StatusCodeEnum.VIOLENTACTION.getStatusCode());
+            baseModel.setErrorMessage("请不要暴力操作！");
+            return baseModel;
+        }
+        if(id!=null) {
+            BaseModel storage = deviceGunService.updategunStorage(deviceGun, 1);
+            if (storage.getStatus() == StatusCodeEnum.GUN_STORAGE.getStatusCode()) {
+                baseModel.setStatus(StatusCodeEnum.GUN_STORAGE.getStatusCode());
+                baseModel.setErrorMessage(storage.getErrorMessage());
+            } else if (storage.getStatus() == StatusCodeEnum.Fail.getStatusCode()) {
+                baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+                baseModel.setErrorMessage(storage.getErrorMessage());
+            } else if (storage.getStatus() == StatusCodeEnum.DEVICE_NONENTITY.getStatusCode()) {
+                baseModel.setStatus(StatusCodeEnum.DEVICE_NONENTITY.getStatusCode());
+                baseModel.setErrorMessage(storage.getErrorMessage());
+            }
+        }else{
+            baseModel.setStatus(StatusCodeEnum.VIOLENTACTION.getStatusCode());
+            baseModel.setErrorMessage("请不要暴力操作！");
+        }
+        return baseModel;
+    }
+
+    /**
+     * 枪支已经出库的列表显示
+     * @return
+     */
+    @ApiOperation(value = "枪支已经出库的列表显示",notes = "出库的列表", httpMethod = "GET")
+    @RequestMapping(value = "/inventoryList",method = RequestMethod.GET)
+    public BaseModel inventoryList(@RequestParam(value="pn",defaultValue="1",required=false) Integer pn,@RequestParam(value="pageSize",defaultValue="10") Integer pageSize,@RequestParam(value="deviceNo",required=false)String deviceNo) throws Exception {
+        BaseModel baseModel=new BaseModel();
+        baseModel=deviceGunService.findInventoryList(pn,pageSize,deviceNo);
         return baseModel;
     }
 
