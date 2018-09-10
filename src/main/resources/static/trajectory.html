@@ -346,83 +346,110 @@
                         return false;
                     }
                     //location = result.extend.location.split("@");
-                    $.each(result.extend.deviceLocations,function (item, value) {
-                        label[item] = value.longitude;
-                        values[item] = value.latitude;
-                        stateWire=value.state;
-                       // alert(value.state);
-                        //stateWire[item]=value.state;
-                       // alert(stateWire);
-                       var pointss= new BMap.Point(label[item],values[item]); // 填充标注点
-                      /*  if(points){
+                    var ii = layer.load(1, {
+                        shade: [0.2, '#ffc659'] //0.1透明度的白色背景
+                    });
+                    //此处用setTimeout演示ajax的回调
+                    setTimeout(function () {
+                        layer.close(ii);
+                        $.each(result.extend.deviceLocations,function (item, value) {
+                            label[item] = value.longitude;
+                            values[item] = value.latitude;
+                            stateWire=value.state;
+                            // alert(value.state);
+                            //stateWire[item]=value.state;
+                            // alert(stateWire);
+                            var pointss= new BMap.Point(label[item],values[item]); // 填充标注点
+                            /*  if(points){
 
-                        }*/
-                        var point = new BMap.Point(label[item],values[item]); // 填充标注点
-                        //1、自定义标注图形
-                        if(item==0){
-                            myIcon = new BMap.Icon('img/start.png', new BMap.Size(40, 100));
-                        }else if(item==result.extend.numberLocations-1){
-                            myIcon = new BMap.Icon('img/end.png', new BMap.Size(40, 100));
-                        }else{
-                           /* if(value.state==0){
-                                myIcon = new BMap.Icon('img/blues.png', new BMap.Size(4, 4));
-                            }else*/
-                           if(value.state==1){
-                                myIcon = new BMap.Icon('img/onlieCenter.png', new BMap.Size(10, 10));
-                            }else if(value.state==2){
-                                myIcon = new BMap.Icon('img/centre.png', new BMap.Size(10, 10));
-                            }
-
-                        }
-                        var marker;//标注
-                        marker = new BMap.Marker(point, {icon: myIcon});// 创建标注，为要查询的地方对应的经纬度
-                        if(item==0 || item==result.extend.numberLocations-1 || value.state==1 || value.state==2){
-                            map.addOverlay(marker);
-                        }
-                        RightClickHandler(marker);//右键单击marker出现右键菜单事件
-                        //右键单击marker出现右键菜单事件
-                        function RightClickHandler(marker) {
-                            marker.addEventListener("rightclick", function (e) {
-                                if(e.overlay){//判断右键单击的是否是marker
-                                    alert("12312");
-                                }else{
-                                    Locations(value.longitude,value.latitude);
+                              }*/
+                            var point = new BMap.Point(label[item],values[item]); // 填充标注点
+                            //1、自定义标注图形
+                            if(item==0){
+                                myIcon = new BMap.Icon('img/start.png', new BMap.Size(40, 100));
+                            }else if(item==result.extend.numberLocations-1){
+                                myIcon = new BMap.Icon('img/end.png', new BMap.Size(40, 100));
+                            }else{
+                                /* if(value.state==0){
+                                     myIcon = new BMap.Icon('img/blues.png', new BMap.Size(4, 4));
+                                 }else*/
+                                if(value.state==1){
+                                    myIcon = new BMap.Icon('img/onlieCenter.png', new BMap.Size(10, 10));
+                                }else if(value.state==2){
+                                    myIcon = new BMap.Icon('img/centre.png', new BMap.Size(10, 10));
                                 }
-                            });
-                        };
-                        //2、标注内容
-                        var tips;//标注
-                        var line="<div style='height: 1px;border-bottom: 1px dashed rgba(255,255,255,0.5); width:120px; margin-bottom: -18px; margin-top: 2px;'></div>";//虚线
-                        if(item==0){
-                            tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(17,123,36,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px; padding-left:10px;'>"
-                                + "开始："+ (item+Number(1)) + line +"</br>"
-                                +"警员编号："+value.deviceNo+ line +"</br>"
-                                +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
-                                +"</div>";
-                        }else if(item==result.extend.numberLocations-1){
-                            tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(109,109,109,0.87); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px;  padding-left:10px;'>"
-                                + "结束："+ (item+Number(1)) + line +"</br>"
-                                +"警员编号："+value.deviceNo + line+"</br>"
-                                +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
-                                +"</div>";
-                        }else{
-                            tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(249,0,15,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px;  padding-left:10px;'>"
-                                +"位数："+ (item+Number(1)) + line+"</br>"
-                                +"警员编号："+value.deviceNo + line+"</br>"
-                                +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
-                                +"</div>";
-                        }
-                        //1、鼠标左键单击事件
-                        function addClickHandler(marker) {
-                            marker.addEventListener("click", function (e) {
+
+                            }
+                            var marker;//标注
+                            marker = new BMap.Marker(point, {icon: myIcon});// 创建标注，为要查询的地方对应的经纬度
+                            if(item==0 || item==result.extend.numberLocations-1 || value.state==1 || value.state==2){
+                                map.addOverlay(marker);
+                            }
+                            RightClickHandler(marker);//右键单击marker出现右键菜单事件
+                            //右键单击marker出现右键菜单事件
+                            function RightClickHandler(marker) {
+                                marker.addEventListener("rightclick", function (e) {
+                                    if(e.overlay){//判断右键单击的是否是marker
+                                        alert("12312");
+                                    }else{
+                                        Locations(value.longitude,value.latitude);
+                                    }
+                                });
+                            };
+                            //2、标注内容
+                            var tips;//标注
+                            var line="<div style='height: 1px;border-bottom: 1px dashed rgba(255,255,255,0.5); width:120px; margin-bottom: -18px; margin-top: 2px;'></div>";//虚线
+                            if(item==0){
+                                tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(17,123,36,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px; padding-left:10px;'>"
+                                    + "开始："+ (item+Number(1)) + line +"</br>"
+                                    +"警员编号："+value.deviceNo+ line +"</br>"
+                                    +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
+                                    +"</div>";
+                            }else if(item==result.extend.numberLocations-1){
+                                tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(109,109,109,0.87); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px;  padding-left:10px;'>"
+                                    + "结束："+ (item+Number(1)) + line +"</br>"
+                                    +"警员编号："+value.deviceNo + line+"</br>"
+                                    +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
+                                    +"</div>";
+                            }else{
+                                tips = "<div class='list-information' style='width:144px; height:80px; border:2px solid rgba(249,0,15,0.8); position:relative; border-radius:8px; background-color:rgba(0,0,0,0.7); padding-top:4px;  padding-left:10px;'>"
+                                    +"位数："+ (item+Number(1)) + line+"</br>"
+                                    +"警员编号："+value.deviceNo + line+"</br>"
+                                    +"时间："+new Date(value.createTime).format('yyyy-MM-dd')+"</br>"
+                                    +"</div>";
+                            }
+                            //1、鼠标左键单击事件
+                            function addClickHandler(marker) {
+                                marker.addEventListener("click", function (e) {
+                                        var labela;//3、创建标注
+                                        if(item==0){
+                                            labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
+                                        }else if(item==result.extend.numberLocations-1){
+                                            labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
+                                        }else{
+                                            labela = new BMap.Label(tips,{offset:new BMap.Size(-142,-75)});
+                                        }
+                                        labela.setStyle({
+                                            color: "#eeeeee",
+                                            width: "100%",
+                                            height: "100%",
+                                            fontSize: "14px",
+                                        });
+                                        marker.setLabel(labela);
+                                    }
+                                );
+                            }
+                            //创建标注的hover事件
+                            marker.addEventListener("mouseover", function (e) {
+                                //7.2 添加字体
                                 var labela;//3、创建标注
                                 if(item==0){
                                     labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
                                 }else if(item==result.extend.numberLocations-1){
                                     labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
-                                }else{
-                                    labela = new BMap.Label(tips,{offset:new BMap.Size(-142,-75)});
-                                }
+                                }/*else{
+                                labela = new BMap.Label(tips,{offset:new BMap.Size(-142,-75)});
+                            }*/
                                 labela.setStyle({
                                     color: "#eeeeee",
                                     width: "100%",
@@ -430,74 +457,27 @@
                                     fontSize: "14px",
                                 });
                                 marker.setLabel(labela);
-                                }
-                            );
-                        }
-                       //创建标注的hover事件
-                        marker.addEventListener("mouseover", function (e) {
-                            //7.2 添加字体
-                            var labela;//3、创建标注
-                            if(item==0){
-                                labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
-                            }else if(item==result.extend.numberLocations-1){
-                                labela = new BMap.Label(tips,{offset:new BMap.Size(25,50)});
-                            }/*else{
-                                labela = new BMap.Label(tips,{offset:new BMap.Size(-142,-75)});
-                            }*/
-                            labela.setStyle({
-                                color: "#eeeeee",
-                                width: "100%",
-                                height: "100%",
-                                fontSize: "14px",
                             });
-                            marker.setLabel(labela);
-                        });
-                        marker.addEventListener("mouseout", function (e) {
-                            var label = this.getLabel();
-                            setTimeout(function () {
-                                label.setContent("");//设置标签内容为空
-                                label.setStyle({border: "none", width: "0px", padding: "0px"});//设置标签边框宽度为0
-                            }, 1000);
-                        });
-
-                        //addMarker(point, map, tips);
-                        points.push(pointss);
-                        //7.4 将经纬坐标划入地图
-                        label[item] = new BMap.Point(label[item], values[item]);
-                        map.setViewport(label);
-                        /* 添加轨迹接口begin */
-                        //alert(value.state);
-
+                            marker.addEventListener("mouseout", function (e) {
+                                var label = this.getLabel();
+                                setTimeout(function () {
+                                    label.setContent("");//设置标签内容为空
+                                    label.setStyle({border: "none", width: "0px", padding: "0px"});//设置标签边框宽度为0
+                                }, 1000);
+                            });
+                            points.push(pointss);
+                            //7.4 将经纬坐标划入地图
+                            label[item] = new BMap.Point(label[item], values[item]);
+                            map.setViewport(label);
+                            /* 添加轨迹接口begin */
                             polyline = new BMap.Polyline(points, {
                                 strokeColor : "blue",
                                 strokeWeight : 5,
                                 strokeOpacity : 1
                             });
-
-
-                    })
-                    map.addOverlay(polyline);
-                  /*  if(2==0){
-                        polyline = new BMap.Polyline(points, {
-                            strokeColor : "blue",
-                            strokeWeight : 2,
-                            strokeOpacity : 0.5
-                        });
-                    }else if(3==1){
-                        polyline = new BMap.Polyline(points, {
-                            strokeColor : "yellow",
-                            strokeWeight : 2,
-                            strokeOpacity : 0.5
-                        });
-                    }else{
-                        polyline = new BMap.Polyline(points, {
-                            strokeColor : "red",
-                            strokeWeight : 2,
-                            strokeOpacity : 0.5
-                        });
-                    }*/
-
-
+                        })
+                        map.addOverlay(polyline);
+                    },3000)
 
                 }
             })

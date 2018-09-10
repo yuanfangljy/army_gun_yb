@@ -524,7 +524,7 @@
     <select id="selectDeviceGunByDeviceNoAndStatesInventoryList" resultMap="BaseResultMap">
         SELECT  dg.id,dg.device_no, (SELECT g.gun_tag FROM gun AS g WHERE g.bluetooth_mac= dg.gun_mac) AS gun_mac,
         (SELECT d.state FROM device AS d WHERE d.device_no= dg.device_no) AS deviceState,
-        (SELECT g.state FROM gun AS g WHERE g.bluetooth_mac= dg.gun_mac) AS gunState,
+        (SELECT g.real_time_state FROM gun AS g WHERE g.bluetooth_mac= dg.gun_mac) AS gunState,
         dg.create_time FROM device_gun dg
         <where>
             <if test="state != null">

@@ -23,6 +23,7 @@ public class OptimizeDeviceLocation {
     private Date locationEndTime;//最后经纬度的时间
     private String jili;//距离
 
+    private Integer gunType;//枪的类型
     private String batteryPower; //随行设备电量
     private String deviceBatteryPower; //离位报警设置电量
 }

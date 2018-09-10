@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -161,6 +162,7 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
                         optimizeDeviceLocation.setGunModel(gun.getGunModel());
                         optimizeDeviceLocation.setGunWarehouseName(gun.getWarehouseName());
                         optimizeDeviceLocation.setGunState(gun.getRealTimeState());
+                        optimizeDeviceLocation.setGunType(gun.getGunType());
                         optimizeDeviceLocation.setDeviceBatteryPower(gun.getDeviceBatteryPower());
                         optimizeDeviceLocation.setBatteryPower(device.getBatteryPower());
                         //optimizeMap.put(device.getDeviceNo(),optimizeDeviceLocation);
@@ -223,6 +225,7 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
                     optimizeDeviceLocation.setGunModel(gun.getGunModel());
                     optimizeDeviceLocation.setGunWarehouseName(gun.getWarehouseName());
                     optimizeDeviceLocation.setGunState(gun.getRealTimeState());
+                    optimizeDeviceLocation.setGunType(gun.getGunType());
                     optimizeDeviceLocation.setDeviceBatteryPower(gun.getDeviceBatteryPower());
                     optimizeDeviceLocation.setBatteryPower(device.getBatteryPower());
                     //optimizeMap.put(device.getDeviceNo(),optimizeDeviceLocation);
@@ -490,7 +493,7 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
         PageHelper.startPage(pn, 2);
         //1、既然是实时枪，就所有的枪都已经出库，查询device_gun所有state=0的枪支信息
         List<DeviceGun> deviceGun1 = deviceGunMapper.selectDeviceGunByDeviceNoAndStates(deviceNo, 0);
-        System.out.println("----------66666-------------"+deviceGun1.size());
+        //System.out.println("----------66666-------------"+deviceGun1.size());
         if (deviceGun1.size() > 0) {
             for (DeviceGun gun : deviceGun1) {
                 //2、根据查询出来枪的mac，在gun,根据mac查询所有的枪支信息
@@ -538,6 +541,33 @@ public class DeviceLocationServiceImpl implements DeviceLocationSerivce {
     @Override
     public List<DeviceLocation> selectOnLineGun(String deviceNo) throws Exception {
         return deviceLocationMapper.selectOnLineGun(deviceNo);
+    }
+
+
+    /**
+     * 实时显示当前用户的轨迹，默认是10-20分钟
+     * @param deviceNo
+     * @param startTime
+     * @param endTime
+     * @param state
+     * @return
+     */
+    @Override
+    public BaseModel realTimeDayLocus(String deviceNo, String startTime, String endTime, Integer state) throws ParseException {
+        BaseModel baseModel=new BaseModel();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("deviceNo", deviceNo);
+
+        List<DeviceLocation> deviceLocations=null;
+        //1、如果state=1，默认是10分钟
+        if(state==1){
+            map.put("beginTime", new Date());
+            map.put("endTime",  new Date());
+            map.put("state",state);
+           deviceLocations= deviceLocationMapper.realTimeDayLocusByDate(map);
+        }
+        baseModel.add("deviceLocations",deviceLocations).add("numberLocations",deviceLocations.size());
+        return baseModel;
     }
 
     @Override

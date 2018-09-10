@@ -28,7 +28,7 @@ function WarningNumber() {
         url: "../sosMission/statisticsWarningNumber",
         type: "GET",
         //cache: true,
-        async: true,
+        async: false,
         success: function (result) {
             $("#wanav li span").empty();
             if (result.extend.warningNumber >= 10 && result.extend.warningNumber<=99) {

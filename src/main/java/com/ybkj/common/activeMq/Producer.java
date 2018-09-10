@@ -7,8 +7,11 @@ import com.ybkj.common.model.BaseModel;
 import com.ybkj.common.util.DataTool;
 import com.ybkj.common.util.ProgressiveIncreaseNumber;
 import com.ybkj.common.util.TokenUtils;
+import com.ybkj.gun.mapper.GunMapper;
+import com.ybkj.gun.model.Gun;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
@@ -28,22 +31,23 @@ import java.text.ParseException;
 @Transactional
 public class Producer {
 
-    @Autowired
-    private JmsMessagingTemplate jmsMessagingTemplate;
-    @Autowired
-    private Queue storageQueue;
-    @Autowired
-    private Queue deliveryQueue;
-    @Autowired
-    private Queue helpFindQueue;
-    @Autowired
-    private Queue startAndStopQueue;
-    @Autowired
-    private DataTool dataTool;
-    @Autowired
-    private ProgressiveIncreaseNumber progressiveIncreaseNumber;
-    @Autowired
-    HttpServletRequest requests;
+    @Autowired private JmsMessagingTemplate jmsMessagingTemplate;
+    @Autowired private Queue storageQueue;
+    @Autowired private Queue deliveryQueue;
+    @Autowired private Queue helpFindQueue;
+    @Autowired private Queue startAndStopQueue;
+    @Autowired private DataTool dataTool;
+    @Autowired private ProgressiveIncreaseNumber progressiveIncreaseNumber;
+    @Autowired HttpServletRequest requests;
+    @Autowired GunMapper gunMapper;
+    @Value("${powerAlarmLevel}") private String powerAlarmLevel;
+    @Value("${transmittingPower}") private String transmittingPower;
+    @Value("${broadcastInterval}") private String broadcastInterval;
+    @Value("${connectionInterval}") private String connectionInterval;
+    @Value("${connectionTimeout}") private String connectionTimeout;
+    @Value("${softwareversion}") private String softwareversion;
+    @Value("${heartbeat}") private String heartbeat;
+    @Value("${powerSampling}") private String powerSampling;
 
     /*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();*/
 
@@ -59,27 +63,33 @@ public class Producer {
      * @throws MessageEOFException
      */
     public BaseModel sendMessageDelivery(String bluetoothMac, String gunTag, String applyTime, String deadlineTime, String deviceNo) throws ParseException {
-
-        HttpSession session = requests.getSession();
         BaseModel baseModel = new BaseModel();
+        Gun gun = gunMapper.selectGunByBluetoothMac(bluetoothMac);
+        if(gun==null){
+            baseModel.setErrorMessage("该枪的枪支类型不存在");
+            baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
+            return baseModel;
+        }
+        HttpSession session = requests.getSession();
+
         AuthCodeMessage authCodeMessageBody = new AuthCodeMessage();
         AuthCodeMessageBody messageBody = new AuthCodeMessageBody();
         for (int i = 0; i < 1; i++) {
             //报文体
             messageBody.setReserve("11");
             messageBody.setBluetoothMac(bluetoothMac);
-            messageBody.setGunTag(gunTag);
+            messageBody.setGunTag(gun.getGunModel()+"+"+gunTag);
             messageBody.setApplyTime(applyTime);
             messageBody.setDeadlineTime(deadlineTime);
             messageBody.setDeviceNo(deviceNo);
-            messageBody.setPowerAlarmLevel("11");//电量报警级别
-            messageBody.setTransmittingPower("04");//发射功率
-            messageBody.setBroadcastInterval("01");//广播间隔
-            messageBody.setConnectionInterval("01");//连接间隔
-            messageBody.setConnectionTimeout("02");//连接超时
-            messageBody.setSoftwareversion("11");//软硬件版本
-            messageBody.setHeartbeat("11");//心跳间隔
-            messageBody.setPowerSampling("11");
+            messageBody.setPowerAlarmLevel(powerAlarmLevel);//电量报警级别
+            messageBody.setTransmittingPower(transmittingPower);//发射功率
+            messageBody.setBroadcastInterval(broadcastInterval);//广播间隔
+            messageBody.setConnectionInterval(connectionInterval);//连接间隔
+            messageBody.setConnectionTimeout(connectionTimeout);//连接超时
+            messageBody.setSoftwareversion(softwareversion);//软硬件版本
+            messageBody.setHeartbeat(heartbeat);//心跳间隔
+            messageBody.setPowerSampling(powerSampling);
             messageBody.setSystemTime(dataTool.dateToString());
             messageBody.setMatchTime("11");
             messageBody.setSafeCode("11");

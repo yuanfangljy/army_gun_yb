@@ -351,6 +351,20 @@
     </select>
 
 
+    <!--优化：根据时间和枪支查询枪支的轨迹-->
+    <select id="realTimeDayLocusByDate" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        SELECT b.device_no,b.latitude,b.longitude ,b.create_time,b.state FROM device_location b
+        <where>
+            <if test="state==1">
+                b.device_no=#{deviceNo} AND b.create_time BETWEEN
+                SUBDATE(#{beginTime,jdbcType=TIMESTAMP},interval 30 minute)
+                and #{endTime,jdbcType=TIMESTAMP} ORDER BY b.create_time ASC
+            </if>
+        </where>
+    </select>
+
+
     <!--根据警员编号，查询出最新警员地址-->
     <select id="selectDeviceLocationByDeviceNoNewest" parameterType="java.lang.String" resultMap="BaseResultMap">
     select id ,longitude,latitude,create_time from device_location where  device_no = #{deviceNo,jdbcType=VARCHAR} ORDER BY id DESC LIMIT 1

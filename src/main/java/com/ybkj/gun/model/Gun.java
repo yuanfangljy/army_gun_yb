@@ -162,4 +162,27 @@ public class Gun {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
+
+    @Override
+    public String toString() {
+        return "Gun{" +
+                "id=" + id +
+                ", webId=" + webId +
+                ", gunTag='" + gunTag + '\'' +
+                ", gunModel='" + gunModel + '\'' +
+                ", gunType=" + gunType +
+                ", bluetoothMac='" + bluetoothMac + '\'' +
+                ", warehouseName='" + warehouseName + '\'' +
+                ", warehouseId=" + warehouseId +
+                ", bulletNumber=" + bulletNumber +
+                ", totalBulletNumber=" + totalBulletNumber +
+                ", deviceBatteryPower='" + deviceBatteryPower + '\'' +
+                ", state=" + state +
+                ", realTimeState=" + realTimeState +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", version=" + version +
+                '}';
+    }
 }

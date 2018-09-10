@@ -5,6 +5,7 @@ import com.ybkj.gun.model.Device;
 import com.ybkj.gun.model.DeviceGun;
 import com.ybkj.gun.model.DeviceLocation;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -97,4 +98,14 @@ public interface DeviceLocationSerivce {
      * @throws Exception
      */
     public List<DeviceLocation> selectOnLineGun(String deviceNo) throws Exception;
+
+    /**
+     * 实时显示当前用户的轨迹，默认是10-20分钟
+     * @param deviceNo
+     * @param startTime
+     * @param endTime
+     * @param state
+     * @return
+     */
+    BaseModel realTimeDayLocus(String deviceNo, String startTime, String endTime, Integer state) throws ParseException;
 }

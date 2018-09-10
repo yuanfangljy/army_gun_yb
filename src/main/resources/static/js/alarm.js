@@ -1,4 +1,3 @@
-
 $(function () {
     to_page(1, null);
 });
@@ -14,7 +13,7 @@ function to_page(pn, deviceNo) {
         type: "GET",
         dataType: "json",
         success: function (result) {
-            if(result.status==200){
+            if (result.status == 200) {
                 layer.msg(result.errorMessage);
                 return false;
             }
@@ -62,7 +61,7 @@ function build_location_table(result) {
             var deviceNo = $("<td></td>").append(item.deviceNo).addClass("text-center");
             var location = $("<td></td>").append(sosLocatoin[index]).addClass("text-center");
             var sosTime = $("<td></td>").append(new Date(item.sosTime).format("yyyy-MM-dd hh:mm:ss")).addClass("text-center");
-            var state = $("<td></td>").append((item.state) == 1 ? "<a href='javascript:void()' onclick=FindAssist('" +item.id+ "','" + item.deviceNo + "','" + sosGunTag[index] + "','" + item.longitude + "','" + item.latitude + "')  style='color: #ff2217'>未处理</a>" : (item.state) == 0 ? "<a href='javascript:void()' onclick=FindAssist('" +item.id+ "','" + item.deviceNo + "','" + sosGunTag[index] + "','" + item.longitude + "','" + item.latitude + "') style='color: #6b8aff'>已处理</a>" : "离位").addClass("text-center findAssist");
+            var state = $("<td></td>").append((item.state) == 1 ? "<a href='javascript:void()' onclick=FindAssist('" + item.id + "','" + item.deviceNo + "','" + sosGunTag[index] + "','" + item.longitude + "','" + item.latitude + "','"+(result.extend.pageInfo.pageNum - 1)+"')  style='color: #ff2217'>未处理</a>" : (item.state) == 0 ? "<a href='javascript:void()' onclick=FindAssist('" + item.id + "','" + item.deviceNo + "','" + sosGunTag[index] + "','" + item.longitude + "','" + item.latitude + "','"+(result.extend.pageInfo.pageNum - 1)+"') style='color: #6b8aff'>已处理</a>" : "离位").addClass("text-center findAssist");
 
             //edit_btn添加上的class标识
             var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
@@ -166,7 +165,6 @@ function build_page_nac(result) {
 //遍历给ul中添加页码提示,12345
     $.each(result.extend.pageInfo.navigatepageNums,
         function (index, item) {
-
             var numLi = $("<li></li>").append($("<a></a>").append(item));
             if (result.extend.pageInfo.pageNum == item) {
                 numLi.addClass("active");
@@ -208,13 +206,15 @@ $(document).keyup(function (event) {
         to_page(1, $("#deviceNos").val());
     }
 });
+
 function Openljy() {
     //alert("");
 }
+
 //====================================   地图模态框    =========================================
-function FindAssist(sosId,deiceNos, lostGun, lng, lag) {
+function FindAssist(sosId,deiceNos,lostGun,lng,lag,result) {
     ModifierSosMessage(sosId);
-    //to_page(1, null);
+    to_page(result, null);
     WarningNumber();
     //iframe窗
     layer.open({
@@ -224,7 +224,7 @@ function FindAssist(sosId,deiceNos, lostGun, lng, lag) {
         shade: false,
         maxmin: true, //开启最大化最小化按钮
         area: ['893px', '600px'],
-        content: 'assist.html?deviceNos='+deiceNos+"&"+'lostGun='+lostGun+"&"+'lng='+lng+"&"+'lag='+lag
+        content: 'assist.html?deviceNos=' + deiceNos + "&" + 'lostGun=' + lostGun + "&" + 'lng=' + lng + "&" + 'lag=' + lag
     });
 
 
@@ -492,7 +492,7 @@ function RequestFind(lostDeviceNo, assistDeviceNo, lostGun) {
                     icon: 1
                 });
             }
-        },error: function (result) {
+        }, error: function (result) {
             if (result.responseText == "IsAjax") {
                 window.location.href = "login.html";
                 return false;
@@ -500,53 +500,52 @@ function RequestFind(lostDeviceNo, assistDeviceNo, lostGun) {
         }
     })
 }
+
 //修改
 function ModifierSosMessage(id) {
     $.ajax({
-        url:"../sosMission/modifierSosMessageState/"+id,
-        type:"PUT",
+        url: "../sosMission/modifierSosMessageState/" + id,
+        type: "PUT",
         async: 'true',
-        success:function (result) {
+        success: function (result) {
         }
     })
 }
+
 //登出
-function LogOut(){
+function LogOut() {
     LogOuts();
 }
 
 
-
-
-
-$(document).ready(function() {
-    var userNames=localStorage.getItem("userName");//读取
+$(document).ready(function () {
+    var userNames = localStorage.getItem("userName");//读取
 
     function doDisconnect() {
         client.disconnect();//响应一次，就关闭
     }
 
     // Web Messaging API callbacks
-    var onSuccess = function(value) {
+    var onSuccess = function (value) {
         // alert(1);
         /* $('#status').toggleClass('connected',true);
          $('#status').text('Success');*/
     }
 
-    var onConnect = function(frame) {
+    var onConnect = function (frame) {
         //layer.alert("服务连接成功");
         /* $('#status').toggleClass('connected',true);
          $('#status').text('Connected');*/
         client.subscribe("WebTopic");
 
     }
-    var onFailure = function(error) {
+    var onFailure = function (error) {
         //alert(3);
         /* $('#status').toggleClass('connected',false);
          $('#status').text("Failure");*/
     }
     var options = {
-        keepAliveInterval:10000,
+        keepAliveInterval: 10000,
         onSuccess: onConnect,
         onFailure: onFailure
     };
@@ -558,7 +557,6 @@ $(document).ready(function() {
     }
 
 
-
     function onMessageArrived(message) {
 //***************************    离位警告信息    ************************
         var json = JSON.parse(message.payloadString);
@@ -568,9 +566,8 @@ $(document).ready(function() {
     }
 
 
-
     var client;
-    var r = Math.round(Math.random()*Math.pow(10,5));
+    var r = Math.round(Math.random() * Math.pow(10, 5));
     var d = new Date().getTime();
     var cid = r.toString() + "-" + d.toString()
 

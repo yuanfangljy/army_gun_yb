@@ -45,5 +45,6 @@ public interface DeviceLocationMapper {
     //实时显示枪支的在线位置
     List<DeviceLocation> selectOnLineGun(String deviceNo) throws  Exception;
 
-
+    //根据默认时间查询轨迹和选择时间
+    List<DeviceLocation> realTimeDayLocusByDate(Map<String, Object> map);
 }
