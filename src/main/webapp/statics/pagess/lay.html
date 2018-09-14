@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="layui/dist/css/layui.css">
+</head>
+<body>
+<form class="layui-form" >
+    <input type="checkbox" name="zzz" lay-skin="switch" lay-filter="switchTest" lay-text="开启|关闭">
+</form>
+
+<script src="layui/dist/layui.all.js" type="text/javascript"></script>
+
+<script>
+    //Demo
+    layui.use(['form'], function () {
+        var form = layui.form;
+        //监听提交
+        form.on('switch(switchTest)', function (data) {
+            if(data.elem.checked == true){//允许为空			                          
+			// 给对象赋值                                                          
+			alert(1)                    
+		    }else{                                                                
+			// 给对象赋值                                                          
+			alert(2)                        
+		}        
+        });
+    });
+</script>
+</body>
+</html>

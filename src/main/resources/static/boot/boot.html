@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+<link rel="stylesheet" href="bootstrap-switch.min.css" />
+<script type="text/javascript" src="jquery-1.11.3.min.js" ></script>
+<script type="text/javascript" src="bootstrap-switch.min.js" ></script>
+	</head>
+	<body>
+		<input name="status" type="checkbox" data-size="small" id="status1" checked><br/><br/> 
+
+<button id="open">开</button>
+
+<button id="close">关</button>
+	</body>
+</html>
+<script>
+	    $('[name="status"]').bootstrapSwitch({    //初始化按钮
+
+       onText:"照明",  
+       offText:"熄灭",  
+       onColor:"success",  
+       offColor:"info",  
+       size:"small",  
+       onSwitchChange:function(event,state){  
+           if(state==true){  
+               $(this).val("1");  
+               console.log("开启");
+           }else{  
+               $(this).val("2");
+               console.log("关闭");
+           }  
+       }  
+   });
+      
+</script>
