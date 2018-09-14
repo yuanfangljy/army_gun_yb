@@ -56,6 +56,12 @@ public class GunServiceImpl implements GunSerivce {
     public BaseModel insertGuns(Gun gun, HttpSession session) throws Exception {
         BaseModel baseModel = new BaseModel();
         Gun device = gunMapper.selectGunByGunTag(gun.getGunTag());
+        Gun guns = gunMapper.selectGunByBluetoothMac(gun.getBluetoothMac());
+        if(guns!=null){
+            baseModel.setStatus(201);
+            baseModel.setErrorMessage("该蓝牙地址已存在，请重新输入！");
+            return baseModel;
+        }
         if (device == null) {
             //gun.setState(1);//默认未使用
             gun.setCreateTime(new Date());
@@ -139,6 +145,24 @@ public class GunServiceImpl implements GunSerivce {
     }
 
     /**
+     * 判断mac是否存在
+     * @param gunMac
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public BaseModel selectGunMac(String gunMac) throws Exception {
+        BaseModel baseModel = new BaseModel();
+        Gun gm = gunMapper.selectGunByBluetoothMac(gunMac);
+        if (gm == null) {
+            baseModel.setStatus(ResultEnum.ERROR.getCode());
+        } else {
+            baseModel.setStatus(ResultEnum.SUCCESS.getCode());
+        }
+        return baseModel;
+    }
+
+    /**
      * 根据枪支编码查询
      *
      * @param gunTag
@@ -167,7 +191,7 @@ public class GunServiceImpl implements GunSerivce {
         //send StartAndStop message to Netty
         BaseModel baseModel=new BaseModel();
         BaseModel sendMessageStartAndStop = producer.sendMessageOffNormalAlarmStartAndStop(state,gunMac);
-        System.out.println("-----&&&&&------" + sendMessageStartAndStop);
+        //System.out.println("-----&&&&&------" + sendMessageStartAndStop);
         if (sendMessageStartAndStop.getStatus()!= StatusCodeEnum.Fail.getStatusCode()) {
             //mq推送成功
         }else{

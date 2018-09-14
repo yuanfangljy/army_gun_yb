@@ -64,11 +64,14 @@
         } else {
             $("#errorpass").text("");
         }
-
+        var ii;
         $.ajax({
             url: "../webUser/webUserLogin",
             type: "GET",
             data: $("#login_form").serialize(),
+            beforeSend: function () {
+                ii =layer.load()
+            },
             success: function (result) {
                 if (result.status == 1) {
                     //$('#login').prop('disabled', true);
@@ -79,13 +82,13 @@
                     },function(index){
                         location.href="index.html";
                     });*/
-                    var ii = layer.load();
+                  /*  var ii = layer.load();
                     //此处用setTimeout演示ajax的回调
                     setTimeout(function () {
                         layer.close(ii);
                         location.href = "map.html";
-                    }, 1000);
-
+                    }, 1000);*/
+                    location.href = "map.html";
                     //清空文本框的内容
                     $("input:userName").val("").focus();
                     $("input:passWord").val("").focus();
@@ -105,6 +108,12 @@
                         //skin: 'layer-ext-moon'
                     });*/
                 }
+            },
+            complete: function () {//完成响应
+                layer.close(ii);
+            },
+            error: function (data) {
+                layer.alert("登录失败，请重新登录！");
             }
         });
     });

@@ -89,6 +89,25 @@ public class GunController {
         return baseModel;
     }
 
+    /**
+     * 判断mac是否存在
+     * @param mobile
+     * @return
+     */
+    @ApiOperation(value ="判断MAC是否存在",notes = "MAC")
+    @RequestMapping(value = "/isInquireGunMac",method = RequestMethod.GET)
+    public BaseModel isInquireGunMac(@RequestParam(value = "gunMac",required = true)String gunMac) throws Exception{
+        BaseModel baseModel = gunService.selectGunMac(gunMac);
+        //表示枪支存在
+        if (baseModel.getStatus()==StatusCodeEnum.SUCCESS.getStatusCode()){
+            baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
+            baseModel.setErrorMessage("该蓝牙地址已存在！");//表示存在
+        }else{
+            baseModel.setStatus(StatusCodeEnum.FIELD_FAIL.getStatusCode());
+            baseModel.setErrorMessage("该蓝牙地址不存在！");
+        }
+        return baseModel;
+    }
 
     @Token(remove = true)
     @ApiOperation(value = "增添枪支",notes = "增加")
@@ -105,7 +124,10 @@ public class GunController {
             if (gunModel.getStatus()== StatusCodeEnum.SUCCESS.getStatusCode()){
                 baseModel.setStatus(StatusCodeEnum.SUCCESS.getStatusCode());
                 baseModel.setErrorMessage(gunModel.getErrorMessage());
-            }else{
+            }else if(gunModel.getStatus()== 201){
+                baseModel.setStatus(201);
+                baseModel.setErrorMessage(gunModel.getErrorMessage());
+            } else{
                 baseModel.setStatus(StatusCodeEnum.Fail.getStatusCode());
                 baseModel.setErrorMessage(gunModel.getErrorMessage());
             }

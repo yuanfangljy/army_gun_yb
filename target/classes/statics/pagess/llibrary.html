@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <title>Dashboard Template for Bootstrap</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="../css/dashboard.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.searchableSelect.js"></script>
+    <script src="../js/ie-emulation-modes-warning.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+
+<!-- 员工添加模态框页面 -->
+<div class="modal fade" id="gunAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"
+                                                                                                  id="colseSpan">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">枪支添加</h4>
+            </div>
+            <div class="modal-body container">
+                <form class="form-horizontal">
+                    <div class="form-group  row">
+                        <label for="inputgunTag" class="col-sm-2 control-label">枪号</label>
+                        <div class="col-sm-3">
+                            <input type="email" class="form-control" id="gunTag" name="gunTag"
+                                   placeholder="请输入枪号">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputbluetoothMac" class="col-sm-2 control-label">蓝牙地址</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="bluetoothMac"
+                                   name="bluetoothMac" placeholder="请输入蓝牙地址">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputwarehouseId" class="col-sm-2 control-label">库室编号</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="warehouseId" name="warehouseId"
+                                   placeholder="请输入库室编号">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="tokenliujiayi" name="tokenliujiayi" value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="gun_save_btn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid" style="background-color:#022581">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <img src="../img/logo.png" width="36" height="36" style=" float:left; margin-top:6px; margin-right:6px">
+            <a class="navbar-brand" href="#">枪械定位追踪</a>
+        </div>
+        <div id="navba	r" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">设置</a></li>
+                <li><a href="#">admin</a></li>
+            </ul>
+            <div class="navbar-form navbar-right">
+                <input type="text" id="gunTags" name="gunTags" class="form-control" placeholder="搜索">
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-3 col-md-1 sidebar" style=" padding-top:0px; padding-bottom:0px; background-color:#004892;">
+            <ul class="nav nav-sidebar" id="wanav">
+                <li><a href="map.html" style=" border-bottom:1px solid #053e78; line-height:38px;" ><img
+                        src="../img/guangli.png" style="padding-right:20px;">枪支管理</a></li>
+                <li><a href="storage.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="../img/ruku.png" style="padding-right:20px;">枪支入库</a></li>
+                <li><a href="delivery.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="../img/chuku.png" style="padding-right:20px;">枪支出库</a></li>
+                <li><a href="index.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="../img/diaoku.png" style="padding-right:20px;">枪支列表</a></li>
+                <li><a href="trajectory.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="../img/guiji.png" style="padding-right:20px;">枪支轨迹</a></li>
+                <li class="activb"><a href="llibrary.html"
+                                      style=" border-bottom:1px solid #053e78; line-height:38px;"><img
+                        src="../img/kushi.png" style="padding-right:20px;">库室管理</a></li>
+                <li><a href="warning.html" style=" border-bottom:1px solid #053e78; line-height:38px;"><img src="../img/jingao.png" style="padding-right:20px;" id="waNumber">警告信息</a><span></span></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id=""
+             style="margin-left:13%; width:87%;">
+
+            <div class="btn-group" role="group" aria-label="..." style="float:right; margin-top:16px;">
+                <button class="btn btn-primary btn-lg" id="gun_add_modal_btn"
+                        style=" border:1px solid #FFF; border-radius:4px; font-size:14px;">录入
+                </button>
+            </div>
+            <h2 class="sub-header">库室管理</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="library_table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">枪号</th>
+                        <th class="text-center">射弹数</th>
+                        <th class="text-center">蓝牙地址</th>
+                        <th class="text-center">库室编号</th>
+                        <th class="text-center">库室名称</th>
+                        <th class="text-center">录入人员</th>
+                        <th class="text-center">入库时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--列表信息-->
+                    </tbody>
+                </table>
+            </div>
+            <!-- 显示分页数据-->
+            <div class="row" id="page_info_area"></div>
+            <!--分页文字信息 -->
+            <div class="col-md-6">
+            </div>
+            <!-- 分页条-->
+            <div class="col-md-6" id="page_nav_area">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../layui/layui.all.js" type="text/javascript"></script>
+<script type="text/javascript" src="../js/mq/stomp.min.js"></script>
+<script type="text/javascript" src="../js/mq/sockjs.min.js"></script>
+<script type="text/javascript" src="../js/mq/customer.js"></script>
+<script type="text/javascript" src="../js/dateTransition/datejs.js"></script>
+<script type="text/javascript" src="../js/token/token.js"></script>
+<script type="text/javascript" src="../js/warning/warningNumber.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('select').searchableSelect();
+        to_page(1, null);
+    });
+
+    var likePhone = "";
+    //定义全局变量，保存总记录数
+    var totalRecord, currentPage;
+
+    //请求数据
+    function to_page(pn, gunTag) {
+        $.ajax({
+            url: "../gun/inquireGun",
+            data: {"pn": pn, "gunTag": gunTag},
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                var ii = layer.load(1, {
+                    shade: [0.2, '#ffc659'] //0.1透明度的白色背景
+                });
+                //此处用setTimeout演示ajax的回调
+                setTimeout(function () {
+                    layer.close(ii);
+                    //1、解析屏显示枪支地点数据、
+                    var size=result.extend.pageInfo.pages;
+                    if (size>="2"){
+                        build_location_table(result);
+                        //2、解析并显示分页信息
+                        buid_page_info(result);
+                        //3、解析显示分页条
+                        build_page_nac(result);
+                        //4.伸长选择页码跳转div
+                        $(".pagination").width($(".pagination").width() + 500);
+                    } else {
+                        build_location_table(result);
+                    }
+
+                }, 200);
+
+            }, error: function (result) {
+                if (result.responseText == "IsAjax") {
+                    window.location.href = "login.html";
+                    return false;
+                }
+            }
+        });
+    }
+
+
+    //遍历列表
+    //1、解析屏显示员工数据、
+    function build_location_table(result) {
+//清空( empty() )tabel表格
+        $("#library_table tbody").empty();
+//extend中有个方法pageInfo中一个list：所有的员工信息
+        var emps = result.extend.pageInfo.list;
+        var webUserName = result.extend.webNames.split("@");
+        ;
+//遍历员工信息 index代表索引   item代表当前的对象
+        $.each(emps, function (index, item) {
+            // var deviceLocationId=$("<td></td>").append(item.deviceLocationId);
+            var gunTag = $("<td></td>").append(item.gunTag).addClass("text-center");
+            var bulletNumber = $("<td></td>").append(item.bulletNumber).addClass("text-center");
+            var bluetoothMac = $("<td></td>").append(item.bluetoothMac).addClass("text-center");
+            var warehouseId = $("<td></td>").append(item.warehouseId).addClass("text-center");
+            var warehouseName = $("<td></td>").append(item.warehouseName).addClass("text-center");
+            var userName = $("<td></td>").append(webUserName[index]).addClass("text-center");
+            var createTime = $("<td></td>").append(new Date(item.createTime).format("yyyy-MM-dd hh:mm:ss")).addClass("text-center");
+            //edit_btn添加上的class标识
+            var selectBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
+                .append($("<span></span>").addClass("glyphicon glyphicon-pencil  ")
+                    .append("查询"));
+            //查询按钮添加最新枪支轨道的Id
+            selectBtn.attr("gun-id", item.id);
+
+            //将两个按钮追加到一个按钮中
+            var btnTd = $("<td></td>").append(selectBtn).addClass("text-center");
+
+            //append（追加）方法执行完成以后还是放回原来的元素
+            $("<tr></tr>")
+            //.append(id)
+                .append(gunTag)
+                .append(bulletNumber)
+                .append(bluetoothMac)
+                .append(warehouseId)
+                .append(warehouseName)
+                .append(userName)
+                .append(createTime)
+                .appendTo("#library_table tbody");
+        });
+    }
+
+    //2、解析并显示分页信息,点击分页要进到下一页。。。。。。
+    function buid_page_info(result) {
+//清空分页信息
+        $("#page_info_area").empty();
+        /**
+         当前  页,总  页,总条  记录,
+         */
+        $("#page_info_area").append("当前 " + result.extend.pageInfo.pageNum + " 页",
+            "总" + result.extend.pageInfo.pages + " 页",
+            "总条 " + result.extend.pageInfo.total + " 记录");
+        //保存总记录数
+        totalRecord = result.extend.pageInfo.total;
+        currentPage = result.extend.pageInfo.pageNum;
+    }
+
+    //3、解析显示分页条
+    function build_page_nac(result) {
+//清空分页条信息
+        $("#page_nav_area").empty();
+        var ul = $("<ul></ul>").addClass("pagination");
+
+//构建元素
+        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
+        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+        if (result.extend.pageInfo.hasPreviousPage == false) {
+            firstPageLi.addClass("disabled");
+            prePageLi.addClass("disabled");
+        } else {
+//为元素，添加点击翻页的事件
+//第一页
+            firstPageLi.click(function () {
+                to_page(1, null);
+            });
+//前一页
+            prePageLi.click(function () {
+                to_page(result.extend.pageInfo.pageNum - 1, result.extend.gunTag);
+            });
+        }
+
+
+        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
+        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href", "#"));
+        var goPage = $("<li></li>").append("<div class='input-group' style='width:100px'>"
+            + "<input type='text' id='toPage' style='width: 83px' class='form-control'"
+            + "placeholder='选择页码'> <span class='input-group-btn'  >"
+            + "<button id='goPageButton' class='btn btn-default' type='button'>搜索</button></span></div>")
+
+        if (result.extend.pageInfo.hasNextPage == false) {
+            nextPageLi.addClass("disabled");
+            lastPageLi.addClass("disabled");
+        } else {
+            //下一页
+            nextPageLi.click(function () {
+                to_page(result.extend.pageInfo.pageNum + 1, result.extend.gunTag);
+            });
+            //末页
+            lastPageLi.click(function () {
+                to_page(result.extend.pageInfo.pages, result.extend.gunTag);
+            });
+        }
+
+
+//添加首页和前一页的提示
+        ul.append(firstPageLi).append(prePageLi).append(nextPageLi).append(lastPageLi);
+//遍历给ul中添加页码提示,12345
+        $.each(result.extend.pageInfo.navigatepageNums,
+            function (index, item) {
+
+                var numLi = $("<li></li>").append($("<a></a>").append(item));
+                if (result.extend.pageInfo.pageNum == item) {
+                    numLi.addClass("active");
+                }
+                //绑定单击事件
+                numLi.click(function () {
+                    likePhone = result.extend.gunTag;
+                    to_page(item, result.extend.gunTag);
+
+                });
+                ul.append(numLi);
+            });
+//添加下一页和末页的提示
+        ul.append(nextPageLi).append(lastPageLi).append(goPage);
+//ul加入到nav元素中
+        var navEle = $("<nav></nav>").append(ul);
+        navEle.appendTo("#page_nav_area");
+    }
+
+    //清空表单内容和样式
+    function reset_from(ele) {
+//重置表单内容
+        $(ele)[0].reset();
+//重置表单样式
+        $(ele).find("*").removeClass("has-error has-success");
+//通过传选择器，找到.help-block，然后将样式清空
+        $(ele).find(".help-block").text("");
+
+    }
+
+
+    //跳到指定页码
+    $(document).on('click', '#goPageButton', function () {
+        to_page($("#toPage").val(), likePhone);
+    });
+
+    //========================================点击新增按钮弹出模态框,添加员工信息==============================
+    $("#gun_add_modal_btn").click(function () {
+        //在点击模态框时，清楚表单数据（表单完整重置（表单的数据和表单的校验样式））
+        reset_from("#gunAddModal form");
+        //清空下拉列表内容
+        //$("dept_select").test();
+        //发送ajax请求，查出库房的信息，显示在下拉列表中
+        //getDepts("#gunAddModal select");
+        //弹出模态框
+        Token();
+        $("#gunAddModal").modal({
+            backdrop: "static"
+        });
+    });
+
+    //清空表单内容和样式
+    function reset_from(ele) {
+        //重置表单内容
+        $(ele)[0].reset();
+        //重置表单样式
+        $(ele).find("*").removeClass("has-error has-success");
+        //通过传选择器，找到.help-block，然后将样式清空
+        $(ele).find(".help-block").text("");
+    }
+
+    //=======================================  点击保存枪支  =============================================
+    $("#gun_save_btn").click(function () {
+        //1、将模态框中填写的表单数据及提交给服务器进行保存
+        //1、先对要提交给服务器的数据进行校验
+        if (!validete_add_form()) {
+            return false;
+        }
+
+        //1、判断之前的ajax用户名校验是否成功，如果成功才进行保存。
+        /*  if($(this).attr("ajax-va")=="error"){
+              return false;
+          }*/
+
+        //2、发送ajax请求保存枪支
+        //3、serialize()对表单进行序列化，直接拿到name的属性名
+        $.ajax({
+            url: "../gun/fortifyGun",
+            type: "PUT",
+            data: $("#gunAddModal form").serialize(),
+            success: function (result) {
+                //后台进行校验
+                if (result.status == "1") {
+                    //员工保存成功
+                    //1、关闭模态框
+                    $("#gunAddModal").modal("hide");
+                    //2、来到最后一页，显示刚才保存的数据
+                    //发送ajax请求显示最后一页的数据即可
+                    to_page(totalRecord, null);
+                } else if (result.status == "200") {
+                    show_validate_msg("#gunTag", "error", result.errorMessage);
+                } else {
+                    //显示失败信息
+                    //console.log(result);
+                    if (undefined != result.extend.errorFields.gunTag) {
+                        show_validate_msg("#gunTag", "error", result.extend.errorFields.gunTag);
+                    }
+                    if (undefined != result.extend.errorFields.warehouseId) {
+                        show_validate_msg("#warehouseId", "error", result.extend.errorFields.warehouseId);
+                    }
+                    if (undefined != result.extend.errorFields.bluetoothMac) {
+                        show_validate_msg("#bluetoothMac", "error", result.extend.errorFields.bluetoothMac);
+                    }
+                }
+            }
+        });
+    });
+
+
+    //判断枪支是否存在
+    $('#gunTag').bind('input propertychange', function() {
+        var gunTag = $("#gunTag").val();
+        $.ajax({
+            url:"../gun/isInquireGuntag",
+            type:"POST",
+            data:{"gunTag":gunTag},
+            success: function (result) {
+                if (result.status==1){
+                    show_validate_msg("#gunTag", "error", result.errorMessage);
+                    return false;
+                }else{
+                    show_validate_msg("#gunTag", "success", "校验成功");
+                }
+            }
+        })
+    });
+    //校验表单数据
+    function validete_add_form() {
+        //枪支校验
+        var gunTag = $("#gunTag").val();
+        var bluetoothMac = $("#bluetoothMac").val();
+        var warehouseId = $("#warehouseId").val();
+        if (gunTag == "") {
+            show_validate_msg("#gunTag", "error", "请输入枪支编号");
+            return false;
+        } else {
+            show_validate_msg("#gunTag", "success", "");
+        }
+        ;
+        if (bluetoothMac == "") {
+            show_validate_msg("#bluetoothMac", "error", "请输入蓝牙编号");
+            return false;
+        } else {
+            show_validate_msg("#bluetoothMac", "success", "");
+        }
+        ;
+        if (warehouseId == "") {
+            show_validate_msg("#warehouseId", "error", "请输入库室编号");
+            return false;
+        } else {
+            show_validate_msg("#warehouseId", "success", "");
+        }
+        ;
+        return true;
+    }
+
+    //?显示校验结果的提示信息
+    //ele要传来的元素，email_add_input选择器或者$对象
+    //status是否建议成功还是失败，
+    //msg提示信息
+    function show_validate_msg(ele, status, msg) {
+        //清除当前元素的校验状态
+        $(ele).parent().removeClass("has-success has-error");
+        $(ele).next("span").text("");
+        if ("success" == status) {
+            //验证员工名、邮箱框状态错误
+            $(ele).parent().addClass("has-success");
+            $(ele).next("span").text(msg);
+        } else if ("error" == status) {
+            //验证员工名、邮箱框状态错误成功
+            $(ele).parent().addClass("has-error");
+            $(ele).next("span").text(msg);
+        }
+    }
+
+    //回车查询事件
+    $(document).keyup(function (event) {
+        if (event.keyCode == 13) {
+            to_page(1, $("#gunTags").val());
+        }
+    });
+
+
+</script>
+
+</body>
+</html>

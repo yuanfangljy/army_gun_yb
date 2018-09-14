@@ -39,7 +39,6 @@
     <link rel="icon" href="../../favicon.ico">
     <title>Dashboard Template for Bootstrap</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet" type="text/css"/>
     <link href="ali/fontali/iconfont.css" rel="stylesheet" type="text/css"/>
@@ -51,6 +50,10 @@
     <script type="text/javascript"
             src="http://api.map.baidu.com/api?v=2.0&ak=txyCbKTm1TbFwqyT90iB1t9YLiUY9ZG6"></script>
     <script type="text/javascript" src="js/warning/warningNumber.js"></script>
+
+    <link rel="stylesheet" href="boot/bootstrap-switch.min.css" />
+    <script type="text/javascript" src="boot/jquery-1.11.3.min.js" ></script>
+    <script type="text/javascript" src="boot/bootstrap-switch.min.js" ></script>
     <title>百度地图</title>
 </head>
 <body>
@@ -73,6 +76,7 @@
                 <li><a href="#">admin</a></li>
             </ul>
             <div class="navbar-form navbar-right">
+               <!-- <input name="status" type="checkbox" data-size="small" id="status1" checked>-->
                 <input type="text" id="deviceNos" name="deviceNos" class="form-control" placeholder="搜索警员">
                 <!--  <i class="iconfont">&#xe603;</i>-->
                 </input><img src="img/select.png" style="position:relative; left: -36px; z-index: 999999;">
@@ -233,6 +237,7 @@
     </div>
 </div>
 
+
 <script type="text/javascript" src="js/dateTransition/datejs.js"></script>
 <script src="layui/layui.all.js" type="text/javascript"></script>
 <script src="js/holder.min.js"></script>
@@ -244,6 +249,8 @@
 <script src="lobibox/dist/js/lobibox.min.js"></script>
 <script type="text/javascript" src="js/mq/mqttTopic.js"></script>
 <script type="text/javascript" src="js/mq/mqttws31.js"></script>
+<script type="text/javascript" src="boot/bootstrap-switch.min.js" ></script>
+
 
 <script language="JavaScript">
 
@@ -759,12 +766,18 @@
         var label = [];//保存日期
         var value = [];//数量
         var points = []; // 添加折线运动轨迹
+        var ii ;
         $.ajax({
             url: "../deviceLocation/realTimeDayLocus",
             type: "GET",
             data: {"deviceNo":deviceNo,"state":state,"startTime":startTime,"endTime":endTime},
-            async: false,
+            async: true,
             dataType: "json",
+            beforeSend: function () {
+                  ii = layer.load(1, {
+                    shade: [0.2, '#ffc659'] //0.1透明度的白色背景
+                });
+            },
             success: function (result) {
                 $.each(result.extend.deviceLocations,function (i,p) {
                     label[i] = p.longitude;
@@ -884,6 +897,11 @@
                     strokeOpacity : 1
                 });
                 map.addOverlay(polyline);
+            },
+            complete: function () {//完成响应
+                layer.close(ii);
+            }, error: function (data) {
+                layer.alert("加载失败，请重新查询！");
             }
         })
     }
@@ -1079,7 +1097,7 @@
             url: "../device/inquireDeviceOffLine",
             type: "GET",
             data: {"pn": pn, "state": 2},
-            async: false,
+            async: true,
             dataType: "json",
             success: function (result) {
                 if (result.extend.pageInfo.pages >= "2") {
@@ -1207,10 +1225,9 @@
             url: "../device/inquireDeviceOffLine",
             type: "GET",
             data: {"pn": pn, "state": 0},
-            async: false,
+            async: true,
             dataType: "json",
             success: function (result) {
-
                 if (result.extend.pageInfo.pages >= "2") {
                     //1、解析屏显示枪支数据、
                     build_deviceOnline_table(result);
@@ -1218,7 +1235,8 @@
                 } else {
                     build_deviceOnline_table(result);
                 }
-            }, error: function (result) {
+            },
+            error: function (result) {
                 if (result.responseText == "IsAjax") {
                     window.location.href = "login.html";
                     return false;
@@ -1246,13 +1264,18 @@
                     .append("查询"));
             //查询按钮添加最新枪支轨道的Id
             selectBtn.attr("device-location-id", item.deviceNo);
-            var trajectoryBtn = $("<button></button>").addClass("btn btn-primary btn-sm trajectory_btn text-center")
-                .append($("<span></span>")/*.addClass("glyphicon glyphicon-pencil  ")*/
+           var trajectoryBtn = $("<button></button>").addClass("btn btn-primary btn-sm trajectory_btn text-center")
+                .append($("<span></span>")/*/!*.addClass("glyphicon glyphicon-pencil  ")*!/*/
                     .append("轨迹"));
-            trajectoryBtn.attr("device-trajectory-id",item.deviceNo);
+            trajectoryBtn.attr("device-trajectory-id",item.deviceNo).attr("id",item.deviceNo);
+
+            var liu="<input name='status' type='checkbox' data-size='small' id='status1' checked>";
+            var spans=$("<span></span>").append(liu);
+
 
             //将两个按钮追加到一个按钮中
-            var btnTd = $("<td></td>").append(trajectoryBtn).append(selectBtn).addClass("text-center");
+            var btnTd = $("<td></td>").append(selectBtn).append(trajectoryBtn).addClass("text-center");
+
 
             //append（追加）方法执行完成以后还是放回原来的元素
             $("<tr></tr>")
@@ -1376,18 +1399,33 @@
     });
 
 
-    //点击设备查询按钮
-    $(document).on("click", ".edit_btn", function () {
-        //表示当前被点击的按钮
-        var deviceNoId = $(this).attr("device-location-id");
-        deviceLocation2(deviceNoId);
-    })
+
 
     //点击枪支查询按钮
     $(document).on("click", ".gun_btn", function () {
         //表示当前被点击的按钮
         var deviceNoId = $(this).attr("gun-location-id");
         deviceLocation2(deviceNoId);
+    })
+    //点击设备查询按钮
+    $(document).on("click", ".edit_btn", function () {
+        //表示当前被点击的按钮
+        var deviceNoId = $(this).attr("device-location-id");
+        deviceLocation2(deviceNoId);
+    })
+    //提交轨迹查询
+    var toggole=true;
+    $(document).on("click", ".trajectory_btn", function () {
+        dingshi(1);
+        //表示当前被点击的按钮
+        var deviceNoId = $(this).attr("device-trajectory-id");
+        if (toggole) {
+           $("#deviceNoId").css('color','#0062cc');
+            realTimeDayLocus(deviceNoId,1,null,null);
+        } else {
+            deviceLocation2(deviceNoId);
+        }
+        toggole = !toggole ;
     })
 
     //回车查询事件
@@ -1407,7 +1445,7 @@
             url: "../locationUtil/getLocation",
             type: "GET",
             data: {"lng": lng, "lat": lat},
-            async: false,
+            async: true,
             dataType: "json",
             success: function (result) {
                 layer.alert(result.extend.realLocations);
@@ -1428,17 +1466,26 @@ $("#mapNew").click(function () {
     });
 })
 
-    //提交轨迹查询
-    $(document).on("click", ".trajectory_btn", function () {
-        dingshi(1);
-        //表示当前被点击的按钮
-        var deviceNoId = $(this).attr("device-trajectory-id")
-        realTimeDayLocus(deviceNoId,1,null,null);
-    })
+
 
     /*var map = new BMap.Map("container");
     var point1 = new BMap.Point(lng1,lat1);
     var point2 = new BMap.Point(lng2,lat2);
     var distance = map.getDistance(point1,point2);*/
+    $('[name="status"]').bootstrapSwitch({    //初始化按钮
+        onText:"查询",
+        offText:"轨迹",
+        onColor:"success",
+        offColor:"info",
+        size:"small",
+        onSwitchChange:function(event,state){
+            if(state==true){
+            }else{
+            }
+        }
+    });
+
+</script>
+<script>
 
 </script>

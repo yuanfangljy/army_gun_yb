@@ -358,7 +358,7 @@
         <where>
             <if test="state==1">
                 b.device_no=#{deviceNo} AND b.create_time BETWEEN
-                SUBDATE(#{beginTime,jdbcType=TIMESTAMP},interval 30 minute)
+                SUBDATE(#{beginTime,jdbcType=TIMESTAMP},interval 20 minute)
                 and #{endTime,jdbcType=TIMESTAMP} ORDER BY b.create_time ASC
             </if>
         </where>
